@@ -14,8 +14,7 @@ const UserSchema = new mongoose.Schema(
       required: [true, "email is required"],
       unique: true,
       trim: true,
-
-      lowercase: true,
+      lowercase: true, 
       match: [/.+@.+\..+/, "Please fill a valid email address"],
       validate: [validator.isEmail, "Please enter a valid email."],
     },
@@ -28,7 +27,7 @@ const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "instructor"],
       default: "user",
     },
   },
