@@ -1,0 +1,129 @@
+import Course from "../models/course.model.js";
+
+//create course by instructor
+const createCourse = async (req, res) => {
+  try {
+    const { title, description, content } = req.body;
+
+    const newCourse = new Course({
+      title,
+      description,
+      content,
+      instructor: req.user.userInfo._id,
+    });
+
+    await newCourse.save();
+    res.status(201).json({
+      success: true,
+      message: "Course created Successfully!",
+      course: newCourse,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Inter server error",
+      error: error.message,
+    });
+  }
+};
+
+//get course details only student can access if enrolled
+
+const getCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId).populate('instructor', 'name')
+
+    if (!course)
+      return res
+        .status(404)
+        .json({ success: false, message: "Course not found" });
+
+    if (
+      !course.enrolledStudents.includes(req.user.userInfo._id) &&
+      req.user.userInfo.role !== "instructor"
+    ) {
+      console.log("usergetting corse", req.user);
+      return res.status(403).json({
+        success: false,
+        message: "You are not enrolled in this course",
+      });
+    }
+
+    res.status(200).json({ success: true, course: course });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+//enroll the student
+
+const enrollInCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+
+    if (!course)
+      return res
+        .status(404)
+        .json({ success: false, message: "Course not found" });
+
+    if (course.enrolledStudents.includes(req.user.userInfo._id)) {
+      return res.status(400).json({
+        success: false,
+        message: "You're already enrolled in this course",
+      });
+    }
+
+    course.enrolledStudents.push(req.user.userInfo._id);
+    await course.save();
+
+    res
+      .status(201)
+      .json({ success: true, message: "Enrolled Successfully!", course });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+const publishCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+
+    if (!course)
+      return res
+        .status(404)
+        .json({ success: false, message: "Course not found" });
+
+    if (course.instructor?.toString() !== req.user.userInfo._id?.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: "You're not Instructor of this course",
+      });
+    }
+
+    course.status = "published";
+    await course.save();
+
+    res
+      .status(200)
+      .json(
+        { success: true, message: "Course published successfully",course },
+       
+      );
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+export { getCourse, createCourse, enrollInCourse,publishCourse };
