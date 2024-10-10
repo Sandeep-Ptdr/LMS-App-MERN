@@ -1,4 +1,4 @@
- 
+import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
 const registerUser = async (req, res) => {
@@ -30,15 +30,23 @@ const registerUser = async (req, res) => {
 };
 
 const logInUser = async (req, res) => {
+  const jwtSecretKey = process.env.JWT_SECRET_KEY;
   try {
     const { email, password } = req.body;
     const user = await User.loginStatic(email, password);
 
     const { password: _, ...userInfo } = user.toObject();
-
+    const accessToken = jwt.sign({ userInfo }, jwtSecretKey, {
+      expiresIn: "1h",
+    });
     res
       .status(200)
-      .json({ success: true, message: "Lognin successful!", user: userInfo });
+      .json({
+        success: true,
+        message: "Lognin successful!",
+        accessToken,
+        user: userInfo,
+      });
   } catch (error) {
     res.status(500).json({
       success: false,
