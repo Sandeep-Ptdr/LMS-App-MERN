@@ -3,7 +3,8 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./db/index.js";
 import authRoutes from '../src/routes/authRoutes.js'
-
+import courseRoutes from '../src/routes/courseRoutes.js'
+import lessonRoutes from '../src/routes/lessonRoutes.js'
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,7 +17,9 @@ app.use(
 );
 app.use(express.json());
 
-app.use('/api',authRoutes)
+app.use('/api/v1/user',authRoutes)
+app.use('/api/v1/course',courseRoutes)
+app.use('/api/v1',lessonRoutes)
 
 connectDB()
   .then(() => {
