@@ -85,7 +85,7 @@ const getSingleLesson = async (req, res) => {
 
 const updateLesson = async (req, res) => {
   try {
-    const {title, description, videoUrl, pdfUrl, content} = req.body;
+    const { title, description, videoUrl, pdfUrl, content } = req.body;
 
     const lesson = await Lesson.findById(req.params.lessonId);
 
@@ -103,8 +103,6 @@ const updateLesson = async (req, res) => {
     res
       .status(200)
       .json({ success: true, message: "lesson update successfully", lesson });
-
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -114,23 +112,36 @@ const updateLesson = async (req, res) => {
   }
 };
 
-const deleteLesson = async (req,res) => {
-    try {
-        
-        const lesson = await Lesson.findById(req.params.lessonId);
+const deleteLesson = async (req, res) => {
+  try {
+    const lesson = await Lesson.findById(req.params.lessonId);
 
-        if (!lesson) {
-            return res.status(404).json({success:false,message:"Lesson not found"})           
-
-        }
-
-        await Lesson.findByIdAndDelete(req.params.lessonId);
-
-        res.status(200).json({success: true, message:"Lesson deleted successfully"})
-
-    } catch (error) {
-        res.status(500).json({success: false, message:"Internal server error",error:error.message});
+    if (!lesson) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Lesson not found" });
     }
-}
 
-export { createLesson, getAllLessons, getSingleLesson, updateLesson,deleteLesson };
+    await Lesson.findByIdAndDelete(req.params.lessonId);
+
+    res
+      .status(200)
+      .json({ success: true, message: "Lesson deleted successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal server error",
+        error: error.message,
+      });
+  }
+};
+
+export {
+  createLesson,
+  getAllLessons,
+  getSingleLesson,
+  updateLesson,
+  deleteLesson,
+};
