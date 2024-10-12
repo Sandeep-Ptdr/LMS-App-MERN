@@ -22,7 +22,7 @@ const lessonSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "course",
   }],
-});
+},{timestamps:true});
 
 const Lesson = mongoose.model("Lesson", lessonSchema);
 export default Lesson;
