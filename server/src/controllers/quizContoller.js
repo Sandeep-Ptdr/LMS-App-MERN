@@ -1,5 +1,6 @@
 import Lesson from "../models/lesson.model.js";
 import Quiz from "../models/quiz.models.js";
+import Submission from "../models/submission.model.js";
 
 const createQuiz = async (req, res) => {
   try {
@@ -18,13 +19,11 @@ const createQuiz = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Quiz created successfully", quiz });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
 
@@ -49,17 +48,15 @@ const getAllQuizzes = async (req, res) => {
     }
 
     res.status(200).json({ success: true, lesson, quizzes });
-    
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
+
 // get single quiz
 const getSingleQuiz = async (req, res) => {
   try {
@@ -73,14 +70,83 @@ const getSingleQuiz = async (req, res) => {
 
     res.status(200).json({ success: true, quiz });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
 
-export { createQuiz, getAllQuizzes, getSingleQuiz };
+//delete quiz by instructor only
+
+const deleteQuiz = async (req, res) => {
+  try {
+    const quiz = await Quiz.findById(req.params.quizId);
+
+    if (!quiz) {
+      res.status(404).json({ success: false, message: "Quiz not found" });
+    }
+
+    await Quiz.findByIdAndDelete(req.params.quizId);
+
+    res
+      .status(200)
+      .json({ success: true, message: "Quiz Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+const submitQuiz = async (req, res) => {
+  try {
+    const { answers } = req.body;
+
+    const quiz = await Quiz.findById(req.params.quizId);
+
+    if (!quiz) {
+      res.status(404).json({ success: false, message: "Quiz not found" });
+    }
+
+    if (!Array.isArray(answers) || answers.length !== quiz.questions.length) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid answer provided" });
+    }
+
+    let score = 0;
+
+    quiz.questions.forEach((question, index) => {
+      if (question.correctAnswer === answers[index]) {
+        score += 2;
+      }
+    });
+
+    const newSubmission = new Submission({
+      student: req.user.userInfo._id,
+      quiz: quiz._id,
+      answers,
+      score,
+    });
+
+    await newSubmission.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Quiz submitted successfully",
+      score,
+      totalQuestions: quiz.questions.length,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+export { createQuiz, getAllQuizzes, getSingleQuiz, deleteQuiz, submitQuiz };
