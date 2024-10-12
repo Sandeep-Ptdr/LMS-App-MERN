@@ -49,6 +49,7 @@ const getAllQuizzes = async (req, res) => {
     }
 
     res.status(200).json({ success: true, lesson, quizzes });
+    
   } catch (error) {
     res
       .status(500)
