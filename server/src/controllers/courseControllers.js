@@ -42,7 +42,7 @@ const getCourse = async (req, res) => {
       !course.enrolledStudents.includes(req.user.userInfo._id) &&
       req.user.userInfo.role !== "instructor"
     ) {
-      console.log("usergetting corse", req.user);
+      // console.log("usergetting corse", req.user);
       return res.status(403).json({
         success: false,
         message: "You are not enrolled in this course",
@@ -108,6 +108,10 @@ const publishCourse = async (req, res) => {
       });
     }
 
+    if (course.status === 'published') {
+      return res.status(400).json({success: false, message: "Course is already published"});
+    }
+
     course.status = "published";
     await course.save();
 
@@ -126,4 +130,4 @@ const publishCourse = async (req, res) => {
   }
 };
 
-export { getCourse, createCourse, enrollInCourse,publishCourse };
+export { getCourse, createCourse, enrollInCourse, publishCourse };
