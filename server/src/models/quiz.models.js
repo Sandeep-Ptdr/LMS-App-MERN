@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const quizSchema = mongoose.Schema({
+const quizSchema = new mongoose.Schema({
   lesson: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Lesson",
@@ -12,7 +12,7 @@ const quizSchema = mongoose.Schema({
       correctAnswer: {type: Number}
     },
   ],
-});
+},{timestamps: true});
 
 const Quiz = mongoose.model('Quiz', quizSchema);
 
