@@ -1,18 +1,36 @@
+import { uploadOnCloudinary } from "../config/cloudinary.js";
 import Course from "../models/course.model.js";
 
 //create course by instructor
 const createCourse = async (req, res) => {
   try {
-    const { title, description, content } = req.body;
+
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({success:false, message:" No file Uploaded! "})
+      
+    }
+
+    const result = await uploadOnCloudinary(file.path);
+    console.log('result',result);
+
+    if (!result || result.error) {
+      res.status(500).json({success: false, message: "Failed to Upload content "})
+    }
+    
+    const { title, description,price } = req.body;
 
     const newCourse = new Course({
       title,
       description,
-      content,
+      content: result.secure_url,
+      price,
       instructor: req.user.userInfo._id,
     });
 
     await newCourse.save();
+
     res.status(201).json({
       success: true,
       message: "Course created Successfully!",
@@ -21,7 +39,7 @@ const createCourse = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Inter server error",
+      message: "Failed to create course",
       error: error.message,
     });
   }
@@ -53,7 +71,7 @@ const getCourse = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: "Failed to get course",
       error: error.message,
     });
   }
@@ -86,7 +104,7 @@ const enrollInCourse = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: "Failed to enroll in the course",
       error: error.message,
     });
   }
@@ -124,7 +142,7 @@ const publishCourse = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: "Failed to Publish Course",
       error: error.message,
     });
   }
