@@ -9,10 +9,11 @@ import {
   getCourse,
   publishCourse,
 } from "../controllers/courseControllers.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
-router.post("/create", authenticateToken, checkInstructorRole, createCourse);
+router.post("/create", authenticateToken, checkInstructorRole, upload.single('file'), createCourse);
 router.get("/:courseId", authenticateToken, getCourse); //get course if student enrolled
 router.post("/:courseId/enroll", authenticateToken, enrollInCourse); //enroll students in course
 router.post(
