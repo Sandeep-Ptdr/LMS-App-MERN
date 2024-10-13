@@ -22,6 +22,10 @@ const courseSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  price:{
+    type: Number,
+    require: true
+  },
   status: {
     type: String,
     enum: ["draft", "published"],
