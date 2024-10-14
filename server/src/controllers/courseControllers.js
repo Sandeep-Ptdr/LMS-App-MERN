@@ -13,7 +13,7 @@ const createCourse = async (req, res) => {
     }
 
     const result = await uploadOnCloudinary(file.path);
-    console.log('result',result);
+   
 
     if (!result || result.error) {
       res.status(500).json({success: false, message: "Failed to Upload content "})
