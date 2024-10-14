@@ -15,6 +15,9 @@ const uploadOnCloudinary = async (localFilePath) => {
             resource_type: 'auto',
             folder: 'course-content'
         })
+
+        fs.unlinkSync(localFilePath);//remove the file from local storage after uploaded on cloudinary
+
         return response
     } catch (error) {
         fs.unlinkSync(localFilePath);//remove the file from local storage after uploaded on cloudinary
