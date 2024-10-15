@@ -31,7 +31,11 @@ const courseSchema = new mongoose.Schema({
     enum: ["draft", "published"],
     default: "draft",
   },
-  averageRating: {type: Number, default: 0}
+  averageRating: {type: Number, default: 0},
+  category:{
+    type: String,
+    required: true
+  }
 },{timestamps: true});
 
 const Course = mongoose.model('course',courseSchema);
