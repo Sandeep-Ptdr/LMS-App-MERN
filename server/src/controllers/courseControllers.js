@@ -19,13 +19,14 @@ const createCourse = async (req, res) => {
       res.status(500).json({success: false, message: "Failed to Upload content "})
     }
     
-    const { title, description,price } = req.body;
+    const { title, description, price, category } = req.body;
 
     const newCourse = new Course({
       title,
       description,
       content: result.secure_url,
       price,
+      category,
       instructor: req.user.userInfo._id,
     });
 
@@ -148,4 +149,29 @@ const publishCourse = async (req, res) => {
   }
 };
 
-export { getCourse, createCourse, enrollInCourse, publishCourse };
+const getInstructorDashboard = async (req,res) => {
+
+  try {
+    const instructorId = req.user.userInfo._id;
+
+    const courses = await Course.find({instructor: instructorId}).populate('enrolledStudents','name');
+
+    if (!courses) {
+      return res.status(404).json({success: false, message:" Courses not found "})
+    }
+
+    //calculate overall data
+
+   const totalCourses = courses.length;
+   const totalEnrolledStudents = courses.reduce((sum, course) => sum + course.enrolledStudents.length,0);
+    
+  res.status(200).json({success:true, totalCourses, totalEnrolledStudents, courses});
+
+
+  } catch (error) {
+    res.status(500).json({success: false, message: "Failed to fetch dashboard data",error:error.message});
+  }
+
+}
+
+export { getCourse, createCourse, enrollInCourse, publishCourse,getInstructorDashboard };
