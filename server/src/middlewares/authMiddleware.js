@@ -20,14 +20,17 @@ function authenticateToken(req, res, next) {
   });
 }
 
-const checkInstructorRole = (req,res,next) => {
-    if(req.user.userInfo.role !== 'instructor'){
-        
-        return res.status(403).json({success:false, message:"Access denied, You are not Instructor"});
-    }
-    
-    next();
-}
+const checkInstructorRole = (req, res, next) => {
+  if (req.user.userInfo.role !== "instructor") {
+    return res
+      .status(403)
+      .json({
+        success: false,
+        message: "Access denied, You are not Instructor",
+      });
+  }
 
+  next();
+};
 
-export {authenticateToken, checkInstructorRole};
+export { authenticateToken, checkInstructorRole };
