@@ -23,7 +23,8 @@ app.use('/api/v1/user',authRoutes)
 app.use('/api/v1/course',courseRoutes)
 app.use('/api/v1',lessonRoutes)
 app.use('/api/v1/lesson',quizRoutes)
-app.use('/api/v1/instructor',dashboardRoutes)
+app.use('/api/v1/',dashboardRoutes)
+ 
 
 connectDB()
   .then(() => {
