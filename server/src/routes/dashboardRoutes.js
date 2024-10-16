@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { authenticateToken, checkInstructorRole } from "../middlewares/authMiddleware.js";
-import { getInstructorDashboard } from "../controllers/courseControllers.js";
+ 
+import { getStudentDashboard, getInstructorDashboard} from "../controllers/dashboardControllers.js";
  
 
 const router = Router();
 
 
-router.get('/dashboard',authenticateToken, checkInstructorRole, getInstructorDashboard);
+router.get('/instructor/dashboard',authenticateToken, checkInstructorRole, getInstructorDashboard);
+router.get('/student/dashboard',authenticateToken,getStudentDashboard);
 
 export default router;
