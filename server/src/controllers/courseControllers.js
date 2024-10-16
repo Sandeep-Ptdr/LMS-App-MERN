@@ -61,7 +61,7 @@ const getCourse = async (req, res) => {
       !course.enrolledStudents.includes(req.user.userInfo._id) &&
       req.user.userInfo.role !== "instructor"
     ) {
-      // console.log("usergetting corse", req.user);
+     
       return res.status(403).json({
         success: false,
         message: "You are not enrolled in this course",
@@ -149,29 +149,6 @@ const publishCourse = async (req, res) => {
   }
 };
 
-const getInstructorDashboard = async (req,res) => {
-
-  try {
-    const instructorId = req.user.userInfo._id;
-
-    const courses = await Course.find({instructor: instructorId}).populate('enrolledStudents','name');
-
-    if (!courses) {
-      return res.status(404).json({success: false, message:" Courses not found "})
-    }
-
-    //calculate overall data
-
-   const totalCourses = courses.length;
-   const totalEnrolledStudents = courses.reduce((sum, course) => sum + course.enrolledStudents.length,0);
-    
-  res.status(200).json({success:true, totalCourses, totalEnrolledStudents, courses});
 
 
-  } catch (error) {
-    res.status(500).json({success: false, message: "Failed to fetch dashboard data",error:error.message});
-  }
-
-}
-
-export { getCourse, createCourse, enrollInCourse, publishCourse,getInstructorDashboard };
+export { getCourse, createCourse, enrollInCourse, publishCourse };
