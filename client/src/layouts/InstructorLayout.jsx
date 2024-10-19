@@ -1,26 +1,22 @@
+import { Outlet } from "react-router-dom";
+import Header from "../components/common/Header";
+import Instructor from "../components/sidebars/Instructor";
 
-import { Outlet } from 'react-router-dom'
-import Header from '../components/common/Header'
-import Instructor from '../components/sidebars/Instructor'
- 
- const InstructorLayout = () => {
-   return (
+const InstructorLayout = () => {
+  return (
     <>
-      <Header/>
-    <div className='flex' >
-      <Instructor/>
+      <div className="flex flex-col h-screen">
+        <Header />
+        <div className="flex flex-1 overflow-hidden">
+          <Instructor />
 
-      <main className='flex w-[calc(100vw-256px)] bg-gray-200'>
-         <Outlet/>
-      </main>
-      
-    </div>
-
-      
-
-
+          <main className="flex flex-1 overflow-y-auto w-[calc(100vw-256px)] bg-gray-200 ">
+            <Outlet />
+          </main>
+        </div>
+      </div>
     </>
-   )
- }
- 
- export default InstructorLayout
+  );
+};
+
+export default InstructorLayout;
