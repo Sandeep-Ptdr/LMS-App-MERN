@@ -1,45 +1,33 @@
 import React from "react";
+import Overview from "../../components/dashboard/instructor/Overview";
+import EarningsChart from "../../components/charts/EarningChart";
+
+const earningsData = [
+  { month: "Jan", earnings: 4030 },
+  { month: "Feb", earnings: 3000 },
+  { month: "Mar", earnings: 5030 },
+  { month: "Apr", earnings: 2000 },
+  { month: "May", earnings: 4050 },
+  { month: "Jun", earnings: 3500 },
+  { month: "Jul", earnings: 5000 },
+  { month: "Aug", earnings: 7000 },
+  { month: "Sep", earnings: 4500 },
+  { month: "Oct", earnings: 9000 },
+  { month: "Nov", earnings: 9550 },
+  { month: "Dec", earnings: 3500 },
+];
 
 const InstructorDashboard = () => {
   return (
     <div className="w-full p-4">
-        <div className=" max-w-[95%] m-auto">
-            <h1 className="font-semibold text-2xl text-gray-700 mb-4">
-            Welcome Instructor
-            </h1>
-        
-            <div className="card-container flex flex-wrap justify-between ">
-                <div className="border-[1px] bg-gray-100 border-gray-400 w-56 h-28 rounded-xl shadow-lg  p-1 flex flex-col">
-                    <h6 className="text-gray-600 font-semibold text-center">
-                    Total Students
-                    </h6>
+      <div className=" max-w-[95%] m-auto">
+        <Overview />
 
-                    <div className="w-full h-full flex justify-center items-center">
-                        <p className="text-3xl text-gray-700">1000</p>
-                    </div>
-                </div>
-
-                <div className="border-[1px] bg-gray-100 border-gray-400 w-56 h-28 rounded-xl shadow-lg  p-1 flex flex-col">
-                    <h6 className="text-gray-600 font-semibold text-center">
-                    Total Courses
-                    </h6>
-
-                    <div className="w-full h-full flex justify-center items-center">
-                        <p className="text-3xl text-gray-700">50</p>
-                    </div>
-                </div>
-
-                <div className="border-[1px] bg-gray-100 border-gray-400 w-56 h-28 rounded-xl shadow-lg  p-1 flex flex-col">
-                    <h6 className="text-gray-600 font-semibold text-center">
-                    Total Students
-                    </h6>
-
-                    <div className="w-full h-full flex justify-center items-center">
-                        <p className="text-3xl text-gray-700">1000</p>
-                    </div>
-                </div>
-            </div>
+        <div className="mt-8">
+          <EarningsChart data={earningsData} />
         </div>
+
+      </div>
     </div>
   );
 };
