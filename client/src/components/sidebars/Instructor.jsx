@@ -8,12 +8,12 @@ import { MdManageAccounts } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
 const Instructor = () => {
   return (
-    <aside className="h-[calc(100vh-4rem)] w-64 bg-gray-800 text-gray-400 p-4 ">
+    <aside className="h-[calc(100vh-4rem)] w-64 bg-gray-800 text-gray-400 p-4 hidden sm:block">
       <nav>
         <ul className="flex flex-col gap-5 font-semibold text-base ">
           <NavLink
-            to="/instructor/dashboard"
-            className={({ isActive }) => (isActive ? "active" : "")}
+            to="/instructor"
+            className={({ isActive }) => (isActive ? "active" : " ")}
           >
             {({ isActive }) => (
               <li className="cursor-pointer flex items-center gap-2">
@@ -27,13 +27,13 @@ const Instructor = () => {
             )}
           </NavLink>
           <NavLink
-            to="/instructor/dashboard"
-            className={({ isActive }) => (isActive ? "active" : "")}
+            to="/instructor/courses"
+            className={({ isActive }) => (isActive ? "active" : " ")}
           >
             {({ isActive }) => (
               <li className="cursor-pointer flex items-center gap-2">
                 <i>
-                  <MdMenuBook className="w-6 h-6" />
+                  <MdMenuBook className={`w-6 h-6 ${isActive ? "text-[#2196F3]":"text-gray-300"}`} />
                 </i>
                 <span className="hover:text-gray-50">Manage Courses</span>
               </li>
