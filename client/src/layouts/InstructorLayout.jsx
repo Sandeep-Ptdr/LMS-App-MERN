@@ -8,9 +8,10 @@ const InstructorLayout = () => {
       <div className="flex flex-col h-screen">
         <Header />
         <div className="flex flex-1 overflow-hidden">
-          <Instructor />
+        {/* sidebar */}
+          <Instructor /> 
 
-          <main className="flex flex-1 overflow-y-auto w-[calc(100vw-256px)] bg-gray-200 ">
+          <main className="flex flex-1 overflow-y-auto w-[calc(100vw-256px)] bg-gray-200">
             <Outlet />
           </main>
         </div>
