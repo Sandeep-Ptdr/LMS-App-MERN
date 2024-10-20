@@ -5,11 +5,9 @@ import './index.css'
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom'
 import Register from './pages/auth/Register.jsx'
 import Login from './pages/auth/Login.jsx'
-import Student from './components/sidebars/Student.jsx'
-import Instructor from './components/sidebars/Instructor.jsx'
-import Header from './components/common/Header.jsx'
 import InstructorLayout from './layouts/InstructorLayout.jsx'
-import InstructorDashboard from './pages/dashboard/InstructorDashboard.jsx'
+import InstructorDashboard from './pages/dashboard/instructorDashboardPage/InstructorDashboard.jsx'
+import CourseManager from './pages/dashboard/instructorDashboardPage/CourseManager.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,8 +16,9 @@ const router = createBrowserRouter(
         <Route path='login' element={<Login/>}/>
 
 
-        <Route path='instructor/dashboard' element={<InstructorLayout/>}>
+        <Route path='instructor' element={<InstructorLayout/>}>
            <Route index element={<InstructorDashboard/>}/>
+           <Route path='courses' element={<CourseManager/>}/>
 
         </Route>
      </Route>
