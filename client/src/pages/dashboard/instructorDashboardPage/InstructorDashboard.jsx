@@ -26,7 +26,7 @@ const data = [
 
 const InstructorDashboard = () => {
   return (
-    <div className="w-full p-4">
+    <div className="container mx-auto p-4">
       <div className=" max-w-[95%] m-auto">
         <Overview />
 
