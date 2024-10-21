@@ -8,6 +8,8 @@ import Login from './pages/auth/Login.jsx'
 import InstructorLayout from './layouts/InstructorLayout.jsx'
 import InstructorDashboard from './pages/dashboard/instructorDashboardPage/InstructorDashboard.jsx'
 import CourseManager from './pages/dashboard/instructorDashboardPage/CourseManager.jsx'
+import CourseDetailPage from './pages/dashboard/instructorDashboardPage/CourseDetailPage.jsx'
+import EditCourse from './pages/dashboard/instructorDashboardPage/EditCourse.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +21,8 @@ const router = createBrowserRouter(
         <Route path='instructor' element={<InstructorLayout/>}>
            <Route index element={<InstructorDashboard/>}/>
            <Route path='courses' element={<CourseManager/>}/>
+           <Route path='course/detail' element={<CourseDetailPage/>}/>
+           <Route path='course/edit' element={<EditCourse/>}/>
 
         </Route>
      </Route>
