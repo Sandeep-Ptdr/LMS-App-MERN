@@ -27,6 +27,6 @@ const StudentList = ({data}) => {
       </div>
     </div>
   );
-};
+}; 
 
 export default StudentList;
