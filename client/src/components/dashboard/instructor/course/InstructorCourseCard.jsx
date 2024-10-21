@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 
 const InstructorCourseCard = () => {
   return (
@@ -22,9 +23,11 @@ const InstructorCourseCard = () => {
 
         {/* Course Actions */}
         <div className="flex justify-between items-center mt-3">
-          <button className="bg-[#2196F3] hover:bg-[#3286cb] text-white font-bold py-1 px-3 rounded text-sm">
-            View Details
-          </button>
+          <Link to='/instructor/course/detail'>
+              <button className="bg-[#2196F3] hover:bg-[#3286cb] text-white font-bold py-1 px-3 rounded text-sm">
+                View Details
+              </button>
+          </Link>
           <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded text-sm">
             Edit
           </button>
