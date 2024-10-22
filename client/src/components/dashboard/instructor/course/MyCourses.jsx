@@ -36,14 +36,14 @@ const MyCourses = () => {
 
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-4">
           <h1 className=" font-semibold text-2xl text-gray-700 mb-4 ">
             Manage Courses
           </h1>
 
           <button className="flex gap-1 font-semibold text-base text-gray-50 justify-center items-center bg-[#2196F3] hover:bg-[#3286cb] px-4 py-2 rounded-md">
-            {" "}
+             
             <IoMdAdd className="text-2xl font-bold" /> Add Course
           </button>
         </div>
@@ -62,7 +62,7 @@ const MyCourses = () => {
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="py-2 px-3 w-full border border-gray-300 rounded-lg outline-none"
+                className="py-2 px-3 w-full border border-gray-300 rounded-lg outline-none focus:border-[#2196F3]"
               />
               <button className=" border border-gray-300 hover:bg-gray-200 px-2 py-1 text-gray-700 rounded-md ">
                 <IoMdSearch className="w-6 h-6" />
