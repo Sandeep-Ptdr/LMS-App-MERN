@@ -1,12 +1,21 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const CourseDetail = ({ course }) => {
   return (
     <>
       <div className="container mx-auto px-4">
-      <h1 className=" font-semibold text-2xl text-gray-700 mb-4 ">
-          Course 
-        </h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className=" font-semibold text-2xl text-gray-700 mb-4 ">
+            Course
+          </h1>
+
+          <Link to='/instructor/course/edit'>
+            <button className="bg-[#2196F3] hover:bg-[#3286cb] text-white font-bold py-2 px-4 rounded">
+              Edit Course
+            </button>
+          </Link>
+        </div>
+
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <img
             className="w-full h-60 object-cover"
@@ -82,9 +91,6 @@ const CourseDetail = ({ course }) => {
               <span className="font-bold text-[#2196F3] text-lg">
                 Total Earnings: ${course.earnings}
               </span>
-              <button className="bg-[#2196F3] hover:bg-[#3286cb] text-white font-bold py-2 px-4 rounded">
-                Edit Course
-              </button>
             </div>
           </div>
         </div>
