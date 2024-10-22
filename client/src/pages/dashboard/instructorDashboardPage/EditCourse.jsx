@@ -3,9 +3,11 @@ import EditInstructorCourse from '../../../components/dashboard/instructor/cours
 
 const EditCourse = () => {
   return (
-    <div> 
-        <EditInstructorCourse/>
+    <div className="w-full p-4">
+    <div className=" max-w-[95%] m-auto">
+       <EditInstructorCourse/>
     </div>
+  </div>
   )
 }
 
