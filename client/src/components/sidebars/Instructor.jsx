@@ -66,13 +66,13 @@ const Instructor = () => {
             )}
           </NavLink>
           <NavLink
-            to="/instructor/dashboard"
+            to="/instructor/course/create"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             {({ isActive }) => (
               <li className="cursor-pointer flex items-center gap-2">
                 <i>
-                  <FaPlus className="w-6 h-6" />
+                  <FaPlus className={`w-6 h-6 ${isActive ? "text-[#2196F3]" : "text-gray-300" }`} />
                 </i>
                 <span className="hover:text-gray-50">Create New Course</span>
               </li>
