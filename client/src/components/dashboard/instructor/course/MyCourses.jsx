@@ -3,6 +3,7 @@ import FilterBtn from "../../../buttons/FilterBtn";
 import { IoMdSearch } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import InstructorCourseCard from "./InstructorCourseCard";
+import { Link } from "react-router-dom";
 
 const categories = ["Web Development", "Data Science", "Design"]; // Example categories
 const statuses = ["Published", "Draft"];
@@ -42,10 +43,11 @@ const MyCourses = () => {
             Manage Courses
           </h1>
 
-          <button className="flex gap-1 font-semibold text-base text-gray-50 justify-center items-center bg-[#2196F3] hover:bg-[#3286cb] px-4 py-2 rounded-md">
-             
-            <IoMdAdd className="text-2xl font-bold" /> Add Course
-          </button>
+          <Link to='/instructor/course/create'>
+            <button className="flex gap-1 font-semibold text-base text-gray-50 justify-center items-center bg-[#2196F3] hover:bg-[#3286cb] px-4 py-2 rounded-md">
+              <IoMdAdd className="text-2xl font-bold" /> Add Course
+            </button>
+          </Link>
         </div>
 
         <div className="flex justify-between p-4  bg-gray-50 rounded-md border-l-[3px]  border-l-[#2196F3] shadow-lg mb-4">
