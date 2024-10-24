@@ -19,7 +19,7 @@ const createCourse = async (req, res) => {
       res.status(500).json({success: false, message: "Failed to Upload content "})
     }
     
-    const { title, description, price, category } = req.body;
+    const { title, description, price, category,status } = req.body;
 
     const newCourse = new Course({
       title,
@@ -27,6 +27,7 @@ const createCourse = async (req, res) => {
       content: result.secure_url,
       price,
       category,
+      status,
       instructor: req.user.userInfo._id,
     });
 
