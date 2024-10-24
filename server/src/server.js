@@ -19,7 +19,7 @@ app.use(
 );
 app.use(express.json());
 
-app.use('/api/v1/user',authRoutes)
+app.use('/api/v1/auth',authRoutes)
 app.use('/api/v1/course',courseRoutes)
 app.use('/api/v1',lessonRoutes)
 app.use('/api/v1/lesson',quizRoutes)
