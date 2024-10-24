@@ -10,6 +10,9 @@ import InstructorDashboard from './pages/dashboard/instructorDashboardPage/Instr
 import CourseManager from './pages/dashboard/instructorDashboardPage/CourseManager.jsx'
 import CourseDetailPage from './pages/dashboard/instructorDashboardPage/CourseDetailPage.jsx'
 import EditCourse from './pages/dashboard/instructorDashboardPage/EditCourse.jsx'
+import CourseCreatePage from './pages/dashboard/instructorDashboardPage/CourseCreatePage.jsx'
+import QuizManagerPage from './pages/dashboard/instructorDashboardPage/QuizManagerPage.jsx'
+import UserProfilePage from './pages/profile/UserProfilePage.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +26,8 @@ const router = createBrowserRouter(
            <Route path='courses' element={<CourseManager/>}/>
            <Route path='course/detail' element={<CourseDetailPage/>}/>
            <Route path='course/edit' element={<EditCourse/>}/>
+           <Route path='course/create' element={<CourseCreatePage/>}/>
+           <Route path='profile' element={<UserProfilePage/>}/>
 
         </Route>
      </Route>
