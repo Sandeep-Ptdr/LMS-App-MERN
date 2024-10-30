@@ -1,7 +1,9 @@
-import React from "react";
+import React  from "react";
 import Overview from "../../../components/dashboard/instructor/Overview";
 import EarningsChart from "../../../components/charts/EarningChart";
 import StudentList from "../../../components/dashboard/instructor/StudentList";
+import useFetchData from "../../../hooks/useFetchData";
+import { useEffect } from "react";
 
 const earningsData = [
   { month: "Jan", earnings: 4030 },
@@ -18,24 +20,41 @@ const earningsData = [
   { month: "Dec", earnings: 3500 },
 ];
 
-const data = [
+const studentData = [
   { courseName: 'React for Beginners', studentName: 'John Doe', email: 'john.doe@example.com' },
   { courseName: 'Advanced Node.js', studentName: 'Jane Smith', email: 'jane.smith@example.com' },
   { courseName: 'CSS Mastery', studentName: 'Bob Johnson', email: 'bob.johnson@example.com' },
 ];
 
 const InstructorDashboard = () => {
+
+  
+
+  const {data, loading, error} = useFetchData("/instructor","GET");
+
+  
+  if(loading) return <p>Loading...</p>
+  if(error) return <p>{error?.data?.message || "an error occured"}</p>
+
+   
+  
+   
+  
+  
+
+
+
   return (
     <div className="container mx-auto p-4">
       <div className=" max-w-[95%] m-auto">
-        <Overview />
+        <Overview data={data}  />
 
         <div className="mt-8">
-          <EarningsChart data={earningsData} />
+          <EarningsChart data={earningsData}   />
         </div>
 
         <div className="mt-8">
-          <StudentList data={data}/>
+          <StudentList data={data.courses} />
         </div>
 
       </div>
