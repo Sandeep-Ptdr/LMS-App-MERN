@@ -1,35 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import API from "../../../../utils/api";
+
+ 
 
 const CreateCourse = () => {
-   
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [video, setVideo] = useState(null);
   const [courseData, setCourseData] = useState({
-    title: '',
-    description: '',
-    category: '',
-    status: '',
-    price: '',
+    title: "",
+    description: "",
+    category: "",
+    status: "",
+    price: "",
   });
 
    
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCourseData({ ...courseData, [name]: value });
+
+  const handleFileChange = (e) => {
+    setVideo(e.target.files[0]);
   };
 
-   
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCourseData({
+      ...courseData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-     
-    console.log("Course Data:", courseData);
+
+    const formData = new FormData();
+    formData.append("title", courseData.title);
+    formData.append("description", courseData.description);
+    formData.append("category", courseData.category);
+    formData.append("status", courseData.status);
+    formData.append("price", courseData.price);
+    if (video) {
+      formData.append("video", video);
+    }
+
+
+     try {
+      setLoading(true)
+      const response = await API.post('/instructor/course/create', formData)
+      console.log('data', response)
+
+     } catch (error) {
+        setError(error?.response || "something went wrong")
+     } finally{
+      setLoading(false)
+     }
      
   };
+
+  if(loading) return <p>loading...</p>
+  if (error) return <p>{error?.data?.message}</p>
 
   return (
     <div className="container mx-auto px-4">
-      <h2 className="text-2xl font-semibold text-gray-600 mb-6">Create New Course</h2>
-      
-      <form onSubmit={handleSubmit} className="bg-gray-50 shadow-md rounded-lg p-6 space-y-4">
-        
+      <h2 className="text-2xl font-semibold text-gray-600 mb-6">
+        Create New Course
+      </h2>
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-gray-50 shadow-md rounded-lg p-6 space-y-4"
+      >
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">Course Title:</label>
           <input
@@ -43,9 +82,10 @@ const CreateCourse = () => {
           />
         </div>
 
-         
         <div className="mb-4">
-          <label className="block text-gray-600 mb-2">Course Description:</label>
+          <label className="block text-gray-600 mb-2">
+            Course Description:
+          </label>
           <textarea
             name="description"
             value={courseData.description}
@@ -57,7 +97,6 @@ const CreateCourse = () => {
           ></textarea>
         </div>
 
-         
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">Category:</label>
           <select
@@ -75,7 +114,6 @@ const CreateCourse = () => {
           </select>
         </div>
 
-        
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">Status:</label>
           <select
@@ -91,7 +129,6 @@ const CreateCourse = () => {
           </select>
         </div>
 
-        
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">Price:</label>
           <input
@@ -106,7 +143,16 @@ const CreateCourse = () => {
           />
         </div>
 
-       
+        <div className="mb-4">
+          <label className="block text-gray-600 mb-2">Video File:</label>
+          <input
+            type="file"
+            accept="video/*"
+            onChange={handleFileChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+          />
+        </div>
+
         <button
           type="submit"
           className="bg-[#2196F3] text-white font-bold py-2 px-4 rounded hover:bg-[#3286cb]"
