@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CiFilter } from "react-icons/ci";
+import {useDispatch} from 'react-redux'
+import { setCategory, setStatus } from '../../context/redux/slices/filterSlice';
 
 
-const FilterBtn = ({ categories, statuses, onFilter }) => {
+const FilterBtn = ({ categories, statuses }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedStatus, setSelectedStatus] = useState('All');
+  const dispatch = useDispatch()
 
-  const handleFilter = ({onFilter}) => {
-    onFilter({ category: selectedCategory, status: selectedStatus });
-    setIsOpen(false); // Close dropdown after filtering
+  const handleFilter = () => {
+    dispatch(setCategory(selectedCategory))
+    dispatch(setStatus(selectedStatus))
+    setIsOpen(false); 
   };
+ 
+
+  
+
+
 
   return (
     <div className="relative">
@@ -32,9 +41,9 @@ const FilterBtn = ({ categories, statuses, onFilter }) => {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full px-3 py-2 border rounded"
             >
-              <option value="">All Categories</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
+              <option value='All'>All Categories</option>
+              {categories.map((category,index) => (
+                <option key={index} value={category}>
                   {category}
                 </option>
               ))}
@@ -50,9 +59,9 @@ const FilterBtn = ({ categories, statuses, onFilter }) => {
               onChange={(e) => setSelectedStatus(e.target.value)}
               className="w-full px-3 py-2 border rounded"
             >
-              <option value="">All Statuses</option>
-              {statuses.map((status) => (
-                <option key={status} value={status}>
+              <option value='All'>All Statuses</option>
+              {statuses.map((status,index) => (
+                <option key={index} value={status}>
                   {status}
                 </option>
               ))}
