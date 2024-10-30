@@ -6,6 +6,7 @@ import {
 import {
   createCourse,
   enrollInCourse,
+  getAllCourse,
   getCourse,
   publishCourse,
 } from "../controllers/courseControllers.js";
@@ -14,9 +15,10 @@ import { submitRating } from "../controllers/ratingController.js";
 
 const router = Router();
 
-router.post("/create", authenticateToken, checkInstructorRole, upload.single('file'), createCourse);
-router.get("/:courseId", authenticateToken, getCourse); //get course if student enrolled
-router.post("/:courseId/enroll", authenticateToken, enrollInCourse); //enroll students in course
+router.post("/course/create", authenticateToken, checkInstructorRole, upload.single('video'), createCourse);
+router.get("/courses",authenticateToken,checkInstructorRole,getAllCourse)
+router.get("/course/:courseId", authenticateToken, getCourse); //get course if student enrolled
+router.post("/course/:courseId/enroll", authenticateToken, enrollInCourse); //enroll students in course
 router.post(
   "/:courseId/publishcourse",
   authenticateToken,

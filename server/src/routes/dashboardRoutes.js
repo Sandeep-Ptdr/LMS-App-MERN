@@ -7,7 +7,7 @@ import { getStudentDashboard, getInstructorDashboard} from "../controllers/dashb
 const router = Router();
 
 
-router.get('/instructor/dashboard',authenticateToken, checkInstructorRole, getInstructorDashboard);
+router.get('/instructor',authenticateToken, checkInstructorRole, getInstructorDashboard);
 router.get('/student/dashboard',authenticateToken,getStudentDashboard);
 
 export default router;

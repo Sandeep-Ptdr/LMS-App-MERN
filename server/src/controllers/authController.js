@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "An error occurred while processing your request.",
+      message: "An error occurred while register.",
       error: error.message,
     });
   }

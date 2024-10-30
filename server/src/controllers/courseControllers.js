@@ -4,22 +4,24 @@ import Course from "../models/course.model.js";
 //create course by instructor
 const createCourse = async (req, res) => {
   try {
-
     const file = req.file;
+    // console.log(req);
 
     if (!file) {
-      return res.status(400).json({success:false, message:" No file Uploaded! "})
-      
+      return res
+        .status(400)
+        .json({ success: false, message: " No file Uploaded! " });
     }
 
     const result = await uploadOnCloudinary(file.path);
-   
 
     if (!result || result.error) {
-      res.status(500).json({success: false, message: "Failed to Upload content "})
+      res
+        .status(500)
+        .json({ success: false, message: "Failed to Upload content " });
     }
-    
-    const { title, description, price, category,status } = req.body;
+
+    const { title, description, price, category, status } = req.body;
 
     const newCourse = new Course({
       title,
@@ -36,7 +38,6 @@ const createCourse = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Course created Successfully!",
-      course: newCourse,
     });
   } catch (error) {
     res.status(500).json({
@@ -47,11 +48,37 @@ const createCourse = async (req, res) => {
   }
 };
 
+//get all course by instructor
+
+const getAllCourse = async (req, res) => {
+  try {
+    const InstructorId = req.user.userInfo._id;
+     
+
+    const courses = await Course.find({instructor:InstructorId});
+
+    if (!courses)
+      return res
+        .status(404)
+        .json({ success: false, message: "No courses found." });
+
+    res.status(200).json({success:true, courses})
+    
+  } catch (error) {
+
+      res.status(500).json({success:false,message:"Server error in fetching course", error:error.message})
+  
+  }
+};
+
 //get course details only student can access if enrolled
 
 const getCourse = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.courseId).populate('instructor', 'name')
+    const course = await Course.findById(req.params.courseId).populate(
+      "instructor",
+      "name"
+    );
 
     if (!course)
       return res
@@ -62,7 +89,6 @@ const getCourse = async (req, res) => {
       !course.enrolledStudents.includes(req.user.userInfo._id) &&
       req.user.userInfo.role !== "instructor"
     ) {
-     
       return res.status(403).json({
         success: false,
         message: "You are not enrolled in this course",
@@ -128,8 +154,10 @@ const publishCourse = async (req, res) => {
       });
     }
 
-    if (course.status === 'published') {
-      return res.status(400).json({success: false, message: "Course is already published"});
+    if (course.status === "published") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Course is already published" });
     }
 
     course.status = "published";
@@ -137,10 +165,11 @@ const publishCourse = async (req, res) => {
 
     res
       .status(200)
-      .json(
-        { success: true, message: "Course published successfully",course },
-       
-      );
+      .json({
+        success: true,
+        message: "Course published successfully",
+        course,
+      });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -150,6 +179,4 @@ const publishCourse = async (req, res) => {
   }
 };
 
-
-
-export { getCourse, createCourse, enrollInCourse, publishCourse };
+export { getCourse,getAllCourse, createCourse, enrollInCourse, publishCourse };

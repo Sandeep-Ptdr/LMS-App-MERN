@@ -1,4 +1,5 @@
 import Course from "../models/course.model.js";
+import User from "../models/user.model.js";
 
 const getStudentDashboard = async (req, res) => {
   try {
@@ -31,7 +32,10 @@ const getInstructorDashboard = async (req,res) => {
     try {
       const instructorId = req.user.userInfo._id;
   
-      const courses = await Course.find({instructor: instructorId}).populate('enrolledStudents','name');
+      const courses = await Course.find({instructor: instructorId}).populate('enrolledStudents','name email');
+
+      const user = await User.findById(instructorId);
+      // console.log(user)
   
       if (!courses) {
         return res.status(404).json({success: false, message:" Courses not found "})
@@ -42,7 +46,7 @@ const getInstructorDashboard = async (req,res) => {
      const totalCourses = courses.length;
      const totalEnrolledStudents = courses.reduce((sum, course) => sum + course.enrolledStudents.length,0);
       
-    res.status(200).json({success:true, totalCourses, totalEnrolledStudents, courses});
+    res.status(200).json({success:true, totalCourses, totalEnrolledStudents, courses, user});
   
   
     } catch (error) {
