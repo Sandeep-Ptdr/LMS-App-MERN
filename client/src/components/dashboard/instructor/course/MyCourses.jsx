@@ -1,39 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FilterBtn from "../../../buttons/FilterBtn";
 import { IoMdSearch } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import InstructorCourseCard from "./InstructorCourseCard";
 import { Link } from "react-router-dom";
+import useFetchData from "../../../../hooks/useFetchData";
+import { useSelector } from "react-redux";
 
-const categories = ["Web Development", "Data Science", "Design"]; // Example categories
-const statuses = ["Published", "Draft"];
+// const categories = ["Web Development", "Data Science", "Design"]; // Example categories
+// const statuses = ["Published", "Draft"];
+
 const MyCourses = () => {
+  // const [filteredCourses, setFilteredCourses] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [filters, setFilters] = useState({
+    categories: "",
+    statuses: "",
+  });
+  const { data, loading, error } = useFetchData("/instructor/courses", "GET");
 
-  const allCourses = [
-    {
-      name: "React for Beginners",
-      category: "web-development",
-      status: "published",
-    },
-    {
-      name: "Data Science Bootcamp",
-      category: "data-science",
-      status: "draft",
-    },
-    // Add more courses here
-  ];
+  const category = useSelector((state) => state.filters.category);
+  const status = useSelector((state) => state.filters.statuses);
 
-  const handleFilter = (filters) => {
-    const filtered = allCourses.filter((course) => {
-      return (
-        (filters.category ? course.category === filters.category : true) &&
-        (filters.status ? course.status === filters.status : true)
+   
+
+  useEffect(() => {
+    if (data?.courses) {
+      console.log("setting filters...");
+      const uniqueCategories = Array.from(
+        new Set(data?.courses?.map((course) => course.category))
       );
-    });
-    setFilteredCourses(filtered);
-  };
+      const uniqueStatuses = Array.from(
+        new Set(data?.courses?.map((course) => course.status))
+      );
+      setFilters({
+        categories: uniqueCategories,
+        statuses: uniqueStatuses,
+      });
+    }
+  }, [data]);
 
   return (
     <>
@@ -43,7 +48,7 @@ const MyCourses = () => {
             Manage Courses
           </h1>
 
-          <Link to='/instructor/course/create'>
+          <Link to="/instructor/course/create">
             <button className="flex gap-1 font-semibold text-base text-gray-50 justify-center items-center bg-[#2196F3] hover:bg-[#3286cb] px-4 py-2 rounded-md">
               <IoMdAdd className="text-2xl font-bold" /> Add Course
             </button>
@@ -52,13 +57,17 @@ const MyCourses = () => {
 
         <div className="flex justify-between p-4  bg-gray-50 rounded-md border-l-[3px]  border-l-[#2196F3] shadow-lg mb-4">
           <FilterBtn
-            categories={categories}
-            statuses={statuses}
-            onFilter={handleFilter}
+            categories={filters.categories}
+            statuses={filters.statuses}
           />
 
           <div className="w-[85%]">
-            <form className="flex gap-2 ">
+            <form
+              className="flex gap-2 "
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               <input
                 placeholder="Search courses"
                 type="text"
@@ -66,15 +75,44 @@ const MyCourses = () => {
                 onChange={(e) => setSearchInput(e.target.value)}
                 className="py-2 px-3 w-full border border-gray-300 rounded-lg outline-none focus:border-[#2196F3]"
               />
-              <button className=" border border-gray-300 hover:bg-gray-200 px-2 py-1 text-gray-700 rounded-md ">
-                <IoMdSearch className="w-6 h-6" />
-              </button>
+               
             </form>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-3 p-5 justify-center sm:justify-normal">
-          <InstructorCourseCard />
+          {console.log(data)}
+          {loading && <p>loading courses...</p>}
+
+          {error && <p>{error?.data?.message}</p>}
+
+          {Array.isArray(data?.courses) && data?.courses.length > 0
+            ? data?.courses
+                .filter((course) => {
+                  if (category === "All" && status === "All") {
+                    return course.title
+                      .toLowerCase()
+                      .includes(searchInput.toLowerCase());
+                  }
+                  else if (category === course.category || status === course.status){
+                    return course.title
+                    .toLowerCase()
+                    .includes(searchInput.toLowerCase());
+                  }
+                  else {
+                    return (
+                      category === course.category &&
+                      status === course.status &&
+                      course.title
+                        .toLowerCase()
+                        .includes(searchInput.toLowerCase())
+                    );
+                  }
+                })
+                .map((course) => (
+                  <InstructorCourseCard course={course} key={course._id} />
+                ))
+            : !loading && !error && <p>No courses found.</p>}
         </div>
       </div>
     </>
