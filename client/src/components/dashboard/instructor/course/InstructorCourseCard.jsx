@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const InstructorCourseCard = () => {
+const InstructorCourseCard = ({course}) => {
   return (
     <div className="max-w-72 rounded overflow-hidden shadow-lg bg-gray-50">
       <div className="overflow-hidden">
@@ -13,17 +13,20 @@ const InstructorCourseCard = () => {
       </div>
       <div className="px-4 py-3">
         <h3 className="font-bold text-lg text-gray-800 hover:text-[#2196F3]">
-          Course Name
+          {course.title.trim().charAt(0).toUpperCase() + course.title.slice(1)}
         </h3>
         <p className="text-gray-600 text-sm mb-2">
-          Brief description of the course.
+         {course?.description}
         </p>
 
         {/* Course Stats for Instructor */}
         <div className="flex flex-col text-sm text-gray-500 mb-2">
-          <span>Total Students: 50</span>
-          <span>Status: Published</span>
+          <span>Total Students: {course.enrolledStudents.length}</span>
+          <span>Status: {course.status}</span>
+          <span>Category: {course.category || 'other'}</span>
         </div>
+
+        
 
         {/* Course Actions */}
         <div className="flex justify-between items-center mt-3">
