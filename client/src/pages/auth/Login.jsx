@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../../utils/api";
+import image from "../../../src/assets/image.png"
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -24,8 +25,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 ">
-      <div className="w-full max-w-md bg-white p-8 shadow-md">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
+      
+      <div className="w-full max-w-md bg-gray-50 p-8 shadow-md rounded-md">
         <div className="border-b-[1px] pb-2">
           <h2 className="font-bold text-center text-2xl text-gray-700">
             Login
