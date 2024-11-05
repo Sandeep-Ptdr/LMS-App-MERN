@@ -1,5 +1,6 @@
 import { uploadOnCloudinary } from "../config/cloudinary.js";
 import Course from "../models/course.model.js";
+import Lesson from "../models/lesson.model.js";
 
 //create course by instructor
 const createCourse = async (req, res) => {
@@ -53,21 +54,21 @@ const createCourse = async (req, res) => {
 const getAllCourse = async (req, res) => {
   try {
     const InstructorId = req.user.userInfo._id;
-     
 
-    const courses = await Course.find({instructor:InstructorId});
+    const courses = await Course.find({ instructor: InstructorId });
 
     if (!courses)
       return res
         .status(404)
         .json({ success: false, message: "No courses found." });
 
-    res.status(200).json({success:true, courses})
-    
+    res.status(200).json({ success: true, courses });
   } catch (error) {
-
-      res.status(500).json({success:false,message:"Server error in fetching course", error:error.message})
-  
+    res.status(500).json({
+      success: false,
+      message: "Server error in fetching course",
+      error: error.message,
+    });
   }
 };
 
@@ -75,10 +76,11 @@ const getAllCourse = async (req, res) => {
 
 const getCourse = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.courseId).populate(
-      "instructor",
-      "name"
-    );
+    const course = await Course.findById(req.params.courseId)
+      .populate("instructor", "name")
+      .populate("enrolledStudents", "name email");
+
+    const lessons = await Lesson.find({ course: req.params.courseId });
 
     if (!course)
       return res
@@ -93,6 +95,8 @@ const getCourse = async (req, res) => {
         success: false,
         message: "You are not enrolled in this course",
       });
+    } else if (req.user.userInfo.role === "instructor") {
+      return res.status(200).json({ success: true, course: course, lessons });
     }
 
     res.status(200).json({ success: true, course: course });
@@ -163,13 +167,11 @@ const publishCourse = async (req, res) => {
     course.status = "published";
     await course.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Course published successfully",
-        course,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Course published successfully",
+      course,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -179,4 +181,43 @@ const publishCourse = async (req, res) => {
   }
 };
 
-export { getCourse,getAllCourse, createCourse, enrollInCourse, publishCourse };
+//update course by instructor only
+
+const updateCourse = async (req, res) => {
+  try {
+    const { title, description, category, status } = req.body;
+    // console.log("body", req.body);
+
+    const course = await Course.findByIdAndUpdate(
+      req.params.courseId,
+      { title, description, category, status },
+      { new: true }
+    );
+
+    if (!course) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Course not found" });
+    }
+
+    console.log("updated course", course);
+    res
+      .status(200)
+      .json({ success: true, message: "Course Update Successfully", course });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update course",
+      error: error.message,
+    });
+  }
+};
+
+export {
+  getCourse,
+  getAllCourse,
+  createCourse,
+  enrollInCourse,
+  publishCourse,
+  updateCourse,
+};

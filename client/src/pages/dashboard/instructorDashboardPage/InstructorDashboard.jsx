@@ -30,11 +30,15 @@ const InstructorDashboard = () => {
 
   
 
-  const {data, loading, error} = useFetchData("/instructor","GET");
+  const {data, loading, error, fetchData} = useFetchData();
 
-  
+  useEffect(() => {
+      fetchData("/instructor","GET")
+  },[])
+
   if(loading) return <p>Loading...</p>
   if(error) return <p>{error?.data?.message || "an error occured"}</p>
+   
 
    
   

@@ -1,29 +1,35 @@
 import { useState } from "react";
 import API from "../utils/api";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export const createCourse = async (formData) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  try {
-    const response = await axios(
-      "http://localhost:3000/api/v1/instructor/course/create",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+export const  useEditCourse = () => {
+  const params = useParams()
+  const [dataa, setDataa] = useState([]);
+  const [loadingg, setLoadingg] = useState(false);
+  const [errorr, setErrorr] = useState(null);
+
+  const editCourse = async (formData) => {
+    try {
+      console.log('formdata',formData)
+      setLoadingg(true)
+      const response = await axios({
+          method: "PUT",
+          url:`http://localhost:3000/api/v1/instructor/course/${params.courseId}/edit`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`
+          },
+          data:formData
         },
-        body: formData,
-      }
-    );
-    setData(response.data);
-  } catch (error) {
-    setError(error?.response?.message || "Something went wrong");
-  } finally {
-    setLoading(false);
+      );
+      setDataa(response.data);
+    } catch (error) {
+      setErrorr(error?.response?.message || "Something went wrong");
+    } finally {
+      setLoadingg(false);
+    }
   }
 
-  return { data, loading, error };
+  return { dataa, loadingg, errorr, editCourse };
 };

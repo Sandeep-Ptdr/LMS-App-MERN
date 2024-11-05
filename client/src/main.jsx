@@ -21,6 +21,7 @@ import UserProfilePage from "./pages/profile/UserProfilePage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Provider } from "react-redux";
 import { store } from "./context/redux/store.js";
+import LessonEditPage from "./pages/lessons/LessonEditPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,10 +39,12 @@ const router = createBrowserRouter(
       >
         <Route index element={<InstructorDashboard/>}/>
         <Route path="courses" element={<CourseManager />} />
-        <Route path="course/detail" element={<CourseDetailPage />} />
-        <Route path="course/edit" element={<EditCourse />} />
+        <Route path="course/:courseId/detail" element={<CourseDetailPage />} />
+        <Route path="course/:courseId/edit" element={<EditCourse />} />
         <Route path="course/create" element={<CourseCreatePage />} />
         <Route path="profile" element={<UserProfilePage />} />
+        <Route path="/instructor/lesson/:lessonId/edit" element={<LessonEditPage/>}/>
+
       </Route>  
     </Route>
   )

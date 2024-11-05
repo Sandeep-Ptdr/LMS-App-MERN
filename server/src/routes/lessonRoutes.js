@@ -10,7 +10,7 @@ router.get("/course/:courseId/lessons", authenticateToken, getAllLessons);//get 
 
 router.get("/lesson/:lessonId", authenticateToken, getSingleLesson);//get a specific lesson
 
-router.put("/lesson/:lessonId/update",authenticateToken, checkInstructorRole, updateLesson)//update a lesson by instructor only.
+router.put("/lesson/:lessonId/edit",authenticateToken, checkInstructorRole, updateLesson)//update a lesson by instructor only.
 
 router.delete("/lesson/:lessonId/delete", authenticateToken, checkInstructorRole, deleteLesson)//delete a lesson by instructor
 export default router;

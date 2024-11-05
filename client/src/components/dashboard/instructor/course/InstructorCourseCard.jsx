@@ -16,7 +16,7 @@ const InstructorCourseCard = ({course}) => {
           {course.title.trim().charAt(0).toUpperCase() + course.title.slice(1)}
         </h3>
         <p className="text-gray-600 text-sm mb-2">
-         {course?.description}
+         {course?.description.slice(0,35)}...
         </p>
 
         {/* Course Stats for Instructor */}
@@ -30,12 +30,12 @@ const InstructorCourseCard = ({course}) => {
 
         {/* Course Actions */}
         <div className="flex justify-between items-center mt-3">
-          <Link to="/instructor/course/detail">
+          <Link to={`/instructor/course/${course._id}/detail`}>
             <button className="bg-[#2196F3] hover:bg-[#3286cb] text-white font-bold py-1 px-3 rounded text-sm">
               View Details
             </button>
           </Link>
-          <Link to='/instructor/course/edit'>
+          <Link to={`/instructor/course/${course._id}/edit`}>
             <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded text-sm">
               Edit
             </button>

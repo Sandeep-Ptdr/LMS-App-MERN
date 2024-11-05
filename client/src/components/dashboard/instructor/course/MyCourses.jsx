@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import FilterBtn from "../../../buttons/FilterBtn";
-import { IoMdSearch } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import InstructorCourseCard from "./InstructorCourseCard";
 import { Link } from "react-router-dom";
 import useFetchData from "../../../../hooks/useFetchData";
 import { useSelector } from "react-redux";
 
-// const categories = ["Web Development", "Data Science", "Design"]; // Example categories
-// const statuses = ["Published", "Draft"];
 
 const MyCourses = () => {
   // const [filteredCourses, setFilteredCourses] = useState([]);
@@ -17,16 +14,21 @@ const MyCourses = () => {
     categories: "",
     statuses: "",
   });
-  const { data, loading, error } = useFetchData("/instructor/courses", "GET");
+  const { data, loading, error,fetchData } = useFetchData();
 
   const category = useSelector((state) => state.filters.category);
   const status = useSelector((state) => state.filters.statuses);
 
-   
+  useEffect(() => {
+     fetchData("/instructor/courses","GET")
+  }, [])
+  
 
   useEffect(() => {
+    
     if (data?.courses) {
-      console.log("setting filters...");
+      // console.log(data)
+      // console.log("setting filters...");
       const uniqueCategories = Array.from(
         new Set(data?.courses?.map((course) => course.category))
       );
@@ -38,6 +40,8 @@ const MyCourses = () => {
         statuses: uniqueStatuses,
       });
     }
+
+     
   }, [data]);
 
   return (
@@ -81,7 +85,7 @@ const MyCourses = () => {
         </div>
 
         <div className="flex flex-wrap gap-3 p-5 justify-center sm:justify-normal">
-          {console.log(data)}
+          
           {loading && <p>loading courses...</p>}
 
           {error && <p>{error?.data?.message}</p>}
@@ -93,11 +97,6 @@ const MyCourses = () => {
                     return course.title
                       .toLowerCase()
                       .includes(searchInput.toLowerCase());
-                  }
-                  else if (category === course.category || status === course.status){
-                    return course.title
-                    .toLowerCase()
-                    .includes(searchInput.toLowerCase());
                   }
                   else {
                     return (
