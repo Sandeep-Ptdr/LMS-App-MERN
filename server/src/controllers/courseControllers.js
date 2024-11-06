@@ -5,18 +5,18 @@ import Lesson from "../models/lesson.model.js";
 //create course by instructor
 const createCourse = async (req, res) => {
   try {
-    const file = req.file;
+    const {video, image} = req.files;
     // console.log(req);
 
-    if (!file) {
+    if (!video && !image) {
       return res
         .status(400)
         .json({ success: false, message: " No file Uploaded! " });
     }
 
-    const result = await uploadOnCloudinary(file.path);
-
-    if (!result || result.error) {
+    const videoUrl = video ? await uploadOnCloudinary(video[0].path) : null; 
+    const imageUrl = image ? await uploadOnCloudinary(image[0].path) : null;
+    if (!videoUrl || !imageUrl ) {
       res
         .status(500)
         .json({ success: false, message: "Failed to Upload content " });
@@ -27,7 +27,8 @@ const createCourse = async (req, res) => {
     const newCourse = new Course({
       title,
       description,
-      content: result.secure_url,
+      content: videoUrl.secure_url,
+      image: imageUrl.secure_url,
       price,
       category,
       status,
