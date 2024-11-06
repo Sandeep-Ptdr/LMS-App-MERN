@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import Lessons from "./Lessons";
 import useFetchData from "../../../../hooks/useFetchData";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEditCourse } from "../../../../hooks/courseHandler";
 import API from "../../../../utils/api";
 import { useNavigate } from "react-router-dom";
 
 const EditInstructorCourse = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const params = useParams();
   const [editData, setEditData] = useState({
     title: "",
@@ -26,55 +26,18 @@ const EditInstructorCourse = () => {
   };
 
   const handleSave = () => {
-
-
-    fetchData(`/instructor/course/${params.courseId}/edit`,"PUT",editData)
-
-     if(data.success === true){
-       <p>{data.message}</p>
-       navigate("/instructor/courses")
-       
-     }
-    // try {
-    //   setLoading(true)
-    //   const response = await API.put(`/instructor/course/${params.courseId}/edit`, editData);
-    //   console.log(response)
-    // } catch (error) {
-    //    setError(error)
-    // }finally{
-    //   setLoading(false)
-    // }
-    // await editCourse(editData);
+    fetchData(`/instructor/course/${params.courseId}/edit`, "PUT", editData);
   };
-  // const handleVideoUrl = (e) => {
-  //   const file = e.target.files && e.target.files[0];
-  //   if (file) {
-  //     const videoUrl = URL.createObjectURL(file); // Create a temporary URL for the video
-  //     setEditData({ ...editData, video: videoUrl }); // Save the file (or URL if you want to save the URL)
-  //   } else {
-  //     console.error("No file selected");
-  //   }
-  // };
+ 
+   
   useEffect(() => {
     fetchData(`/instructor/course/${params.courseId}/edit`, "GET");
-  },[])
+  }, []);
 
   useEffect(() => {
-    
-
-    if (loading) {
-      <p>loading...</p>
-      return;
-    } 
-
-    if (error) {
-       <p>{error}</p>
-      return;
-    }
-
-    if (data) {
+    if (data?.course) {
       setEditData({
-        title: data?.course.title,
+        title: data?.course.title ,
         description: data?.course.description,
         category: data?.course.category,
         status: data?.course.status,
@@ -84,10 +47,7 @@ const EditInstructorCourse = () => {
 
   if (loading) return <p>Loading...</p>;
 
-  if (error) return <p>{error}</p>;
-
-   
-
+  if (error) return <p>{error?.data?.message}</p>;
 
   return (
     <div className="container mx-auto px-4">
@@ -208,9 +168,11 @@ const EditInstructorCourse = () => {
         </h1>
 
         <div className="px-6 py-4">
-          <button className=" py-2 px-4 font-bold  bg-[#2196F3] hover:bg-[#3286cb] rounded-md text-white mb-4">
-            Add Lesson
-          </button>
+          <Link to={`/instructor/course/${params.courseId}/lesson/create`}>
+            <button className=" py-2 px-4 font-bold  bg-[#2196F3] hover:bg-[#3286cb] rounded-md text-white mb-4">
+              Add Lesson
+            </button>
+          </Link>
 
           <div className="w-full flex flex-wrap gap-1 ">
             <Lessons />
