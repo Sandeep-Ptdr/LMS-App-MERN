@@ -1,3 +1,4 @@
+import { uploadOnCloudinary } from "../config/cloudinary.js";
 import Course from "../models/course.model.js";
 import Lesson from "../models/lesson.model.js";
 
@@ -5,7 +6,23 @@ import Lesson from "../models/lesson.model.js";
 
 const createLesson = async (req, res) => {
   try {
-    const { title, description, videoUrl, pdfUrl, content } = req.body;
+    const { title, description } = req.body;
+
+    const {video, pdf, image} = req.files
+
+     
+
+    if(!video && !pdf && !image){
+      return res.status(400).json({success: false, message: "No files uploaded"})
+    }
+
+    const videoUrlFromCloudinary = video ? await uploadOnCloudinary(video[0].path) : null;
+    const pdfUrlFromCloudinary = pdf ? await uploadOnCloudinary(pdf[0].path) : null;
+    const imageUrlFromCloudinary = image ? await uploadOnCloudinary(image[0].path) : null;
+
+    if(!videoUrlFromCloudinary && !pdfUrlFromCloudinary && !imageUrlFromCloudinary){
+      return res.status(400).json({success: false, message: "Failed to upload files"});
+    }
 
     const course = await Course.findById(req.params.courseId);
 
@@ -18,9 +35,9 @@ const createLesson = async (req, res) => {
     const newLesson = new Lesson({
       title,
       description,
-      videoUrl,
-      pdfUrl,
-      content,
+      videoUrl: videoUrlFromCloudinary.secure_url,
+      pdfUrl: pdfUrlFromCloudinary.secure_url,
+      imageUrl: imageUrlFromCloudinary.secure_url,  
       course: course._id,
     });
 
@@ -85,9 +102,32 @@ const getSingleLesson = async (req, res) => {
 
 const updateLesson = async (req, res) => {
   try {
-    const { title, description, videoUrl, pdfUrl, content } = req.body;
+    
+    const { title, description } = req.body;
+    console.log('title',title)
+    console.log('description',description)
+    console.log('video',req.files?.video[0])
+    console.log('pdf',req.files?.pdf[0].path)
+    console.log('image',req.files?.image[0].path)
 
+    const {video, pdf, image} = req.files
+
+     
+
+    if(!video && !pdf && !image){
+      return res.status(400).json({success: false, message: "No files uploaded"})
+    }
+
+    const videoUrlFromCloudinary = video ? await uploadOnCloudinary(video[0].path) : null;
+    const pdfUrlFromCloudinary = pdf ? await uploadOnCloudinary(pdf[0].path) : null;
+    const imageUrlFromCloudinary = image ? await uploadOnCloudinary(image[0].path) : null;
+
+    if(!videoUrlFromCloudinary && !pdfUrlFromCloudinary && !imageUrlFromCloudinary){
+      return res.status(400).json({success: false, message: "Failed to upload files"});
+    }
+    
     const lesson = await Lesson.findById(req.params.lessonId);
+
 
     if (!lesson) {
       res.status(404).json({ success: false, message: "Lesson not found" });
@@ -95,9 +135,9 @@ const updateLesson = async (req, res) => {
 
     lesson.title = title || lesson.title;
     lesson.description = description || lesson.description;
-    lesson.videoUrl = videoUrl || lesson.videoUrl;
-    lesson.pdfUrl = pdfUrl || lesson.pdfUrl;
-    lesson.content = content || lesson.content;
+    lesson.videoUrl = videoUrlFromCloudinary.secure_url || lesson.videoUrl;
+    lesson.pdfUrl = pdfUrlFromCloudinary.secure_url || lesson.pdfUrl;
+    lesson.imageUrl = imageUrlFromCloudinary.secure_url || lesson.imageUrl;
 
     await lesson.save();
     res
@@ -106,7 +146,7 @@ const updateLesson = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: "Error in updating lesson",
       error: error.message,
     });
   }
