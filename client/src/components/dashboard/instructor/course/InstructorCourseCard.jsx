@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 const InstructorCourseCard = ({course}) => {
   return (
-    <div className="max-w-72 rounded overflow-hidden shadow-lg bg-gray-50">
+    <div className="w-72 rounded overflow-hidden shadow-lg bg-gray-50">
       <div className="overflow-hidden">
         <img
           className="w-full h-36 object-cover hover:scale-105 transition-all duration-200 ease-in-out"
-          src="https://miro.medium.com/v2/resize:fit:1200/1*y6C4nSvy2Woe0m7bWEn4BA.png"
+          src={course?.image || "https://miro.medium.com/v2/resize:fit:1200/1*y6C4nSvy2Woe0m7bWEn4BA.png"}
           alt="Course Image"
         />
       </div>
