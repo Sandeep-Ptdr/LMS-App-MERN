@@ -22,6 +22,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Provider } from "react-redux";
 import { store } from "./context/redux/store.js";
 import LessonEditPage from "./pages/lessons/LessonEditPage.jsx";
+import LessonCreatePage from "./pages/lessons/LessonCreatePage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
         <Route path="course/create" element={<CourseCreatePage />} />
         <Route path="profile" element={<UserProfilePage />} />
         <Route path="/instructor/lesson/:lessonId/edit" element={<LessonEditPage/>}/>
+        <Route path="/instructor/course/:courseId/lesson/create" element={<LessonCreatePage/>}/>
 
       </Route>  
     </Route>
