@@ -21,7 +21,7 @@ const CourseDetail = ({data}) => {
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <img
             className="w-full h-60 object-cover"
-            src={"https://via.placeholder.com/1200x600"}
+            src={data?.course?.image || "https://via.placeholder.com/1200x600"}
             alt={data?.course?.title}
           />
 
@@ -65,7 +65,7 @@ const CourseDetail = ({data}) => {
                 Course Content
               </h2>
               <ul className="list-decimal pl-5 text-gray-600">
-                {data?.lessons.length > 0 ? (data?.lessons?.map((lesson, index) => (
+                {data?.lessons?.length > 0 ? (data?.lessons?.map((lesson, index) => (
                   <li key={index} className="mb-1">
                     {lesson?.title}{" "}
                      
