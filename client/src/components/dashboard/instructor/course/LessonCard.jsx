@@ -1,5 +1,6 @@
 import React from "react";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const LessonCard = ({lesson}) => {
   return (
@@ -7,7 +8,7 @@ const LessonCard = ({lesson}) => {
       <div className="w-28 h-16 rounded-md  overflow-hidden mr-2">
         <img
           className="object-cover w-full h-full object-center"
-          src="https://via.placeholder.com/1200x600"
+          src={lesson.imageUrl ||"https://via.placeholder.com/1200x600"}
           alt=""
         />
       </div>
@@ -21,10 +22,11 @@ const LessonCard = ({lesson}) => {
              {lesson.description.slice(0,30)}...
           </span>
         </div>
-
+      <Link to={`/instructor/lesson/${lesson._id}/edit`}>
        <div> <button className=" border border-gray-300 rounded-md p-1 hover:bg-gray-300 text-xl ml-4">
           <MdOutlineModeEdit />
         </button></div>
+       </Link>
       </div>
     </div>
   );
