@@ -84,7 +84,7 @@ const MyCourses = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 p-5 justify-center sm:justify-normal">
+        <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
           
           {loading && <p>loading courses...</p>}
 
