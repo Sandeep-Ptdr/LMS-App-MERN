@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import API from "../../../../utils/api";
-
+import useFetchData from "../../../../hooks/useFetchData";
+import { useNavigate } from "react-router-dom";
  
 
 const CreateCourse = () => {
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [video, setVideo] = useState(null);
+  const navigate = useNavigate();
+  const [files, setFiles] = useState({
+    video:"",
+    image:""
+  });
   const [courseData, setCourseData] = useState({
     title: "",
     description: "",
@@ -15,11 +18,19 @@ const CreateCourse = () => {
     price: "",
   });
 
+  const {data, loading, error, fetchData} = useFetchData()
+
    
 
   const handleFileChange = (e) => {
-    setVideo(e.target.files[0]);
-  };
+    if(e.target.name === "video"){
+        setFiles({...files,video:e.target.files[0]})
+      }
+      else if(e.target.name === "image"){
+        setFiles({...files,image:e.target.files[0]})
+    }
+    }
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,27 +49,25 @@ const CreateCourse = () => {
     formData.append("category", courseData.category);
     formData.append("status", courseData.status);
     formData.append("price", courseData.price);
-    if (video) {
-      formData.append("video", video);
+    if (files) {
+      formData.append("video", files.video);
+      formData.append("image", files.image);
     }
 
-
-     try {
-      setLoading(true)
-      const response = await API.post('/instructor/course/create', formData)
-      console.log('data', response)
-
-     } catch (error) {
-        setError(error?.response || "something went wrong")
-     } finally{
-      setLoading(false)
-     }
+    fetchData(`/instructor/course/create`, "POST", formData);
+      
      
   };
 
   if(loading) return <p>loading...</p>
   if (error) return <p>{error?.data?.message}</p>
+  if(data?.success){
+    <p>{data?.message}</p>
 
+    return navigate("/instructor/courses");
+
+
+  }
   return (
     <div className="container mx-auto px-4">
       <h2 className="text-2xl font-semibold text-gray-600 mb-6">
@@ -99,19 +108,15 @@ const CreateCourse = () => {
 
         <div className="mb-4">
           <label className="block text-gray-600 mb-2">Category:</label>
-          <select
+          <input
+            type="text"
             name="category"
             value={courseData.category}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+            placeholder="Enter course category"
             required
-          >
-            <option value="">Select Category</option>
-            <option value="Web Development">Web Development</option>
-            <option value="Data Science">Data Science</option>
-            <option value="Design">Design</option>
-            <option value="Marketing">Marketing</option>
-          </select>
+          />
         </div>
 
         <div className="mb-4">
@@ -147,7 +152,19 @@ const CreateCourse = () => {
           <label className="block text-gray-600 mb-2">Video File:</label>
           <input
             type="file"
+            name="video"
             accept="video/*"
+            onChange={handleFileChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-600 mb-2">Thumbnail/Image:</label>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
             onChange={handleFileChange}
             className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
           />
