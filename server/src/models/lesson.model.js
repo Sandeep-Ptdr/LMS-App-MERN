@@ -15,7 +15,7 @@ const lessonSchema = new mongoose.Schema({
   pdfUrl: {
     type: String,
   },
-  content: {
+  imageUrl: {
     type: String,
   },
   course: [{
