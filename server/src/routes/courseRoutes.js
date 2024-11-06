@@ -16,7 +16,7 @@ import { submitRating } from "../controllers/ratingController.js";
 
 const router = Router();
 
-router.post("/course/create", authenticateToken, checkInstructorRole, upload.single('video'), createCourse);
+router.post("/course/create", authenticateToken, checkInstructorRole, upload.fields([{ name: "video" }, { name: "image" }]), createCourse);
 router.get("/courses",authenticateToken,checkInstructorRole,getAllCourse)
 router.get("/course/:courseId", authenticateToken, getCourse); //get course if student enrolled
 router.get("/course/:courseId/edit", authenticateToken,checkInstructorRole, getCourse); //get course by instructor 
