@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 
 const MyCourses = () => {
-  // const [filteredCourses, setFilteredCourses] = useState([]);
+
   const [searchInput, setSearchInput] = useState("");
   const [filters, setFilters] = useState({
     categories: "",
@@ -18,6 +18,18 @@ const MyCourses = () => {
 
   const category = useSelector((state) => state.filters.category);
   const status = useSelector((state) => state.filters.statuses);
+
+  const handleDelete = (id) => {
+    fetchData(`/instructor/course/${id}/delete`, "DELETE");
+    fetchData("/instructor/courses","GET")
+  };
+
+  const handlePublish = (id) => {
+     
+    fetchData(`/instructor/${id}/publish`, "PUT");
+    fetchData("/instructor/courses","GET")
+  
+  };
 
   useEffect(() => {
      fetchData("/instructor/courses","GET")
@@ -88,6 +100,8 @@ const MyCourses = () => {
           
           {loading && <p>loading courses...</p>}
 
+          
+
           {error && <p>{error?.data?.message}</p>}
 
           {Array.isArray(data?.courses) && data?.courses.length > 0
@@ -109,7 +123,7 @@ const MyCourses = () => {
                   }
                 })
                 .map((course) => (
-                  <InstructorCourseCard course={course} key={course._id} />
+                  <InstructorCourseCard course={course} key={course._id} onDelete={handleDelete} onPublish={handlePublish} />
                 ))
             : !loading && !error && <p>No courses found.</p>}
         </div>
