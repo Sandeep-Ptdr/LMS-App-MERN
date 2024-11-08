@@ -31,7 +31,7 @@ const FilterBtn = ({ categories, statuses }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute mt-2 bg-white shadow-lg rounded-lg p-4 w-64">
+        <div className="absolute mt-2 z-20 bg-white shadow-lg rounded-lg p-4 w-64">
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Category
