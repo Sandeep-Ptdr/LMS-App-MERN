@@ -36,11 +36,18 @@ const useFetchData = () => {
           },
           data: formData,
         });
+      } else if(method === "DELETE") {
+        response = await axios({
+          method: "DELETE",
+          url: `http://localhost:3000/api/v1${url}`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        })
       }
 
       setData(response.data);
     } catch (error) {
-      console.log(error);
       setError(error?.response || "Something went wrong!");
     } finally {
       setLoading(false);
