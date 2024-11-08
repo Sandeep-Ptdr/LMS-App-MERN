@@ -146,6 +146,7 @@ const enrollInCourse = async (req, res) => {
 const publishCourse = async (req, res) => {
   try {
     const course = await Course.findById(req.params.courseId);
+    console.log(req.params.courseId);
 
     if (!course)
       return res
@@ -159,13 +160,13 @@ const publishCourse = async (req, res) => {
       });
     }
 
-    if (course.status === "published") {
+    if (course.status === "Published") {
       return res
         .status(400)
         .json({ success: false, message: "Course is already published" });
     }
 
-    course.status = "published";
+    course.status = "Published";
     await course.save();
 
     res.status(200).json({
@@ -193,7 +194,7 @@ const updateCourse = async (req, res) => {
       req.params.courseId,
       { title, description, category, status },
       { new: true }
-    );
+    );    
 
     if (!course) {
       return res
@@ -214,6 +215,26 @@ const updateCourse = async (req, res) => {
   }
 };
 
+const deleteCourse = async (req, res) => {
+  try {
+    const course = await Course.findByIdAndDelete(req.params.courseId);
+
+     
+
+    if (!course) {
+      return res.status(404).json({success: false, message: "Course not found"});
+    }
+
+    res.status(200).json({success: true, message: "Course deleted successfully"});
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete course",
+      error: error.message,
+    })
+  }
+};
+
 export {
   getCourse,
   getAllCourse,
@@ -221,4 +242,5 @@ export {
   enrollInCourse,
   publishCourse,
   updateCourse,
+  deleteCourse,
 };
