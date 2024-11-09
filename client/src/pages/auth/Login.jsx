@@ -18,7 +18,8 @@ const Login = () => {
     try {
       const { data } = await API.post("/auth/login", formData);
       localStorage.setItem("authToken", data.accessToken);
-      navigate("/instructor");
+      if(data?.user.role === "instructor") navigate("/instructor");
+      else navigate("/");
     } catch (error) {
       console.error(error);
     }
