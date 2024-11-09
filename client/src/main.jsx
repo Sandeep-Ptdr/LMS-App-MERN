@@ -23,13 +23,14 @@ import { Provider } from "react-redux";
 import { store } from "./context/redux/store.js";
 import LessonEditPage from "./pages/lessons/LessonEditPage.jsx";
 import LessonCreatePage from "./pages/lessons/LessonCreatePage.jsx";
+import StudentLayout from "./layouts/StudentLayout.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
-
+      <Route path="student" element={<StudentLayout/>}/>
       <Route 
         path="/instructor" 
         element={
@@ -59,11 +60,4 @@ createRoot(document.getElementById("root")).render(
     </Provider>
   </StrictMode>
 );
-{/* <Route path="instructor" element={<InstructorLayout />}>
-        <Route index element={<InstructorDashboard />} />
-        <Route path="courses" element={<CourseManager />} />
-        <Route path="course/detail" element={<CourseDetailPage />} />
-        <Route path="course/edit" element={<EditCourse />} />
-        <Route path="course/create" element={<CourseCreatePage />} />
-        <Route path="profile" element={<UserProfilePage />} />
-      </Route> */}
+ 
