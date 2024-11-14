@@ -2,6 +2,7 @@
 import Student from '../components/sidebars/Student'
 import Header from '../components/common/Header'
 import StudentDashboard from '../pages/dashboard/studentDashboard/StudentDashboard'
+import { Outlet } from 'react-router-dom'
  
  const StudentLayout = () => {
    return (
@@ -13,8 +14,8 @@ import StudentDashboard from '../pages/dashboard/studentDashboard/StudentDashboa
         <Student /> 
 
         <main className="flex flex-1 overflow-y-auto w-[calc(100vw-256px)] bg-gray-200">
-          {/* <Outlet /> */}
-           <StudentDashboard />
+          <Outlet />
+           
         </main>
       </div>
     </div>
