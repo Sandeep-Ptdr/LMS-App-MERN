@@ -73,7 +73,7 @@ const ProgressChart = () => {
               dataKey="A" 
               stroke="#2196F3" 
               fill="#2196F3" 
-              fillOpacity={0.6} 
+              fillOpacity={0.3} 
             />
             {/* <Legend verticalAlign="top" height={36} /> */}
             <Tooltip contentStyle={{ backgroundColor: "#f3f4f6", borderColor: "#d1d5db" }} />
