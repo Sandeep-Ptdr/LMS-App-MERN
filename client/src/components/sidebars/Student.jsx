@@ -6,6 +6,7 @@ import { TbProgressCheck } from "react-icons/tb";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { BsBarChartFill } from "react-icons/bs";
 import { MdManageAccounts } from "react-icons/md";
+import { NavLink } from 'react-router-dom';
 
 const Student = () => {
   return (
@@ -13,15 +14,22 @@ const Student = () => {
       <nav>
         <ul className='flex flex-col gap-5 font-semibold text-base '>
 
+            <NavLink to='/student'>
             <li className='cursor-pointer flex items-center gap-2'> 
             <i><RxDashboard className='w-6 h-6'/></i> <span className='hover:text-gray-50'>Dashboard</span></li>
+            </NavLink>
             
 
-            <li className='cursor-pointer flex items-center gap-2'> 
-            <i><IoSearch className='w-6 h-6'/></i> <span className='hover:text-gray-50'>Browse Courses</span></li>
+           <NavLink to='/student/browse-courses'>
+           <li className='cursor-pointer flex items-center gap-2'> 
+           <i><IoSearch className='w-6 h-6'/></i> <span className='hover:text-gray-50'>Browse Courses</span></li>
+           </NavLink>
 
-            <li className='cursor-pointer flex items-center gap-2'> 
+          <NavLink to='/student/mycourses'>
+            
+          <li className='cursor-pointer flex items-center gap-2'> 
             <i><MdMenuBook className='w-6 h-6'/></i> <span className='hover:text-gray-50'>My Courses</span></li>
+          </NavLink>
 
             <li className='cursor-pointer flex items-center gap-2'> 
             <i><TbProgressCheck className='w-6 h-6'/></i> <span className='hover:text-gray-50'>Completed Courses</span></li>
