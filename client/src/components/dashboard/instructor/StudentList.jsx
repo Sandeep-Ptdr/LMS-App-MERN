@@ -18,7 +18,7 @@ const StudentList = ({data}) => {
           </thead>
           <tbody>
             {data?.map((course, courseIndex) => course.enrolledStudents.map((student , studentIndex) => (
-              <tr key={`${courseIndex}-${studentIndex}`} className="hover:bg-gray-100">
+            <tr key={`${courseIndex}-${studentIndex}`} className="hover:bg-gray-100">
               <td className="border px-4 py-2">{course.title}</td>
               <td className="border px-4 py-2">{student.name}</td>
               <td className="border px-4 py-2">{student.email}</td>
