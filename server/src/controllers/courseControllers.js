@@ -146,7 +146,7 @@ const enrollInCourse = async (req, res) => {
 const publishCourse = async (req, res) => {
   try {
     const course = await Course.findById(req.params.courseId);
-    console.log(req.params.courseId);
+    // console.log(req.params.courseId);
 
     if (!course)
       return res
