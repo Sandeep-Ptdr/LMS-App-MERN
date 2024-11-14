@@ -24,13 +24,29 @@ import { store } from "./context/redux/store.js";
 import LessonEditPage from "./pages/lessons/LessonEditPage.jsx";
 import LessonCreatePage from "./pages/lessons/LessonCreatePage.jsx";
 import StudentLayout from "./layouts/StudentLayout.jsx";
+import BrowseCourse from "./components/dashboard/student/courses/BrowseCourse.jsx";
+import StudentDashboard from "./pages/dashboard/studentDashboard/StudentDashboard.jsx";
+import BrowseCoursesPage from "./pages/dashboard/studentDashboard/BrowseCoursesPage.jsx";
+import MyCoursesPage from "./pages/dashboard/studentDashboard/MyCoursesPage.jsx";
+import StudentCourseDetailPage from "./pages/dashboard/studentDashboard/CourseDetailPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
-      <Route path="student" element={<StudentLayout/>}/>
+
+      <Route path="/student" element={<StudentLayout/>}>
+      <Route index element={<StudentDashboard /> } />
+      <Route path="browse-courses" element={<BrowseCoursesPage />} />
+      <Route path="mycourses" element={<MyCoursesPage />} />
+      <Route path="course/detail" element={<StudentCourseDetailPage  />} />
+
+      </Route>
+
+
+
+
       <Route 
         path="/instructor" 
         element={
