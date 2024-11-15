@@ -7,7 +7,7 @@ const Card = ({course, onPayment}) => {
   
    
   return (
-    <div className="flex-1 w-72 rounded overflow-hidden shadow-lg bg-gray-50 relative">
+    <div className=" w-72 rounded overflow-hidden shadow-lg bg-gray-50 relative">
        
 
       {/* {dropDownOpen && (
@@ -46,7 +46,7 @@ const Card = ({course, onPayment}) => {
           <span>Total Students: {course?.enrolledStudents.length || 0}</span>
           <span>Status: {course?.status || 'draft'}</span>
           <span>Category: {course?.category || 'other'}</span>
-          <span className='text-base font-semibold flex gap-1'>Price: <p className='text-gray-700'>{course?.price || '000'}</p></span>
+          <span className='text-base font-semibold flex gap-1'>Price: <p className='text-gray-700'>{course?.price || '1'}</p></span>
         </div>
 
 
@@ -60,7 +60,7 @@ const Card = ({course, onPayment}) => {
           <Link >
             <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded text-sm" 
             id='btn'
-            onClick={() => onPayment()}>
+            onClick={() => onPayment(course?._id, course.price)}>
               Enroll
             </button>
           </Link>
