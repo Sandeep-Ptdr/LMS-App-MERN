@@ -235,7 +235,26 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+const getAllCourseByStudent = async (req, res) => {
+  try {
+
+    const courses = await Course.find()
+
+    if (!courses) return res.status(404).json({ success: false, message: "No courses found" });
+
+    res.status(200).json({ success: true, courses });
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to get course",
+      error: error.message,
+    });
+  }
+};
+
 export {
+  getAllCourseByStudent,
   getCourse,
   getAllCourse,
   createCourse,
