@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth',authRoutes)
-app.use('/api/v1/instructor',courseRoutes)
+app.use('/api/v1/',courseRoutes)
 app.use('/api/v1/instructor',lessonRoutes)
 app.use('/api/v1/lesson',quizRoutes)
 app.use('/api/v1/',dashboardRoutes)
