@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import InstructorCourseCard from "../../instructor/course/InstructorCourseCard";
 import Card from "./Card";
 import useFetchData from "../../../../hooks/useFetchData";
@@ -6,26 +6,35 @@ import API from "../../../../utils/api";
 const BrowseCourse = () => {
   const { data, loading, error, fetchData } = useFetchData();
 
-  const handleEnroll = async () => {
+  useEffect(() => {
+    fetchData("/courses", "GET");
+  }, []);
 
-    const res = await API.get('/getkey');
-    
+  const handleEnroll = async (courseId, amount) => {
+    const res = await API.get("/getkey");
 
-    fetchData(`/student/createorder`, "POST", {
-      amount: 99,
+    // fetchData(`/student/createorder`, "POST", {
+    //   amount,
+    //   courseId,
+    // });
+
+    const orderData = await API.post("/student/createorder", {
+      amount,
+      courseId,
     });
-    console.log(data)
 
-    if (data && data.success){
+    console.log("data", orderData);
+
+    if (orderData && orderData.data.success) {
+      console.log('hello')
       const options = {
         key: res.data.key,
-        amount: data.order.amount,
-        currency: data.order.currency,
-        order_id: data.order.id,
+        amount: orderData?.data.order.amount,
+        currency: orderData?.data.order.currency,
+        order_id: orderData?.data.order.id,
         name: "LMS",
         description: "Test Transaction",
-        order_id: data.order.id,
-        callback_url: "http://localhost:3000/api/v1/student/verifypayment",
+        callback_url: `http://localhost:3000/api/v1/student/${courseId}/verifypayment`,
         prefill: {
           name: "Test User",
           email: "qK9Q1@example.com",
@@ -34,21 +43,22 @@ const BrowseCourse = () => {
         notes: {
           address: "Razorpay Corporate Office",
         },
-  
+
         theme: {
-          color: "#3399cc",
+          color: "#317ffc",
         },
       };
-  
+
       const razorpay = new window.Razorpay(options);
-       razorpay.open();
+      razorpay.open();
     } else {
-      console.log('data is not defined');
+      console.log("data is not defined");
     }
   };
 
-  if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1>{error?.data?.message || "something went wrong"}</h1>;
+  if (loading) return <p>Loading...</p>;
+  if (error)
+    return <p>Error: {error?.data?.message || "Something went wrong"}</p>;
 
   return (
     <>
@@ -90,9 +100,13 @@ const BrowseCourse = () => {
         </div>
 
         <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
-          <Card data={data} onPayment={handleEnroll} />
-          <Card data={data} onPayment={handleEnroll} />
-          <Card data={data} onPayment={handleEnroll} />
+          {loading && <p>Loading...</p>}
+          {error && <p>{error?.data?.message || "something went wrong"}</p>}
+          {data &&
+            data?.courses?.length > 0 &&
+            data?.courses.map((course) => (
+              <Card course={course} onPayment={handleEnroll} key={course._id} />
+            ))}
         </div>
       </div>
     </>
