@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { PiStudentBold } from "react-icons/pi";
 import { GiBookshelf } from "react-icons/gi";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import useFetchData from "../../../hooks/useFetchData";
 
 
 const Overview = ({data}) => {
   
+  const {fetchData,loading,data:earnings} = useFetchData();
 
+useEffect(() => {
+
+  fetchData("/instructor/earnings","GET")
+  
+},[])
+
+   
 
   return (
     <>
@@ -44,7 +53,7 @@ const Overview = ({data}) => {
 
           <div>
             <h6 className="text-gray-600 font-semibold">Total Earnings</h6>
-            <p className="text-3xl text-gray-700">1000</p>
+            <p className="text-3xl text-gray-700">{loading ? <p className="text-xs">Loading...</p> : `${earnings?.earnings?.reduce((total, earning) => total + earning.earnings, 0)}`}</p>
           </div>
         </div>
 
