@@ -1,61 +1,76 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import InstructorCourseCard from "../../instructor/course/InstructorCourseCard";
 import Card from "./Card";
 import useFetchData from "../../../../hooks/useFetchData";
 import API from "../../../../utils/api";
 const BrowseCourse = () => {
   const { data, loading, error, fetchData } = useFetchData();
-
+const [axiosError, setAxiosError] = useState(null);
   useEffect(() => {
     fetchData("/courses", "GET");
   }, []);
 
   const handleEnroll = async (courseId, amount) => {
-    const res = await API.get("/getkey");
+    
 
     // fetchData(`/student/createorder`, "POST", {
     //   amount,
     //   courseId,
     // });
 
-    const orderData = await API.post("/student/createorder", {
-      amount,
-      courseId,
-    });
+    try {
+      const res = await API.get("/getkey");
 
-    console.log("data", orderData);
-
-    if (orderData && orderData.data.success) {
-      console.log('hello')
-      const options = {
-        key: res.data.key,
-        amount: orderData?.data.order.amount,
-        currency: orderData?.data.order.currency,
-        order_id: orderData?.data.order.id,
-        name: "LMS",
-        description: "Test Transaction",
-        callback_url: `http://localhost:3000/api/v1/student/${courseId}/verifypayment`,
-        prefill: {
-          name: "Test User",
-          email: "qK9Q1@example.com",
-          contact: "9999999999",
-        },
-        notes: {
-          address: "Razorpay Corporate Office",
-        },
-
-        theme: {
-          color: "#317ffc",
-        },
-      };
-
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-    } else {
-      console.log("data is not defined");
+      const orderData = await API.post("/student/createorder", {
+        amount,
+        courseId,
+      });
+  
+      if (orderData && orderData.data.success) {
+        const options = {
+          key: res.data.key,
+          amount: orderData?.data.order.amount,
+          currency: orderData?.data.order.currency,
+          order_id: orderData?.data.order.id,
+          name: "LMS",
+          description: "Test Transaction",
+          handler : async (response) => {
+            console.log('response',response)
+             await API.post('/student/verifypayment', {
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+              courseId: courseId
+            })
+            
+            
+          },
+  
+          prefill: {
+            name: "Test User",
+            email: "qK9Q1@example.com",
+            contact: "9999999999",
+          },
+          notes: {
+            address: "Razorpay Corporate Office",
+          },
+  
+          theme: {
+            color: "#317ffc",
+          },
+        };
+  
+        const razorpay = new window.Razorpay(options);
+        razorpay.open();
+      } else {
+        console.log("data is not defined");
+      }
+      
+    } catch (error) {
+      setAxiosError(error);
     }
   };
-
+  if(axiosError) return <p>{axiosError?.response?.data?.message || "an error occured"}</p>
   if (loading) return <p>Loading...</p>;
   if (error)
     return <p>Error: {error?.data?.message || "Something went wrong"}</p>;
