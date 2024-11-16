@@ -7,6 +7,20 @@ const createOrder = async (req, res) => {
   const { amount, currency = "INR", courseId } = req.body;
   const userId = req.user.userInfo._id;
 
+  if (!amount || !courseId)
+    return res
+      .status(400)
+      .json({ success: false, message: "Amount and course id is required" });
+
+  const course = await Course.findById(courseId);
+
+  if (course.enrolledStudents.includes(userId)) {
+    return res.status(400).json({
+      success: false,
+      message: "You're already enrolled in this course",
+    });
+  }
+
   try {
     const options = {
       amount: amount * 100,
@@ -21,7 +35,7 @@ const createOrder = async (req, res) => {
         message: "order not created",
       });
     }
-    console.log("order", order);
+    // console.log("order", order);
 
     const transaction = new Transaction({
       orderId: order.id,
@@ -49,14 +63,8 @@ const createOrder = async (req, res) => {
 };
 
 const verifyPayment = async (req, res) => {
-  console.log("course id", req.params.courseId);
-  console.log("payment details", req.body);
-  res
-    .status(200)
-    .json({
-      success: true,
-      message: "Payment verified successfully and enrolled in course",
-    });
+  console.log("enter in verify payment");
+
   const {
     razorpay_payment_id,
     razorpay_order_id,
@@ -71,6 +79,14 @@ const verifyPayment = async (req, res) => {
 
   if (generatedSignature === razorpay_signature) {
     try {
+      const course = await Course.findById(courseId);
+
+      if (course.enrolledStudents.includes(req.user.userInfo._id)) {
+        return res.status(400).json({
+          success: false,
+          message: "You're already enrolled in this course",
+        });
+      }
       const transaction = await Transaction.findOneAndUpdate(
         {
           orderId: razorpay_order_id,
@@ -88,18 +104,10 @@ const verifyPayment = async (req, res) => {
         });
       }
 
-      const course = await Course.findById(courseId);
-
       if (!course) {
         return res.status(404).json({
           success: false,
           message: "Course not found",
-        });
-      }
-      if (course.enrolledStudents.includes(req.user.userInfo._id)) {
-        return res.status(400).json({
-          success: false,
-          message: "You're already enrolled in this course",
         });
       }
 
@@ -111,6 +119,14 @@ const verifyPayment = async (req, res) => {
         message: "Payment verified successfully and enrolled in course",
       });
     } catch (error) {
+      await Transaction.findByIdAndUpdate(
+        {
+          orderId: razorpay_order_id,
+        },
+        {
+          status: "failed",
+        }
+      );
       res.status(500).json({
         success: false,
         message: "Enrollment failed",
