@@ -5,6 +5,7 @@ import InstructorCourseCard from "./InstructorCourseCard";
 import { Link } from "react-router-dom";
 import useFetchData from "../../../../hooks/useFetchData";
 import { useSelector } from "react-redux";
+import { PiDatabaseLight } from "react-icons/pi";
 
 
 const MyCourses = () => {
@@ -56,6 +57,10 @@ const MyCourses = () => {
      
   }, [data]);
 
+
+  if (loading) return <p>Loading...</p>;
+  if(error) console.log('error',error)
+  
   return (
     <>
       <div className="container mx-auto px-4">
@@ -99,9 +104,6 @@ const MyCourses = () => {
         <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
           
           {loading && <p>loading courses...</p>}
-
-          
-
           {error && <p>{error?.data?.message}</p>}
 
           {Array.isArray(data?.courses) && data?.courses.length > 0
