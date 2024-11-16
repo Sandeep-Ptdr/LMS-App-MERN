@@ -13,8 +13,7 @@ const EarningsChart = () => {
   if(error) return <p>{error?.data?.message || "an error occured"}</p>
   console.log('earnings',data)
 
-
-const totalEarnings = data?.earnings?.reduce((total, earning) => total + earning.earnings, 0);
+ 
   
 
   return (
