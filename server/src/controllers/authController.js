@@ -39,7 +39,7 @@ const logInUser = async (req, res) => {
     const { password: _, ...userInfo } = user.toObject();
     
     const accessToken = jwt.sign({ userInfo }, jwtSecretKey, {
-      expiresIn: "1h",
+      expiresIn: "2h",
     });
     res.status(200).json({
       success: true,
