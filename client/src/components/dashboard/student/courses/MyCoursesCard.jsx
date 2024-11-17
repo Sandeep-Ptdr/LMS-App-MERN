@@ -1,19 +1,19 @@
 import React from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
-const MyCoursesCard = () => {
+const MyCoursesCard = ({course}) => {
   return (
     <div className="min-w-[48%] bg-gray-50 shadow-md rounded  ">
       <div className="flex px-4 py-4">
         <div className="w-28 h-16 rounded-md  overflow-hidden mr-2">
           <img
             className="object-cover w-full h-full object-center"
-            src={"https://via.placeholder.com/1200x600"}
+            src={ course.image ||"https://via.placeholder.com/1200x600"}
             alt=""
           />
         </div>
         <div className="flex flex-col justify-center">
-          <h1>Course Name</h1>
-          <p>lesson 1 of 5</p>
+          <h1 className="text-lg font-semibold text-gray-700">{course.title}</h1>
+          <p className="text-base font-medium text-gray-500">lesson 1 of 5</p>
         </div>
       </div>
 
