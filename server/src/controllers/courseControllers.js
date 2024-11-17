@@ -58,6 +58,8 @@ const getAllCourse = async (req, res) => {
 
     const courses = await Course.find({ instructor: InstructorId });
 
+    
+
     if (!courses)
       return res
         .status(404)
@@ -111,6 +113,32 @@ const getCourse = async (req, res) => {
     });
   }
 };
+//get all enroled course by student 
+
+const enrolledCourses = async (req, res) => {
+
+  const studentId = req.user.userInfo._id;
+
+  try {
+    const course = await Course.find({enrolledStudents: studentId});
+
+    if(!course)
+      return res.status(404).json({success: false, message: "No enrolled courses found"});
+
+     
+    res.status(200).json({success: true, course});  
+
+  } catch (error) {
+    console.log('error:',error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to get enrolled courses",
+      error: error.message,
+    });
+  }
+
+};
+
 
 //enroll the student
 
@@ -258,6 +286,7 @@ const getAllCourseByStudent = async (req, res) => {
 export {
   getAllCourseByStudent,
   getCourse,
+  enrolledCourses,
   getAllCourse,
   createCourse,
   enrollInCourse,
