@@ -6,6 +6,7 @@ import {
 import {
   createCourse,
   deleteCourse,
+  enrolledCourses,
   enrollInCourse,
   getAllCourse,
   getAllCourseByStudent,
@@ -20,7 +21,7 @@ const router = Router();
 
 router.post("/instructor/course/create", authenticateToken, checkInstructorRole, upload.fields([{ name: "video" }, { name: "image" }]), createCourse);
 router.get("/instructor/courses",authenticateToken,checkInstructorRole,getAllCourse)
-router.get("/instructor/course/:courseId", authenticateToken, getCourse); //get course if student enrolled
+router.get("/student/course/:courseId", authenticateToken, getCourse); //get course if student enrolled
 router.get("/instructor/course/:courseId/edit", authenticateToken,checkInstructorRole, getCourse); //get course by instructor 
 router.get("/instructor/course/:courseId/detail", authenticateToken,checkInstructorRole, getCourse); //get course by instructor 
 router.post("/instructor/course/:courseId/enroll", authenticateToken, enrollInCourse); //enroll students in course
@@ -38,4 +39,7 @@ router.delete(`/instructor/course/:courseId/delete`, authenticateToken, checkIns
 router.post('/instructor/:courseId/rate',authenticateToken,submitRating);// for giving rating
 
 router.get('/courses',authenticateToken,getAllCourseByStudent);//get all course by student
+
+router.get('/student/mycourses',authenticateToken, enrolledCourses);//get enrolled course by student
+
 export default router;
