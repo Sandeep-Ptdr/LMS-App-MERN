@@ -9,6 +9,7 @@ import quizRoutes from '../src/routes/quizRoutes.js'
 import dashboardRoutes from '../src/routes/dashboardRoutes.js'
 import paymentRoutes from '../src/routes/paymentRoutes.js'
 import earningRoutes from '../src/routes/earningRoutes.js'
+import progressRoutes from '../src/routes/progressRoutes.js'
 
 dotenv.config();
 const app = express();
@@ -26,10 +27,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/auth',authRoutes)
 app.use('/api/v1/',courseRoutes)
 app.use('/api/v1/instructor',lessonRoutes)
+app.use('/api/v1/student',lessonRoutes)
 app.use('/api/v1/lesson',quizRoutes)
 app.use('/api/v1/',dashboardRoutes)
 app.use('/api/v1/student',paymentRoutes)
 app.use('/api/v1/instructor', earningRoutes)
+app.use('/api/v1',progressRoutes)
 
 app.get('/api/v1/getkey', (req,res) => {
   res.status(200).json({

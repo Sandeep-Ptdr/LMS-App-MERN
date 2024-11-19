@@ -5,7 +5,7 @@ import Lesson from "../models/lesson.model.js";
 //create course by instructor
 const createCourse = async (req, res) => {
   try {
-    const {video, image} = req.files;
+    const { video, image } = req.files;
     // console.log(req);
 
     if (!video && !image) {
@@ -14,9 +14,9 @@ const createCourse = async (req, res) => {
         .json({ success: false, message: " No file Uploaded! " });
     }
 
-    const videoUrl = video ? await uploadOnCloudinary(video[0].path) : null; 
+    const videoUrl = video ? await uploadOnCloudinary(video[0].path) : null;
     const imageUrl = image ? await uploadOnCloudinary(image[0].path) : null;
-    if (!videoUrl || !imageUrl ) {
+    if (!videoUrl || !imageUrl) {
       res
         .status(500)
         .json({ success: false, message: "Failed to Upload content " });
@@ -58,17 +58,14 @@ const getAllCourse = async (req, res) => {
 
     const courses = await Course.find({ instructor: InstructorId });
 
-    
-
     if (!courses)
       return res
         .status(404)
         .json({ success: false, message: "No courses found." });
 
     res.status(200).json({ success: true, courses });
-
   } catch (error) {
-    console.log('err',error)
+    console.log("err", error);
     res.status(500).json({
       success: false,
       message: "Server error in fetching course",
@@ -92,10 +89,13 @@ const getCourse = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Course not found" });
 
-    if (
-      !course.enrolledStudents.includes(req.user.userInfo._id) &&
-      req.user.userInfo.role !== "instructor"
-    ) {
+    
+
+    const isEnrolled = course.enrolledStudents.some(
+      (student) => student._id.toString() === req.user.userInfo._id
+    );
+
+    if (!isEnrolled && req.user.userInfo.role !== "instructor") {
       return res.status(403).json({
         success: false,
         message: "You are not enrolled in this course",
@@ -104,7 +104,7 @@ const getCourse = async (req, res) => {
       return res.status(200).json({ success: true, course: course, lessons });
     }
 
-    res.status(200).json({ success: true, course: course });
+    res.status(200).json({ success: true, course: course, lessons });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -113,32 +113,29 @@ const getCourse = async (req, res) => {
     });
   }
 };
-//get all enroled course by student 
+//get all enroled course by student
 
 const enrolledCourses = async (req, res) => {
-
   const studentId = req.user.userInfo._id;
 
   try {
-    const course = await Course.find({enrolledStudents: studentId});
+    const course = await Course.find({ enrolledStudents: studentId });
 
-    if(!course)
-      return res.status(404).json({success: false, message: "No enrolled courses found"});
+    if (!course)
+      return res
+        .status(404)
+        .json({ success: false, message: "No enrolled courses found" });
 
-     
-    res.status(200).json({success: true, course});  
-
+    res.status(200).json({ success: true, course });
   } catch (error) {
-    console.log('error:',error);
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to get enrolled courses",
       error: error.message,
     });
   }
-
 };
-
 
 //enroll the student
 
@@ -224,7 +221,7 @@ const updateCourse = async (req, res) => {
       req.params.courseId,
       { title, description, category, status },
       { new: true }
-    );    
+    );
 
     if (!course) {
       return res
@@ -249,31 +246,34 @@ const deleteCourse = async (req, res) => {
   try {
     const course = await Course.findByIdAndDelete(req.params.courseId);
 
-     
-
     if (!course) {
-      return res.status(404).json({success: false, message: "Course not found"});
+      return res
+        .status(404)
+        .json({ success: false, message: "Course not found" });
     }
 
-    res.status(200).json({success: true, message: "Course deleted successfully"});
+    res
+      .status(200)
+      .json({ success: true, message: "Course deleted successfully" });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Failed to delete course",
       error: error.message,
-    })
+    });
   }
 };
 
 const getAllCourseByStudent = async (req, res) => {
   try {
+    const courses = await Course.find();
 
-    const courses = await Course.find()
-
-    if (!courses) return res.status(404).json({ success: false, message: "No courses found" });
+    if (!courses)
+      return res
+        .status(404)
+        .json({ success: false, message: "No courses found" });
 
     res.status(200).json({ success: true, courses });
-    
   } catch (error) {
     res.status(500).json({
       success: false,

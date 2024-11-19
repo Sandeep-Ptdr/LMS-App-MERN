@@ -18,7 +18,7 @@ const MyCourses = () => {
       <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal w-full">
         {loading && <p>Loading...</p>}
         {error && <p>{error.data.message}</p>}
-        {console.log('enrolled',data)}
+        {/* {console.log('enrolled',data)} */}
 
         {data && data?.course?.length > 0
           ? data?.course?.map((course) => <MyCoursesCard key={course._id} course={course} />)

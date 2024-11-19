@@ -52,7 +52,7 @@ const Card = ({course, onPayment}) => {
 
         {/* Course Actions */}
          <div className="flex justify-between items-center mt-3">
-          <Link to='/student/course/detail' >
+          <Link to={`/student/course/${course?._id}`} >
             <button className="bg-[#2196F3] hover:bg-[#1976D2] text-white font-bold py-1 px-3 rounded text-sm">
               View Details
             </button>

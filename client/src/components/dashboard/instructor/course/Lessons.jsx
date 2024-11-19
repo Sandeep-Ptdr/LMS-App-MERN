@@ -12,7 +12,7 @@ const Lessons = () => {
 useEffect(() => {
    fetchData(`/instructor/course/${params.courseId}/lessons`,"GET")
 }, [])
-
+ 
 
   return (
     <>

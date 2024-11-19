@@ -62,6 +62,7 @@ const getAllLessons = async (req, res) => {
   try {
     const lessons = await Lesson.find({ course: req.params.courseId });
 
+
     if (!lessons) {
       return res
         .status(404)

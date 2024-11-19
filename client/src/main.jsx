@@ -40,7 +40,7 @@ const router = createBrowserRouter(
       <Route index element={<StudentDashboard /> } />
       <Route path="browse-courses" element={<BrowseCoursesPage />} />
       <Route path="mycourses" element={<MyCoursesPage />} />
-      <Route path="course/detail" element={<StudentCourseDetailPage  />} />
+      <Route path="course/:courseId" element={<StudentCourseDetailPage  />} />
 
       </Route>
 

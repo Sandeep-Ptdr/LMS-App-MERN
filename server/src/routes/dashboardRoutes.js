@@ -10,4 +10,5 @@ const router = Router();
 router.get('/instructor',authenticateToken, checkInstructorRole, getInstructorDashboard);
 router.get('/student/dashboard',authenticateToken,getStudentDashboard);
 
+
 export default router;

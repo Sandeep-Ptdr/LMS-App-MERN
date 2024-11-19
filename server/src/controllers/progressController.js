@@ -1,4 +1,4 @@
-import Progress from "../models/progress.model"
+import Progress from "../models/progress.model.js"
 
 
 
@@ -30,4 +30,29 @@ const updateProgress = async (req, res) => {
     }
 }
 
-export default {updateProgress}
+
+const getProgress = async (req,res) => {
+
+    const studentId = req.user.userInfo._id
+
+    try {
+
+        const progress = await Progress.findOne({student: studentId}).populate("course", "title").populate("lastAccessedLesson", "title").populate("completedLessons", "title");
+
+        if(!progress) return res.status(404).json({success: false, message: "Progress not found"});
+
+        res.status(200).json({success: true, progress})
+
+
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to get progress",
+            error: error.message,
+        })
+    }
+    
+}
+
+export  {updateProgress , getProgress};
