@@ -4,14 +4,17 @@ import white from "../../assets/white.svg";
 import profilepng from '../../assets/profilepng.png'
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({setHamburger}) => {
 const navigate = useNavigate()
   const [dropdownOpen, setDropdownOpen] = useState(false)
+   
   return (
     <header className=" w-full h-16 bg-[#2196F3] flex p-3 items-center justify-between ">
 
-      <div className="flex items-center">
-         <span className="font-bold cursor-pointer text-gray-300 hover:text-gray-50 mr-4">
+      <div className=" flex items-center">
+         <span className="hamburger font-bold cursor-pointer text-gray-300 hover:text-gray-50 mr-4"  
+         onClick={() => setHamburger()}
+         >
          <RiMenu3Line className="w-6 h-6" />
          </span>
 

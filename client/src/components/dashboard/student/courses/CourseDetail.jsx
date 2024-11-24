@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { IoMdStar, IoMdStarHalf, IoIosStarOutline } from "react-icons/io";
 import useFetchData from "../../../../hooks/useFetchData";
-import { useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 
 const CourseDetail = () => {
+
+  const navigate = useNavigate();
 
   const params = useParams()
   const {data, loading, error, fetchData} = useFetchData();
@@ -41,11 +43,13 @@ const CourseDetail = () => {
           <div className="w-full bg-gray-50 shadow-md rounded-md mb-4 ">
             <div>
               {loading && <p>Loading...</p>}
-              {error && <p>{error.data.message}</p>}
+              {error && <p>{error?.data?.message || error?.message}</p>}
               <ul>
 
                 {
-                  data && data?.lessons?.length > 0 ? data.lessons.map((lesson) => <li className="list-decimal list-inside p-2 border-b border-gray-300 text-gray-600 font-medium cursor-pointer" key={lesson._id}>
+                  data && data?.lessons?.length > 0 ? data.lessons.map((lesson) => <li 
+                  onClick={() => navigate(`/student/course/lesson/${lesson._id}`)}
+                  className="list-decimal list-inside p-2 border-b border-gray-300 text-gray-600 font-medium cursor-pointer" key={lesson._id}>
                    {lesson.title}
                 </li> ) : !loading  && !error && <p> No Lessons found!</p>
                 }

@@ -6,9 +6,10 @@ import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { FaPlus } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
-const Instructor = () => {
+const Instructor = ({isHamburgerOpen}) => {
+  console.log('hammbb',isHamburgerOpen)
   return (
-    <aside className="h-[calc(100vh-4rem)] w-64 bg-gray-800 text-gray-400 p-4 hidden sm:block">
+    <aside className={`h-[calc(100vh-4rem)] w-64 bg-gray-800 text-gray-400 p-4  ${isHamburgerOpen ? 'hidden' : 'sm:block'}`}>
       <nav>
         <ul className="flex flex-col gap-5 font-semibold text-base ">
           <NavLink

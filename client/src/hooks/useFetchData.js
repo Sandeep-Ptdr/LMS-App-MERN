@@ -1,14 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import API from "../utils/api";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const useFetchData = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState("");
-
-  // const memoizedHeaders = useMemo(() => headers, [JSON.stringify(headers)]);
-  // const memoizedBody = useMemo(() => body, [JSON.stringify(body)]);
 
   const fetchData = async (url, method, formData = null) => {
     try {
@@ -48,6 +45,10 @@ const useFetchData = () => {
 
       setData(response.data);
     } catch (error) {
+      console.log(error,'errrorrr')
+      if(error.message === 'Network Error'){
+        return setError(error)
+      }
       setError(error?.response || "Something went wrong!");
     } finally {
       setLoading(false);

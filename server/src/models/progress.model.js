@@ -20,6 +20,15 @@ const progressSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    progress: {
+      type: Number,
+      default: 0,
+    },
+    totalLessons: {
+      type: Number,
+      default: 0,
+    },
+
   },
   { timestamps: true }
 );

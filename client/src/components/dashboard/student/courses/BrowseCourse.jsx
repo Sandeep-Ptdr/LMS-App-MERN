@@ -35,7 +35,7 @@ const [axiosError, setAxiosError] = useState(null);
           name: "LMS",
           description: "Test Transaction",
           handler : async (response) => {
-            console.log('response',response)
+            // console.log('response',response)
              await API.post('/student/verifypayment', {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
@@ -70,10 +70,9 @@ const [axiosError, setAxiosError] = useState(null);
       setAxiosError(error);
     }
   };
-  if(axiosError) return <p>{axiosError?.response?.data?.message || "an error occured"}</p>
-  if (loading) return <p>Loading...</p>;
-  if (error)
-    return <p>Error: {error?.data?.message || "Something went wrong"}</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error)
+  //   return <p>Error: {error?.data?.message || error?.message}</p>;
 
   return (
     <>
@@ -116,7 +115,7 @@ const [axiosError, setAxiosError] = useState(null);
 
         <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
           {loading && <p>Loading...</p>}
-          {error && <p>{error?.data?.message || "something went wrong"}</p>}
+          {error && <p>{error?.data?.message || error.message}</p>}
           {data &&
             data?.courses?.length > 0 &&
             data?.courses.map((course) => (

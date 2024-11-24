@@ -9,7 +9,7 @@ router.post("/course/:courseId/lesson/create", authenticateToken, checkInstructo
 
 router.get("/course/:courseId/lessons", authenticateToken, getAllLessons);//get all lesson by anyone
 
-router.get("/lesson/:lessonId", authenticateToken, getSingleLesson);//get a specific lesson
+router.get("/course/lesson/:lessonId", authenticateToken, getSingleLesson);//get a specific lesson
 router.get("/lesson/:lessonId/edit", authenticateToken,checkInstructorRole, getSingleLesson);//get a specific lesson by instructor only
 
 router.put("/lesson/:lessonId/edit",authenticateToken, checkInstructorRole,upload.fields([{ name: "video" }, { name: "pdf" }, {name: "image"}]), updateLesson)//update a lesson by instructor only.

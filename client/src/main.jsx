@@ -29,6 +29,7 @@ import StudentDashboard from "./pages/dashboard/studentDashboard/StudentDashboar
 import BrowseCoursesPage from "./pages/dashboard/studentDashboard/BrowseCoursesPage.jsx";
 import MyCoursesPage from "./pages/dashboard/studentDashboard/MyCoursesPage.jsx";
 import StudentCourseDetailPage from "./pages/dashboard/studentDashboard/CourseDetailPage.jsx";
+import LessonDetailsPage from "./pages/dashboard/studentDashboard/LessonDetailsPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
       <Route path="browse-courses" element={<BrowseCoursesPage />} />
       <Route path="mycourses" element={<MyCoursesPage />} />
       <Route path="course/:courseId" element={<StudentCourseDetailPage  />} />
+      <Route path="course/lesson/:lessonId" element={<LessonDetailsPage/>} />
 
       </Route>
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RxDashboard } from "react-icons/rx";
 import { IoSearch } from "react-icons/io5";
 import { MdMenuBook } from "react-icons/md";
@@ -8,9 +8,10 @@ import { BsBarChartFill } from "react-icons/bs";
 import { MdManageAccounts } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 
-const Student = () => {
+const Student = ({isHamburgerOpen}) => {
+  
   return (
-     <aside className='h-screen w-64 bg-gray-800 text-gray-400 p-4 '>
+     <aside className={`h-screen w-64 bg-gray-800 text-gray-400 p-4 ${isHamburgerOpen ? 'hidden ' : 'block'}`}>
       <nav>
         <ul className='flex flex-col gap-5 font-semibold text-base '>
 
@@ -41,7 +42,9 @@ const Student = () => {
             <i><BsBarChartFill className='w-6 h-6'/></i> <span className='hover:text-gray-50'>Quiz Results</span></li>
 
             <li className='cursor-pointer flex items-center gap-2'> 
-            <i><MdManageAccounts  className='w-6 h-6'/></i> <span className='hover:text-gray-50'>Account</span></li> 
+            <i><MdManageAccounts  className='w-6 h-6'/></i> <span className='hover:text-gray-50'>Account</span>
+            
+            </li> 
             
         </ul>
       </nav>
