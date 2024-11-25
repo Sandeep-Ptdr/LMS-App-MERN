@@ -23,7 +23,7 @@ const MyCoursesCard = ({course}) => {
   const totalLessons = courseProgress?.totalLessons || 0
   const completedLessons = courseProgress?.completedLessons.length || 0
 
-   
+ 
    
    
   return (
@@ -47,11 +47,21 @@ const MyCoursesCard = ({course}) => {
       </div>
 
       <div className="p-4">
-        <button className="flex gap-1 justify-center items-center bg-[#2196F3] hover:bg-[#1976D2] text-gray-50 px-2 py-1 rounded-md" 
+        {
+          completedLessons === totalLessons ? (
+            <button className="flex gap-1 justify-center items-center bg-[#2196F3] hover:bg-[#1976D2] text-gray-50 px-2 py-1 rounded-md" 
         onClick={() => navigate(`/student/course/${course._id}`)}
         >
             Start <IoPlayCircleOutline/>
         </button>
+          ) : (
+            <button className="flex gap-1 justify-center items-center text-gray-50 px-2 py-1 rounded-md bg-[#2196F3] hover:bg-[#1976D2] " 
+            onClick={() => navigate(`/student/course/${course._id}`)} 
+            >
+            Continue <IoPlayCircleOutline/>
+        </button>
+          )
+        }
       </div>
     </div>
   );

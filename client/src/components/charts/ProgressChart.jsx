@@ -1,52 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip } from 'recharts'
+import useFetchData from '../../hooks/useFetchData';
 
 const ProgressChart = () => {
-    const data = [
-        {
-          "subject": "Math",
-          "A": 100,
-          "B": 110,
-          "fullMark": 150
-        },
-        {
-          "subject": "Chinese",
-          "A": 98,
-          "B": 130,
-          "fullMark": 150
-        },
-        {
-          "subject": "English",
-          "A": 86,
-          "B": 130,
-          "fullMark": 150
-        },
-        {
-          "subject": "Geography",
-          "A": 99,
-          "B": 100,
-          "fullMark": 150
-        },
-        {
-          "subject": "Physics",
-          "A": 85,
-          "B": 90,
-          "fullMark": 150
-        },
-        {
-          "subject": "History",
-          "A": 65,
-          "B": 85,
-          "fullMark": 150
-        },
-        {
-          "subject": "Commerce",
-          "A": 80,
-          "B": 85,
-          "fullMark": 150
-        },
-         
-      ]
+     
+  const {data, laoding, error, fetchData} = useFetchData(); 
+
+  useEffect(() => {
+    
+    fetchData('student/progress', "GET");
+    
+
+  }, [])
+
+  if(laoding) return <p>Loading...</p>
+  if(error) return  <p>{error?.data?.message || error?.message}</p>
+  
+    const chartData = data?.progress?.map((item) => ({
+      course : item.course.title,
+      progress : item.progress
+    }))
+  
      
       
   return (
@@ -57,20 +31,20 @@ const ProgressChart = () => {
       
       <div className="flex justify-center">
         <ResponsiveContainer width="100%" aspect={1.5}>
-          <RadarChart outerRadius={120} data={data}>
+          <RadarChart outerRadius={120} data={chartData}>
             <PolarGrid stroke="#e5e7eb" />
             <PolarAngleAxis 
-              dataKey="subject" 
+              dataKey="course" 
               tick={{ fill: "#4b5563", fontSize: 12, fontWeight: 500 }}
             />
-            <PolarRadiusAxis 
+            {/* <PolarRadiusAxis 
               angle={30} 
               domain={[0, 100]} 
               tick={{ fill: "#6b7280" }} 
-            />
+            /> */}
             <Radar 
-              name="Progress" 
-              dataKey="A" 
+              name="course"
+              dataKey="progress"
               stroke="#2196F3" 
               fill="#2196F3" 
               fillOpacity={0.3} 
