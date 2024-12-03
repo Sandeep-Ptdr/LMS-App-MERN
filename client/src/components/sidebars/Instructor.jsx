@@ -14,6 +14,7 @@ const Instructor = ({isHamburgerOpen}) => {
         <ul className="flex flex-col gap-5 font-semibold text-base ">
           <NavLink
             to="/instructor"
+            end //match the exact path
             className={({ isActive }) => (isActive ? "active" : " ")}
           >
             {({ isActive }) => (
