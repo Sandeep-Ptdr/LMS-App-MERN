@@ -30,6 +30,7 @@ import BrowseCoursesPage from "./pages/dashboard/studentDashboard/BrowseCoursesP
 import MyCoursesPage from "./pages/dashboard/studentDashboard/MyCoursesPage.jsx";
 import StudentCourseDetailPage from "./pages/dashboard/studentDashboard/CourseDetailPage.jsx";
 import LessonDetailsPage from "./pages/dashboard/studentDashboard/LessonDetailsPage.jsx";
+import QuizPage from "./pages/dashboard/studentDashboard/QuizPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,36 +38,45 @@ const router = createBrowserRouter(
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
 
-      <Route path="/student" element={<StudentLayout/>}>
-      <Route index element={<StudentDashboard /> } />
-      <Route path="browse-courses" element={<BrowseCoursesPage />} />
-      <Route path="mycourses" element={<MyCoursesPage />} />
-      <Route path="course/:courseId" element={<StudentCourseDetailPage  />} />
-      <Route path="course/lesson/:lessonId" element={<LessonDetailsPage/>} />
-
+      <Route
+        path="/student"
+        element={
+          <ProtectedRoute>
+            <StudentLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<StudentDashboard />} />
+        <Route path="browse-courses" element={<BrowseCoursesPage />} />
+        <Route path="mycourses" element={<MyCoursesPage />} />
+        <Route path="course/:courseId" element={<StudentCourseDetailPage />} />
+        <Route path="course/lesson/:lessonId" element={<LessonDetailsPage />} />
+        <Route path="course/lesson/:lessonId/quiz" element={<QuizPage />} />
       </Route>
 
-
-
-
-      <Route 
-        path="/instructor" 
+      <Route
+        path="/instructor"
         element={
           <ProtectedRoute>
             <InstructorLayout />
           </ProtectedRoute>
-        } 
+        }
       >
-        <Route index element={<InstructorDashboard/>}/>
+        <Route index element={<InstructorDashboard />} />
         <Route path="courses" element={<CourseManager />} />
         <Route path="course/:courseId/detail" element={<CourseDetailPage />} />
         <Route path="course/:courseId/edit" element={<EditCourse />} />
         <Route path="course/create" element={<CourseCreatePage />} />
         <Route path="profile" element={<UserProfilePage />} />
-        <Route path="/instructor/lesson/:lessonId/edit" element={<LessonEditPage/>}/>
-        <Route path="/instructor/course/:courseId/lesson/create" element={<LessonCreatePage/>}/>
-
-      </Route>  
+        <Route
+          path="/instructor/lesson/:lessonId/edit"
+          element={<LessonEditPage />}
+        />
+        <Route
+          path="/instructor/course/:courseId/lesson/create"
+          element={<LessonCreatePage />}
+        />
+      </Route>
     </Route>
   )
 );
@@ -78,4 +88,3 @@ createRoot(document.getElementById("root")).render(
     </Provider>
   </StrictMode>
 );
- 
