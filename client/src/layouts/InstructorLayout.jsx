@@ -8,7 +8,7 @@ const InstructorLayout = () => {
 
   const hamburger = () => {
     setIsHamburgerOpen(!isHamburgerOpen);
-    console.log('hmmm',isHamburgerOpen)
+    
      
   }
 
