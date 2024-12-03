@@ -43,7 +43,7 @@ const ProgressChart = () => {
               tick={{ fill: "#6b7280" }} 
             /> */}
             <Radar 
-              name="course"
+              name="Progress"
               dataKey="progress"
               stroke="#2196F3" 
               fill="#2196F3" 
