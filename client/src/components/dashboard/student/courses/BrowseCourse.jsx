@@ -5,14 +5,12 @@ import useFetchData from "../../../../hooks/useFetchData";
 import API from "../../../../utils/api";
 const BrowseCourse = () => {
   const { data, loading, error, fetchData } = useFetchData();
-const [axiosError, setAxiosError] = useState(null);
+  const [axiosError, setAxiosError] = useState(null);
   useEffect(() => {
     fetchData("/courses", "GET");
   }, []);
 
   const handleEnroll = async (courseId, amount) => {
-    
-
     // fetchData(`/student/createorder`, "POST", {
     //   amount,
     //   courseId,
@@ -25,7 +23,7 @@ const [axiosError, setAxiosError] = useState(null);
         amount,
         courseId,
       });
-  
+
       if (orderData && orderData.data.success) {
         const options = {
           key: res.data.key,
@@ -34,18 +32,16 @@ const [axiosError, setAxiosError] = useState(null);
           order_id: orderData?.data.order.id,
           name: "LMS",
           description: "Test Transaction",
-          handler : async (response) => {
+          handler: async (response) => {
             // console.log('response',response)
-             await API.post('/student/verifypayment', {
+            await API.post("/student/verifypayment", {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature,
-              courseId: courseId
-            })
-            
-            
+              courseId: courseId,
+            });
           },
-  
+
           prefill: {
             name: "Test User",
             email: "qK9Q1@example.com",
@@ -54,24 +50,22 @@ const [axiosError, setAxiosError] = useState(null);
           notes: {
             address: "Razorpay Corporate Office",
           },
-  
+
           theme: {
             color: "#317ffc",
           },
         };
-  
+
         const razorpay = new window.Razorpay(options);
         razorpay.open();
       } else {
         console.log("data is not defined");
       }
-      
     } catch (error) {
       setAxiosError(error);
     }
   };
 
-  
   // if (loading) return <p>Loading...</p>;
   // if (error)
   //   return <p>Error: {error?.data?.message || error?.message}</p>;
@@ -116,7 +110,7 @@ const [axiosError, setAxiosError] = useState(null);
         </div>
 
         <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
-          {loading && <p>Loading...</p>}
+          {loading && <div className="flex items-center justify-center w-full h-full "> <div className="loader "></div> </div>}
           {error && <p>{error?.data?.message || error.message}</p>}
           {data &&
             data?.courses?.length > 0 &&

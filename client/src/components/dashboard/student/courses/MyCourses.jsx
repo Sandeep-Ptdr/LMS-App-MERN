@@ -16,7 +16,7 @@ const MyCourses = () => {
       <h1 className="font-semibold text-2xl text-gray-700 mb-4">My Courses</h1>
 
       <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal w-full">
-        {loading && <p>Loading...</p>}
+        {loading && <div className="flex justify-center items-center w-full "> <div className="loader"></div> </div>}
         {error && <p>{error?.data?.message || error?.message }</p>}
         
 
