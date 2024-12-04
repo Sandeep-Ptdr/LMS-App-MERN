@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip } from 'recharts'
 import useFetchData from '../../hooks/useFetchData';
 
+import toast,{Toaster} from 'react-hot-toast';
+
 const ProgressChart = () => {
      
   const {data, laoding, error, fetchData} = useFetchData(); 
@@ -24,6 +26,7 @@ const ProgressChart = () => {
      
       
   return (
+    
     <div className="border-[1px] border-gray-300 p-4 rounded-md bg-gray-50 shadow-lg max-w-md ">
       <h2 className="text-2xl font-semibold text-gray-700 text-center mb-6 ">
         Progress Overview
