@@ -5,11 +5,15 @@ const quizSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Lesson",
   },
+  title: {
+    type: String,},
+
   questions: [
     {
       questionText: { type: String, required: true },
       options:[String],
-      correctAnswer: {type: Number}
+      correctAnswer: {type: Number},
+      marks: { type: Number, default: 1 },
     },
   ],
 },{timestamps: true});
