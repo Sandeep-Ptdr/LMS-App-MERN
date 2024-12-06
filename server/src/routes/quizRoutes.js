@@ -5,7 +5,7 @@ import { createQuiz,deleteQuiz,getAllQuizzes, getSingleQuiz, submitQuiz } from "
 
 const router = Router();
 
-router.post("/:lessonId/quiz", authenticateToken, checkInstructorRole, createQuiz); // create quiz
+router.post("/instructor/course/lesson/:lessonId/quiz/create", authenticateToken, checkInstructorRole, createQuiz); // create quiz
 router.get("/:lessonId/quizzes", authenticateToken, getAllQuizzes)// get all quizzes
 router.get("/quiz/:quizId", authenticateToken,getSingleQuiz)//get single quiz
 router.delete('/delete/quiz/:quizId', authenticateToken, checkInstructorRole, deleteQuiz);//delet quiz

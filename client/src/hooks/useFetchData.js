@@ -8,6 +8,8 @@ const useFetchData = () => {
   const [error, setError] = useState("");
 
   const fetchData = async (url, method, formData = null) => {
+
+    console.log('url',url,'method',method,'formData',formData)
     try {
       setLoading(true);
 
