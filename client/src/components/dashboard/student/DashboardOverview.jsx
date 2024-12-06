@@ -3,10 +3,10 @@ import ProgressChart from "../../charts/ProgressChart";
 import DashboardCourseCard from "./courses/DashboardCourseCard";
 import DashboardQuizDetails from "./courses/DashboardQuizDetails";
 
-const DashboardOverview = () => {
+const DashboardOverview = ({ data }) => {
   return (
     <>
-      <h1 className="font-semibold text-2xl text-gray-700 mb-4">Welcome</h1>
+      <h1 className="font-semibold text-2xl text-gray-700 mb-4">Welcome {data?.user?.name.charAt(0).toUpperCase() + data?.user?.name.slice(1)}</h1>
       <div className="flex justify-between">
         <div className="mb-4 flex-1 ">
           <ProgressChart />
@@ -19,16 +19,13 @@ const DashboardOverview = () => {
             </button>
           </div>
           <div className="overflow-y-scroll h-[calc(100%-72px)] scroll-smooth ">
-            <DashboardQuizDetails/>
-            <DashboardQuizDetails/>
-            <DashboardQuizDetails/>
-            <DashboardQuizDetails/>
-            <DashboardQuizDetails/>
-            <DashboardQuizDetails/>
-            <DashboardQuizDetails/>
-             
-           
-             
+            <DashboardQuizDetails />
+            <DashboardQuizDetails />
+            <DashboardQuizDetails />
+            <DashboardQuizDetails />
+            <DashboardQuizDetails />
+            <DashboardQuizDetails />
+            <DashboardQuizDetails />
           </div>
         </div>
       </div>
