@@ -32,6 +32,7 @@ import StudentCourseDetailPage from "./pages/dashboard/studentDashboard/CourseDe
 import LessonDetailsPage from "./pages/dashboard/studentDashboard/LessonDetailsPage.jsx";
 import QuizPage from "./pages/dashboard/studentDashboard/QuizPage.jsx";
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -76,6 +77,7 @@ const router = createBrowserRouter(
           path="/instructor/course/:courseId/lesson/create"
           element={<LessonCreatePage />}
         />
+        <Route path="course/lesson/:lessonId/quiz/create" element={<QuizManagerPage/>} />
       </Route>
     </Route>
   )
