@@ -3,8 +3,16 @@ import Quiz from "../models/quiz.models.js";
 import Submission from "../models/submission.model.js";
 
 const createQuiz = async (req, res) => {
+  console.log('body quiz',req.body)
   try {
-    const { questions } = req.body;
+    const { questions, title } = req.body;
+
+    if (!questions || questions.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No questions provided" });
+    }
+
 
     const lesson = await Lesson.findById(req.params.lessonId);
 
@@ -12,7 +20,7 @@ const createQuiz = async (req, res) => {
       res.status(404).json({ success: false, message: "Lesson not found" });
     }
 
-    const quiz = new Quiz({ lesson: lesson._id, questions });
+    const quiz = new Quiz({title:title, questions });
 
     await quiz.save();
     res
