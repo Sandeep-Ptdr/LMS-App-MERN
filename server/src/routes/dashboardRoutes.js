@@ -8,7 +8,7 @@ const router = Router();
 
 
 router.get('/instructor',authenticateToken, checkInstructorRole, getInstructorDashboard);
-router.get('/student/dashboard',authenticateToken,getStudentDashboard);
+router.get('/student',authenticateToken,getStudentDashboard);
 
 
 export default router;

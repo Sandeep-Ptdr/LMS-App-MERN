@@ -5,6 +5,11 @@ const getStudentDashboard = async (req, res) => {
   try {
     const studentId = req.user.userInfo._id;
 
+    const user = await User.findById(studentId);
+
+    if (!user)
+      return res.status(404).json({ success: false, message: " User not found " });    
+
     const enrolledInCourses = await Course.find({
       enrolledStudents: studentId,
     });
@@ -19,7 +24,7 @@ const getStudentDashboard = async (req, res) => {
 
         
 
-    res.status(200).json({ success: true, enrolledInCourses });
+    res.status(200).json({ success: true, enrolledInCourses, user });
   } catch (error) {
     res
       .status(500)
