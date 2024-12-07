@@ -66,9 +66,7 @@ const BrowseCourse = () => {
     }
   };
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error)
-  //   return <p>Error: {error?.data?.message || error?.message}</p>;
+   
 
   return (
     <>
@@ -78,11 +76,7 @@ const BrowseCourse = () => {
             Browse Courses
           </h1>
 
-          {/* <Link to="/instructor/course/create">
-          <button className="flex gap-1 font-semibold text-base text-gray-50 justify-center items-center bg-[#2196F3] hover:bg-[#3286cb] px-4 py-2 rounded-md">
-            <IoMdAdd className="text-2xl font-bold" /> Add Course
-          </button>
-        </Link> */}
+           
         </div>
 
         <div className="flex justify-between p-4  bg-gray-50 rounded-md border-l-[3px]  border-l-[#2196F3] shadow-lg mb-4">
@@ -109,8 +103,8 @@ const BrowseCourse = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
-          {loading && <div className="flex items-center justify-center w-full h-full "> <div className="loader "></div> </div>}
+        <div className=" flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
+          {loading && <div className="  flex items-center justify-center w-full h-full "> <div className="loader"></div> </div>}
           {error && <p>{error?.data?.message || error.message}</p>}
           {data &&
             data?.courses?.length > 0 &&

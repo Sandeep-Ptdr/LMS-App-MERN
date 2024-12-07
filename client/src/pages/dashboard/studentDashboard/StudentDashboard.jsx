@@ -12,7 +12,7 @@ const StudentDashboard = () => {
 
   },[])
 
-  if(loading) return <p>Loading...</p>
+  if(loading) return <div className='h-full w-full flex justify-center items-center'> <div className='loader'></div> </div>
   if(error) return <p>{error?.data?.message || "an error occured"}</p>
 
   return (
