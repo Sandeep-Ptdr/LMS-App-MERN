@@ -16,7 +16,7 @@ import CourseManager from "./pages/dashboard/instructorDashboardPage/CourseManag
 import CourseDetailPage from "./pages/dashboard/instructorDashboardPage/CourseDetailPage.jsx";
 import EditCourse from "./pages/dashboard/instructorDashboardPage/EditCourse.jsx";
 import CourseCreatePage from "./pages/dashboard/instructorDashboardPage/CourseCreatePage.jsx";
-import QuizManagerPage from "./pages/dashboard/instructorDashboardPage/QuizManagerPage.jsx";
+ 
 import UserProfilePage from "./pages/profile/UserProfilePage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { Provider } from "react-redux";
@@ -31,6 +31,8 @@ import MyCoursesPage from "./pages/dashboard/studentDashboard/MyCoursesPage.jsx"
 import StudentCourseDetailPage from "./pages/dashboard/studentDashboard/CourseDetailPage.jsx";
 import LessonDetailsPage from "./pages/dashboard/studentDashboard/LessonDetailsPage.jsx";
 import QuizPage from "./pages/dashboard/studentDashboard/QuizPage.jsx";
+import QuizCreatePage from "./pages/dashboard/instructorDashboardPage/QuizCreatePage.jsx";
+import QuizManagerPage from "./pages/dashboard/instructorDashboardPage/QuizManagerPage.jsx";
 
 
 const router = createBrowserRouter(
@@ -77,7 +79,8 @@ const router = createBrowserRouter(
           path="/instructor/course/:courseId/lesson/create"
           element={<LessonCreatePage />}
         />
-        <Route path="course/lesson/:lessonId/quiz/create" element={<QuizManagerPage/>} />
+        <Route path="course/lesson/:lessonId/quiz/create" element={<QuizCreatePage/>} />
+        <Route path='quizes' element={<QuizManagerPage/>}/>
       </Route>
     </Route>
   )
