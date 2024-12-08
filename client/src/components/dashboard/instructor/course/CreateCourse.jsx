@@ -59,8 +59,8 @@ const CreateCourse = () => {
      
   };
 
-  if(loading) return <p>loading...</p>
-  if (error) return <p>{error?.data?.message}</p>
+   
+   if(error) { <p>{error?.data?.message}</p> }
   if(data?.success){
     <p>{data?.message}</p>
 
@@ -68,11 +68,18 @@ const CreateCourse = () => {
 
 
   }
+   
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 ">
       <h2 className="text-2xl font-semibold text-gray-600 mb-6">
         Create New Course
       </h2>
+
+      { loading && (
+        <div className="absolute inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50 z-10">
+          <div className="loader"></div>
+        </div>
+      )}
 
       <form
         onSubmit={handleSubmit}
@@ -177,6 +184,11 @@ const CreateCourse = () => {
           Create Course
         </button>
       </form>
+
+     
+
+       
+
     </div>
   );
 };
