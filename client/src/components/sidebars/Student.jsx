@@ -58,12 +58,7 @@ const Student = ({ isHamburgerOpen }) => {
             )}
           </NavLink>
 
-          <li className="cursor-pointer flex items-center gap-2">
-            <i>
-              <TbProgressCheck className="w-6 h-6" />
-            </i>{" "}
-            <span className="hover:text-gray-50">Completed Courses</span>
-          </li>
+           
 
           <NavLink to="/student/course/lesson/1/quiz"
           className={({isActive}) => (isActive ? 'active': " ")}
