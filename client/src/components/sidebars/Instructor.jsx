@@ -41,27 +41,16 @@ const Instructor = ({isHamburgerOpen}) => {
               </li>
             )}
           </NavLink>
+           
           <NavLink
-            to="/instructor/dashboard"
+            to="/instructor/quizes"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             {({ isActive }) => (
+
               <li className="cursor-pointer flex items-center gap-2">
                 <i>
-                  <TbProgressCheck className="w-6 h-6" />
-                </i>
-                <span className="hover:text-gray-50">Completed Courses</span>
-              </li>
-            )}
-          </NavLink>{" "}
-          <NavLink
-            to="/instructor/dashboard"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            {({ isActive }) => (
-              <li className="cursor-pointer flex items-center gap-2">
-                <i>
-                  <HiOutlineDesktopComputer className="w-6 h-6" />
+                  <HiOutlineDesktopComputer className={`w-6 h-6 ${isActive ? "text-[#2196F3]" : "text-gray-300" }`} />
                 </i>
                 <span className="hover:text-gray-50">Quiz Manager</span>
               </li>
