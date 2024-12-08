@@ -11,6 +11,7 @@ const Register = () => {
     password: "",
     role:"student"
   });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -27,20 +28,34 @@ const Register = () => {
       return;
     }
      try {
+      setLoading(true)
       await API.post('/auth/register',FormData);
       navigate('/login')
 
      } catch (error) {
-      setError(error?.response?.data?.message || 'something went wrong')
+      console.error('errorr',error);
+      if(error.message === 'Network Error') return setError('Network Error')
+      setError(error?.response?.data?.error || error?.response?.data?.message)
+     } finally {
+      setLoading(false)
      }
   }
 
 
-
+   
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 ">
-      <div className="w-full max-w-md bg-white p-8 shadow-md">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 relative ">
+      {loading && (
+        <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-10">
+          <div className="loader"></div>
+        </div>
+      )}
+      <div
+        className={`w-full max-w-md bg-gray-50 p-8 shadow-md rounded-md ${
+          loading ? "opacity-50" : "opacity-100"
+        }`}
+      >
         <div className="border-b-[1px] pb-2">
           <h2 className="font-bold text-center text-2xl text-gray-700">
             Register
@@ -99,7 +114,7 @@ const Register = () => {
             />
           </div>
             
-          <div className="mb-4 flex flex-col">
+          <div className="mb-2 flex flex-col">
             <label htmlFor="role" className="block text-lg text-gray-600 mb-1">
               Register as:
             </label>
@@ -114,7 +129,7 @@ const Register = () => {
               <option value="instructor">Instructor</option>
             </select>
           </div>
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+          {error && <p className="text-red-500 mb-1">{error}</p>}
           <button
             type="submit"
             className="bg-[#2196F3] text-white rounded-lg py-2 text-lg font-semibold hover:bg-[#348dd6] transition duration-300 ease-in-out"
