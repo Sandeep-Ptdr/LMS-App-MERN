@@ -4,10 +4,10 @@ const StudentList = ({data}) => {
 
 
   return (
-    <div className=" p-1 overflow-hidden w-full border-[1px] border-gray-300 rounded-md bg-gray-50">
+    <div className=" p-1   w-full border-[1px] border-gray-300 rounded-md bg-gray-50">
       <h2 className="font-semibold text-xl text-center mb-2 text-gray-600">Students List</h2>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto h-96 ">
         <table className="min-w-full bg-white border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
