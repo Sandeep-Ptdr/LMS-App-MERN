@@ -17,7 +17,7 @@ const MyCoursesCard = ({course}) => {
   if(error) return console.log('error::::',error)
     console.log('dataaaa',data)
 
-  const  courseProgress = data?.progress?.find(progress => progress.course._id === course._id)
+  const  courseProgress = data?.progress?.find(progress => progress?.course?._id === course?._id)
 
   const progressPercentage = courseProgress?.progress || 0
   const totalLessons = courseProgress?.totalLessons || 0
