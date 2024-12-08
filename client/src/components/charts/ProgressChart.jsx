@@ -19,8 +19,8 @@ const ProgressChart = () => {
   if(error) return  <p>{error?.data?.message || error?.message}</p>
   
     const chartData = data?.progress?.map((item) => ({
-      course : item.course.title,
-      progress : item.progress
+      course : item?.course?.title,
+      progress : item?.progress
     }))
   
      
