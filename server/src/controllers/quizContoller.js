@@ -3,7 +3,7 @@ import Quiz from "../models/quiz.models.js";
 import Submission from "../models/submission.model.js";
 
 const createQuiz = async (req, res) => {
-  console.log('body quiz',req.body)
+  
   try {
     const { questions, title } = req.body;
 
@@ -13,14 +13,16 @@ const createQuiz = async (req, res) => {
         .json({ success: false, message: "No questions provided" });
     }
 
-
+    
     const lesson = await Lesson.findById(req.params.lessonId);
 
     if (!lesson) {
       res.status(404).json({ success: false, message: "Lesson not found" });
     }
 
-    const quiz = new Quiz({title:title, questions });
+    console.log('lesson', lesson.course);
+
+    const quiz = new Quiz({title:title, questions, lesson:lesson._id, course:lesson.course });
 
     await quiz.save();
     res
@@ -39,15 +41,8 @@ const createQuiz = async (req, res) => {
 
 const getAllQuizzes = async (req, res) => {
   try {
-    const lesson = await Lesson.findById(req.params.lessonId);
 
-    if (!lesson) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Lesson not found" });
-    }
-
-    const quizzes = await Quiz.find({ lesson: lesson._id });
+    const quizzes = await Quiz.find();
 
     if (!quizzes) {
       return res
@@ -55,7 +50,8 @@ const getAllQuizzes = async (req, res) => {
         .json({ success: false, message: "No quizzes found for this lesson" });
     }
 
-    res.status(200).json({ success: true, lesson, quizzes });
+    res.status(200).json({ success: true, quizzes });
+
   } catch (error) {
     res.status(500).json({
       success: false,
