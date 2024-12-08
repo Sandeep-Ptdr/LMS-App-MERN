@@ -57,12 +57,13 @@ const MyCourses = () => {
      
   }, [data]);
 
-
-  if (loading) return <p>Loading...</p>;
-  if(error) console.log('error',error)
+ 
+   
+   
   
   return (
     <>
+     
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-4">
           <h1 className=" font-semibold text-2xl text-gray-700 mb-4 ">
@@ -101,10 +102,10 @@ const MyCourses = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
+        <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal relative">
           
-          {loading && <p>loading courses...</p>}
-          {error && <p>{error?.data?.message}</p>}
+          {loading && <div className="flex justify-center items-center absolute top-1/2 left-1/2"><div className="loader"></div></div>}
+          {error && <p>{error?.data?.message || error?.message }</p>}
 
           {Array.isArray(data?.courses) && data?.courses.length > 0
             ? data?.courses
