@@ -105,12 +105,7 @@ const updateLesson = async (req, res) => {
   try {
     
     const { title, description } = req.body;
-    console.log('title',title)
-    console.log('description',description)
-    console.log('video',req.files?.video[0])
-    console.log('pdf',req.files?.pdf[0].path)
-    console.log('image',req.files?.image[0].path)
-
+     
     const {video, pdf, image} = req.files
 
      

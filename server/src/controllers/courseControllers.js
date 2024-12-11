@@ -95,6 +95,8 @@ const getCourse = async (req, res) => {
       (student) => student._id.toString() === req.user.userInfo._id
     );
 
+    console.log('isEnrolled', isEnrolled)
+
     if (!isEnrolled && req.user.userInfo.role !== "instructor") {
       return res.status(403).json({
         success: false,

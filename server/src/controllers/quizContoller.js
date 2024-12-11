@@ -1,9 +1,9 @@
+import Course from "../models/course.model.js";
 import Lesson from "../models/lesson.model.js";
 import Quiz from "../models/quiz.models.js";
 import Submission from "../models/submission.model.js";
 
 const createQuiz = async (req, res) => {
-  
   try {
     const { questions, title } = req.body;
 
@@ -13,16 +13,18 @@ const createQuiz = async (req, res) => {
         .json({ success: false, message: "No questions provided" });
     }
 
-    
     const lesson = await Lesson.findById(req.params.lessonId);
 
     if (!lesson) {
       res.status(404).json({ success: false, message: "Lesson not found" });
     }
 
-    console.log('lesson', lesson.course);
-
-    const quiz = new Quiz({title:title, questions, lesson:lesson._id, course:lesson.course });
+    const quiz = new Quiz({
+      title: title,
+      questions,
+      lesson: lesson._id,
+      course: lesson.course,
+    });
 
     await quiz.save();
     res
@@ -37,12 +39,13 @@ const createQuiz = async (req, res) => {
   }
 };
 
-//get all quiz
+//get all quizes
 
 const getAllQuizzes = async (req, res) => {
   try {
-
-    const quizzes = await Quiz.find();
+    const quizzes = await Quiz.find()
+      .populate("lesson", "title")
+      .populate("course", "title");
 
     if (!quizzes) {
       return res
@@ -51,7 +54,38 @@ const getAllQuizzes = async (req, res) => {
     }
 
     res.status(200).json({ success: true, quizzes });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
 
+// get all quizes for the student
+
+const getAllQuizzesForStudent = async (req, res) => {
+  try {
+    const studentId = req.user.userInfo._id;
+
+    const enrolledCourses = await Course.find({
+      enrolledStudents: studentId,
+    }).select("_id title");
+
+    const courseIds = enrolledCourses.map((course) => course._id);
+
+    const quizzes = await Quiz.find({ course: { $in: courseIds } })
+      .populate("lesson", "title")
+      .populate("course", "title");
+
+    if (!quizzes) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No quizzes found for the student" });
+    }
+
+    res.status(200).json({ success: true, quizzes });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -153,4 +187,11 @@ const submitQuiz = async (req, res) => {
     });
   }
 };
-export { createQuiz, getAllQuizzes, getSingleQuiz, deleteQuiz, submitQuiz };
+export {
+  createQuiz,
+  getAllQuizzes,
+  getSingleQuiz,
+  deleteQuiz,
+  submitQuiz,
+  getAllQuizzesForStudent,
+};

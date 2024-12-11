@@ -14,7 +14,7 @@ const CourseDetail = () => {
     fetchData(`/student/course/${params.courseId}`,"GET")
   },[])
 
-   console.log('detail',data)
+    
 
    
 

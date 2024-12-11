@@ -60,7 +60,7 @@ const Student = ({ isHamburgerOpen }) => {
 
            
 
-          <NavLink to="/student/course/lesson/1/quiz"
+          <NavLink to="/student/quizes"
           className={({isActive}) => (isActive ? 'active': " ")}
           >
             {({isActive}) => (

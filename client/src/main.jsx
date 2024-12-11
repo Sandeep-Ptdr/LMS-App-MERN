@@ -33,6 +33,7 @@ import LessonDetailsPage from "./pages/dashboard/studentDashboard/LessonDetailsP
 import QuizPage from "./pages/dashboard/studentDashboard/QuizPage.jsx";
 import QuizCreatePage from "./pages/dashboard/instructorDashboardPage/QuizCreatePage.jsx";
 import QuizManagerPage from "./pages/dashboard/instructorDashboardPage/QuizManagerPage.jsx";
+import AllQuizesPage from "./pages/dashboard/studentDashboard/AllQuizesPage.jsx";
 
 
 const router = createBrowserRouter(
@@ -55,6 +56,7 @@ const router = createBrowserRouter(
         <Route path="course/:courseId" element={<StudentCourseDetailPage />} />
         <Route path="course/lesson/:lessonId" element={<LessonDetailsPage />} />
         <Route path="course/lesson/:lessonId/quiz" element={<QuizPage />} />
+        <Route path="quizes" element={<AllQuizesPage/>}/>
       </Route>
 
       <Route

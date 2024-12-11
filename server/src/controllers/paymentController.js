@@ -63,7 +63,7 @@ const createOrder = async (req, res) => {
 };
 
 const verifyPayment = async (req, res) => {
-  console.log("enter in verify payment");
+  
 
   const {
     razorpay_payment_id,
