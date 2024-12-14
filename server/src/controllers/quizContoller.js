@@ -144,6 +144,8 @@ const submitQuiz = async (req, res) => {
   try {
     const { answers } = req.body;
 
+    console.log('answers', answers);
+
     const quiz = await Quiz.findById(req.params.quizId);
 
     if (!quiz) {

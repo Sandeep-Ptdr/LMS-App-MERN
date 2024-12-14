@@ -13,8 +13,6 @@ const ProtectedRoute = ({ children }) => {
   try {
     const decodeToken = jwtDecode(token);
 
-    console.log("decodetoken", decodeToken);
-
     const currentTime = Date.now() / 1000;
 
     if (decodeToken.exp < currentTime) {
