@@ -1,41 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useFetchData from "../../../../hooks/useFetchData";
+import { useParams } from "react-router-dom";
 
 const Quiz = () => {
-  const questions = [
-    {
-      id: 1,
-      question: "What is the capital of France?",
-      options: ["Berlin", "Madrid", "Paris", "Rome"],
-      correctAnswer: "Paris",
-    },
-    {
-      id: 2,
-      question: "Which language is primarily used for Android development?",
-      options: ["Java", "Python", "C++"],
-      correctAnswer: "Java",
-    },
-    {
-      id: 3,
-      question: "What does HTML stand for?",
-      options: [
-        "HyperText Markup Language",
-        "HyperTransfer Markup Language",
-        "HighText Marking Language",
-      ],
-      correctAnswer: "HyperText Markup Language",
-    },
-  ];
 
+  const params = useParams();
+  const { data, loading, error, fetchData } = useFetchData();
+  const [showSubmitButton, setShowSubmitButton] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState([])
   const [score, setScore] = useState({
     correct: 0,
     wrong: 0,
-    left: questions.length,
+    left: 0,
   });
 
-  const handleAnswer = (selectedOption) => {
-    const currentQuestion = questions[currentQuestionIndex];
+  useEffect(() => {
+    fetchData(`/student/course/lesson/quiz/${params.quizId}`, "GET");
+  }, []);
 
+  useEffect(() => {
+    if(data?.quiz?.questions.length > 0){
+      setScore((prev) => ({
+        ...prev,
+        left: data?.quiz?.questions?.length,
+      }))
+    }
+  },[data])
+
+  const handleAnswer = (selectedOption) => {
+    const currentQuestion = data?.quiz?.questions[currentQuestionIndex];
+     setAnswers([...answers, selectedOption])
     if (selectedOption === currentQuestion.correctAnswer) {
       setScore((prev) => ({
         ...prev,
@@ -51,16 +46,16 @@ const Quiz = () => {
     }
 
     // Move to the next question
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < data?.quiz?.questions?.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      alert("Quiz finished!");
+      setShowSubmitButton(true);
     }
   };
 
   const handleSkip = () => {
     setScore((prev) => ({ ...prev, left: prev.left - 1 }));
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < data?.quiz?.questions?.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       alert("Quiz finished!");
@@ -68,17 +63,25 @@ const Quiz = () => {
   };
 
   // Current question
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion = data?.quiz?.questions[currentQuestionIndex];
+
+  const handleSubmit = () => {
+    console.log('answers', answers)
+    fetchData(`/quiz/${params.quizId}/submit`, "POST", {answers} );
+  }
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return console.log("error in Quiz", error);
+  console.log("single quiz data", data);
 
   return (
     <div className="container px-4 mx-auto">
       <h1 className="font-semibold text-2xl text-gray-700 mb-4">Quiz</h1>
       <div className=" border rounded-md shadow-md p-4 bg-gray-50">
-        
         <div className="flex justify-between mb-6 text-center">
           <div>
             <h1 className="text-xl font-bold text-gray-700">
-              {questions.length}
+              {data?.quiz?.questions?.length}
             </h1>
             <p className="text-sm text-gray-500">Total</p>
           </div>
@@ -100,14 +103,14 @@ const Quiz = () => {
 
         <div className="border-t border-b py-4 mb-4">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">
-            #{currentQuestion.id} {currentQuestion.question}
+            {currentQuestionIndex + 1}. {currentQuestion?.questionText}
           </h2>
           <div className="flex flex-col gap-2">
-            {currentQuestion.options.map((option, index) => (
+            {currentQuestion?.options?.map((option, index) => (
               <button
                 key={index}
                 className="w-full px-4 py-2 bg-gray-100 text-gray-700 border rounded hover:bg-gray-200"
-                onClick={() => handleAnswer(option)}
+                onClick={() => handleAnswer(index + 1)}
               >
                 {option}
               </button>
@@ -115,14 +118,17 @@ const Quiz = () => {
           </div>
         </div>
 
-         
-        <div className="flex justify-between">
-          <button
-            onClick={handleSkip}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-          >
-            Skip
-          </button>
+        <div className="flex justify-end">
+          {
+            showSubmitButton ? (
+              <button
+              onClick={handleSubmit}
+              className="px-4 py-2 bg-[#2196F3] text-gray-50 rounded hover:bg-[#1976D2]"
+              >
+                Submit
+              </button>
+            ) : ''
+          }
         </div>
       </div>
     </div>
