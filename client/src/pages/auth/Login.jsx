@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../../utils/api";
-import image from "../../../src/assets/image.png"
+import image from "../../../src/assets/image.png";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState (null)
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,19 +20,18 @@ const Login = () => {
       setLoading(true);
       const { data } = await API.post("/auth/login", formData);
       localStorage.setItem("authToken", data.accessToken);
-      if(data?.user.role === "instructor") navigate("/instructor");
+      if (data?.user.role === "instructor") navigate("/instructor");
       else navigate("/student");
     } catch (error) {
       console.error(error);
-      setError(error)
-    } finally{
-      setLoading(false)
+      setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
-      
       {loading && (
         <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-10">
           <div className="loader"></div>
@@ -87,7 +86,9 @@ const Login = () => {
           </div>
 
           {error && (
-            <p className="text-red-500 text-sm mb-2">{error?.response?.data?.error}</p>
+            <p className="text-red-500 text-sm mb-2">
+              {error?.response?.data?.error || error?.message}
+            </p>
           )}
           <button
             type="submit"
