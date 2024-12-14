@@ -7,8 +7,8 @@ const router = Router();
 
 router.post("/instructor/course/lesson/:lessonId/quiz/create", authenticateToken, checkInstructorRole, createQuiz); // create quiz
 router.get("/quizzes", authenticateToken, getAllQuizzes)// get all quizzes
-router.get("/quiz/:quizId", authenticateToken,getSingleQuiz)//get single quiz
+router.get("/student/course/lesson/quiz/:quizId", authenticateToken,getSingleQuiz)//get single quiz
 router.delete('/delete/quiz/:quizId', authenticateToken, checkInstructorRole, deleteQuiz);//delet quiz 
 router.post("/quiz/:quizId/submit", authenticateToken, submitQuiz);//for submit quiz
-router.get("/student/quizes",authenticateToken, getAllQuizzesForStudent )
+router.get("/student/quizzes",authenticateToken, getAllQuizzesForStudent )
 export default router;
