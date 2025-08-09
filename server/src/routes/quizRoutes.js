@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticateToken, checkInstructorRole } from "../middlewares/authMiddleware.js";
-import { createQuiz,deleteQuiz,getAllQuizzes, getAllQuizzesForStudent, getSingleQuiz, submitQuiz } from "../controllers/quizContoller.js";
+import { createQuiz,deleteQuiz,getAllQuizzes, getAllQuizzesForStudent, getQuizResult, getSingleQuiz, submitQuiz } from "../controllers/quizContoller.js";
  
 
 const router = Router();
@@ -11,4 +11,5 @@ router.get("/student/course/lesson/quiz/:quizId", authenticateToken,getSingleQui
 router.delete('/delete/quiz/:quizId', authenticateToken, checkInstructorRole, deleteQuiz);//delet quiz 
 router.post("/quiz/:quizId/submit", authenticateToken, submitQuiz);//for submit quiz
 router.get("/student/quizzes",authenticateToken, getAllQuizzesForStudent )
+router.get('/student/quizzes-result',authenticateToken,getQuizResult)
 export default router;

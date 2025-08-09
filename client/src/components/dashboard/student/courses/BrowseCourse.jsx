@@ -10,6 +10,8 @@ const BrowseCourse = () => {
     fetchData("/courses", "GET");
   }, []);
 
+  // console.log('data',data)
+
   const handleEnroll = async (courseId, amount) => {
     // fetchData(`/student/createorder`, "POST", {
     //   amount,
@@ -105,7 +107,7 @@ const BrowseCourse = () => {
 
         <div className=" flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
           {loading && <div className="  flex items-center justify-center w-full h-full "> <div className="loader"></div> </div>}
-          {error && <p>{error?.data?.message || error.message}</p>}
+          {error && <p>{error?.data?.message || error?.message}</p>}
           {data &&
             data?.courses?.length > 0 &&
             data?.courses.map((course) => (

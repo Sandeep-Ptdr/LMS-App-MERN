@@ -8,15 +8,24 @@ const useFetchData = () => {
   const [error, setError] = useState("");
 
   const fetchData = async (url, method, formData = null) => {
-
-    console.log('url',url,'method',method,'formData',formData)
+    // console.log("url", url, "method", method, "formData", formData);
     try {
       setLoading(true);
 
       let response;
 
       if (method == "GET") {
+        // console.log(true)
         response = await API.get(url);
+        // console.log('response iff',response.data)
+
+        // response = await axios({
+        //   method: "GET",
+        //   url: `http://localhost:3000/api/v1${url}`,
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        //   },
+        // });
       } else if (method == "POST") {
         response = await axios({
           method: "POST",
@@ -35,21 +44,21 @@ const useFetchData = () => {
           },
           data: formData,
         });
-      } else if(method === "DELETE") {
+      } else if (method === "DELETE") {
         response = await axios({
           method: "DELETE",
           url: `http://localhost:3000/api/v1${url}`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
-        })
+        });
       }
 
       setData(response.data);
     } catch (error) {
-      console.log(error,'errrorrr')
-      if(error.message === 'Network Error'){
-        return setError(error)
+      console.log(error, "errrorrr");
+      if (error.message === "Network Error") {
+        return setError(error);
       }
       setError(error?.response || "Something went wrong!");
     } finally {

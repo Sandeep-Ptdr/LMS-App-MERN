@@ -267,8 +267,10 @@ const deleteCourse = async (req, res) => {
 };
 
 const getAllCourseByStudent = async (req, res) => {
+  console.log('courses')
   try {
     const courses = await Course.find();
+    
 
     if (!courses)
       return res

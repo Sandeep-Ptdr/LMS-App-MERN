@@ -144,12 +144,24 @@ const submitQuiz = async (req, res) => {
   try {
     const { answers } = req.body;
 
-    console.log('answers', answers);
+     
 
     const quiz = await Quiz.findById(req.params.quizId);
 
     if (!quiz) {
       res.status(404).json({ success: false, message: "Quiz not found" });
+    }
+
+    const existingSubmission = await Submission.findOne({
+      student: req.user.userInfo._id,
+      quiz: req.params.quizId,
+    });
+    
+    if(existingSubmission){
+      return res.status(400).json({
+        success: false,
+        message: "You have already submitted this quiz",
+      });
     }
 
     if (!Array.isArray(answers) || answers.length !== quiz.questions.length) {
@@ -168,6 +180,7 @@ const submitQuiz = async (req, res) => {
 
     const newSubmission = new Submission({
       student: req.user.userInfo._id,
+      course: quiz.course,
       quiz: quiz._id,
       answers,
       score,
@@ -189,6 +202,31 @@ const submitQuiz = async (req, res) => {
     });
   }
 };
+
+const getQuizResult = async (req, res) => {
+  try {
+    
+    const quizResults = await Submission.find().populate('quiz' , 'title');
+
+    if (!quizResults) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No results found" });
+    }
+
+    res.status(200).json({ success: true, quizResults });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    })
+    
+  }
+
+
+}
 export {
   createQuiz,
   getAllQuizzes,
@@ -196,4 +234,5 @@ export {
   deleteQuiz,
   submitQuiz,
   getAllQuizzesForStudent,
+  getQuizResult,
 };
