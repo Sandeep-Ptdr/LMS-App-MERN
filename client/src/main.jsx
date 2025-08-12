@@ -40,7 +40,7 @@ import ResetPassword from "./pages/auth/ResetPassword.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route path="/" element={<p>Home</p>}>
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
       <Route path='forgot-password' element={<ForgotPassword/>}/>
