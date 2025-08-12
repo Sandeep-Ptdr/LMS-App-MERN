@@ -1,15 +1,15 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import connectDB from "./src/db/index.js";
-import authRoutes from './src/routes/authRoutes.js'
-import courseRoutes from './src/routes/courseRoutes.js'
-import lessonRoutes from './src/routes/lessonRoutes.js'
-import quizRoutes from './src/routes/quizRoutes.js'
-import dashboardRoutes from './src/routes/dashboardRoutes.js'
-import paymentRoutes from './src/routes/paymentRoutes.js'
-import earningRoutes from './src/routes/earningRoutes.js'
-import progressRoutes from './src/routes/progressRoutes.js'
+import connectDB from "./db/index.js";
+import authRoutes from './routes/authRoutes.js'
+import courseRoutes from './routes/courseRoutes.js'
+import lessonRoutes from './routes/lessonRoutes.js'
+import quizRoutes from './routes/quizRoutes.js'
+import dashboardRoutes from './routes/dashboardRoutes.js'
+import paymentRoutes from './routes/paymentRoutes.js'
+import earningRoutes from './routes/earningRoutes.js'
+import progressRoutes from './routes/progressRoutes.js'
 
 dotenv.config();
 const app = express();
