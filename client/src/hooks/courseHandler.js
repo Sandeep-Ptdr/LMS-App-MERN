@@ -16,7 +16,7 @@ export const  useEditCourse = () => {
       setLoadingg(true)
       const response = await axios({
           method: "PUT",
-          url:`http://localhost:3000/api/v1/instructor/course/${params.courseId}/edit`,
+          url:`https://lms-app-mern.onrender.com/api/v1/instructor/course/${params.courseId}/edit`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`
           },

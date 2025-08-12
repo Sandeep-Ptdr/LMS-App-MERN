@@ -29,7 +29,7 @@ const useFetchData = () => {
       } else if (method == "POST") {
         response = await axios({
           method: "POST",
-          url: `http://localhost:3000/api/v1${url}`,
+          url: `https://lms-app-mern.onrender.com/api/v1${url}`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -38,7 +38,7 @@ const useFetchData = () => {
       } else if (method === "PUT") {
         response = await axios({
           method: "PUT",
-          url: `http://localhost:3000/api/v1${url}`,
+          url: `https://lms-app-mern.onrender.com/api/v1${url}`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -47,7 +47,7 @@ const useFetchData = () => {
       } else if (method === "DELETE") {
         response = await axios({
           method: "DELETE",
-          url: `http://localhost:3000/api/v1${url}`,
+          url: `https://lms-app-mern.onrender.com/api/v1${url}`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
