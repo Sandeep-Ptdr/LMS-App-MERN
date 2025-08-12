@@ -2,11 +2,60 @@ import React, { useEffect } from "react";
 import ProgressChart from "../../charts/ProgressChart";
 import DashboardCourseCard from "./courses/DashboardCourseCard";
 import DashboardQuizDetails from "./courses/DashboardQuizDetails";
+import API from "../../../utils/api";
+import useSWR from "swr";
+import { useNavigate } from "react-router-dom";
  
 
 const DashboardOverview = ({ data }) => {
+const navigate = useNavigate();
+ 
+
+const swrFetcher = async (url) => {
+    const response = await API.get(url);
+    return response.data; // make sure to return only the data
+  };
+
+  const { data: progress, error, isLoading } = useSWR("/student/progress", swrFetcher, {
+    revalidateOnFocus: false,
+    revalidateIfStale: false,
+  });
 
 
+   const { data: courses, error: courseError } = useSWR("/student/mycourses", swrFetcher, {
+    revalidateOnFocus: false,
+    revalidateIfStale: false,
+  });
+
+  
+
+ 
+  const progressList = Array.isArray(progress) ? progress : progress?.progress || [];
+  const courseList = Array.isArray(courses?.course) ? courses?.course : [];
+
+  console.log(progressList,'progressList');
+  console.log(courseList,'courseList');
+
+  // Merge progress with course details
+  const mergedData = progressList.map((p) => {
+    const matchedCourse = courseList.find((c) => c._id === p.course?._id);
+   
+    return {
+      ...p,
+      courseThumbnail: matchedCourse?.image || "https://via.placeholder.com/1200x600",
+      courseId: matchedCourse?._id || p.course?._id,
+      courseTitle: matchedCourse?.title || p.course?.title || "Untitled Course",
+    };
+  });
+
+ 
+// console.log(mergedData,'mergedData');
+
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error?.data?.message || error?.message}</p>;
+  const isProgress = progress?.progress || [];
+  // console.log(isProgress);
 
     
 
@@ -35,14 +84,16 @@ const DashboardOverview = ({ data }) => {
       <div className=" bg-gray-50 rounded-md shadow-md">
         <div className=" flex justify-between items-center p-4 border-b border-gray-300">
           <h1 className=" text-2xl font-medium text-gray-600">Courses</h1>
-          <button className=" px-3 py-2 bg-[#2196F3] text-white rounded-md hover:bg-[#1976D2]    font-semibold">
+          <button 
+          onClick={() => navigate('/student/mycourses')}
+          className=" px-3 py-2 bg-[#2196F3] text-white rounded-md hover:bg-[#1976D2]    font-semibold">
             My Courses
           </button>
         </div>
         <div className="w-full flex flex-wrap gap-2 p-4 ">
-          <DashboardCourseCard />
-          <DashboardCourseCard />
-          <DashboardCourseCard />
+          {mergedData?.map((progress) => (
+            <DashboardCourseCard key={progress._id} progress={progress} />
+          ))}
         </div>
       </div>
     </>

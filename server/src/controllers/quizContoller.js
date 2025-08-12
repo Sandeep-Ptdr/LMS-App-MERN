@@ -24,6 +24,7 @@ const createQuiz = async (req, res) => {
       questions,
       lesson: lesson._id,
       course: lesson.course,
+      instructor: req.user.userInfo._id,
     });
 
     await quiz.save();
@@ -43,14 +44,19 @@ const createQuiz = async (req, res) => {
 
 const getAllQuizzes = async (req, res) => {
   try {
-    const quizzes = await Quiz.find()
+       const instructorId = req.user.userInfo._id;
+
+      //  console.log('instructorId', instructorId)
+    const quizzes = await Quiz.find({ instructor: instructorId })
       .populate("lesson", "title")
       .populate("course", "title");
 
-    if (!quizzes) {
+      console.log(quizzes,'quizzes')
+
+    if (!quizzes.length) {
       return res
         .status(404)
-        .json({ success: false, message: "No quizzes found for this lesson" });
+        .json({ success: false, message: "No quizzes found!" });
     }
 
     res.status(200).json({ success: true, quizzes });
@@ -227,6 +233,10 @@ const getQuizResult = async (req, res) => {
 
 
 }
+
+ 
+
+
 export {
   createQuiz,
   getAllQuizzes,

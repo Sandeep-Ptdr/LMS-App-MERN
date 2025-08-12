@@ -1,39 +1,43 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import API from "../../utils/api";
-import image from "../../../src/assets/image.png";
 
-const Login = () => {
+const ResetPassword = () => {
+  const [FormData, setFormData] = useState({
+    email: "",
+    otp: "",
+    newPassword: "",
+  });
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...FormData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!FormData.email || !FormData.otp || !FormData.newPassword) {
+      setError("All fields are required.");
+      return;
+    }
     try {
       setLoading(true);
-      const { data } = await API.post("/auth/login", formData);
-      localStorage.setItem("authToken", data.accessToken);
-    
-      if (data?.user.role === "instructor") navigate("/instructor");
-      else navigate("/student");
+      await API.post("/auth/reset-password", FormData);
+      navigate("/login");
     } catch (error) {
-      console.error(error);
-      setError(error);
+      console.error("errorr", error);
+      if (error.message === "Network Error") return setError("Network Error");
+      setError(error?.response?.data?.error || error?.response?.data?.message);
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 relative ">
       {loading && (
         <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-10">
           <div className="loader"></div>
@@ -46,30 +50,43 @@ const Login = () => {
       >
         <div className="border-b-[1px] pb-2">
           <h2 className="font-bold text-center text-2xl text-gray-700">
-            Login
+            Reset Password
           </h2>
-          <p className="text-center text-xs text-gray-500 font-semibold mt-1">
-            ACCESS YOUR ACCOUNT
-          </p>
+          
         </div>
 
-        <form className="flex flex-col mt-2 " onSubmit={handleSubmit}>
+        <form className="flex flex-col mt-2" onSubmit={handleSubmit}>
           <div className="mb-4 flex flex-col">
             <label htmlFor="email" className="block text-lg text-gray-600 mb-1">
               Email:
             </label>
             <input
-              value={setFormData.email}
-              onChange={handleChange}
               type="email"
               name="email"
+              value={FormData.email}
+              onChange={handleChange}
               id="email"
               placeholder="Enter your email"
               className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
             />
           </div>
 
-          <div className="mb-2 flex flex-col">
+          <div className="mb-4 flex flex-col">
+            <label htmlFor="email" className="block text-lg text-gray-600 mb-1">
+              Otp:
+            </label>
+            <input
+              type="otp"
+              name="otp"
+              value={FormData.otp}
+              onChange={handleChange}
+              id="otp"
+              placeholder="Enter Otp"
+              className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+            />
+          </div>
+
+          <div className="mb-4 flex flex-col">
             <label
               htmlFor="password"
               className="block text-lg text-gray-600 mb-1"
@@ -77,47 +94,27 @@ const Login = () => {
               Password:
             </label>
             <input
-              value={setFormData.password}
-              onChange={handleChange}
               type="password"
-              name="password"
-              id="password"
-              placeholder="Enter your password"
+              name="newPassword"
+              value={FormData.newPassword}
+              onChange={handleChange}
+              id="newPassword"
+              placeholder="Enter your new password"
               className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
             />
           </div>
 
-          {error && (
-            <p className="text-red-500 text-sm mb-2">
-              {error?.response?.data?.error || error?.message}
-            </p>
-          )}
+          {error && <p className="text-red-500 mb-1">{error}</p>}
           <button
             type="submit"
             className="bg-[#2196F3] text-white rounded-lg py-2 text-lg font-semibold hover:bg-[#348dd6] transition duration-300 ease-in-out"
           >
-            Login
+            Update Password
           </button>
         </form>
-
-        <div className="flex gap-1 items-center justify-center mt-2">
-         <Link to="/forgot-password"><span className="text-[#2196F3] underline font-semibold">Forgot Password?</span ></Link>
-           
-        </div>
-
-        <div className="flex gap-1 items-center justify-center mt-2">
-          <p className="text-gray-600">Don't have an Account?</p>
-          <Link to="/register">
-            <span className="text-[#2196F3] underline font-semibold">
-              Register
-            </span>
-          </Link>
-        </div>
       </div>
     </div>
   );
 };
 
-
-
-export default Login;
+export default ResetPassword;

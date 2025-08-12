@@ -70,10 +70,12 @@ const CreateQuiz = () => {
     if (loading) return <p>Loading...</p>;
     if (error) {
       console.log("error in quiz", error);
+      <p>Error: {error?.data?.message || "Something went wrong"}</p>
     }
 
-    if (data) {
-      console.log(data);
+    if (data.success) {
+      alert("Quiz created successfully!");
+       
     }
   };
   return (

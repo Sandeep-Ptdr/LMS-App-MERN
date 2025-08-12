@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema(
       required: [true, "email is required"],
       unique: true,
       trim: true,
-      lowercase: true, 
+      lowercase: true,
       match: [/.+@.+\..+/, "Please fill a valid email address"],
       validate: [validator.isEmail, "Please enter a valid email."],
     },
@@ -25,6 +25,8 @@ const UserSchema = new mongoose.Schema(
       minlength: [6, "Minimum length of password must be 6."],
       maxlength: [12, "Maximum length of password is 12"],
     },
+    otp: String,
+    otpExpires: Date,
     role: {
       type: String,
       enum: ["student", "instructor"],

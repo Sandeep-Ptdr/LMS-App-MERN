@@ -13,9 +13,9 @@ const MyCoursesCard = ({course}) => {
       
   },[])
 
-  if(loading) return console.log('loading...')
-  if(error) return console.log('error::::',error)
-    console.log('dataaaa',data)
+  if(loading) return <p>Loading...</p>
+  // if(error) return console.log('error::::',error)
+    // console.log('dataaaa',data)
 
   const  courseProgress = data?.progress?.find(progress => progress?.course?._id === course?._id)
 

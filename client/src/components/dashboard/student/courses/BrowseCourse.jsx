@@ -20,11 +20,15 @@ const BrowseCourse = () => {
 
     try {
       const res = await API.get("/getkey");
+      // console.log('res',res)
 
       const orderData = await API.post("/student/createorder", {
         amount,
         courseId,
       });
+
+      // console.log("orderData", orderData);
+
 
       if (orderData && orderData.data.success) {
         const options = {
@@ -68,8 +72,6 @@ const BrowseCourse = () => {
     }
   };
 
-   
-
   return (
     <>
       <div className="container mx-auto px-4">
@@ -77,8 +79,6 @@ const BrowseCourse = () => {
           <h1 className=" font-semibold text-2xl text-gray-700 mb-4 ">
             Browse Courses
           </h1>
-
-           
         </div>
 
         <div className="flex justify-between p-4  bg-gray-50 rounded-md border-l-[3px]  border-l-[#2196F3] shadow-lg mb-4">
@@ -106,8 +106,13 @@ const BrowseCourse = () => {
         </div>
 
         <div className=" flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
-          {loading && <div className="  flex items-center justify-center w-full h-full "> <div className="loader"></div> </div>}
-          {error && <p>{error?.data?.message || error?.message}</p>}
+          {loading && (
+            <div className="  flex items-center justify-center w-full h-full ">
+              {" "}
+              <div className="loader"></div>{" "}
+            </div>
+          )}
+          {error && <p>{error?.response?.data?.message || error?.message}</p>}
           {data &&
             data?.courses?.length > 0 &&
             data?.courses.map((course) => (

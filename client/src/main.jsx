@@ -34,6 +34,8 @@ import QuizPage from "./pages/dashboard/studentDashboard/QuizPage.jsx";
 import QuizCreatePage from "./pages/dashboard/instructorDashboardPage/QuizCreatePage.jsx";
 import QuizManagerPage from "./pages/dashboard/instructorDashboardPage/QuizManagerPage.jsx";
 import AllQuizesPage from "./pages/dashboard/studentDashboard/AllQuizesPage.jsx";
+import ForgotPassword from "./pages/auth/forgotPassword.jsx";
+import ResetPassword from "./pages/auth/ResetPassword.jsx";
 
 
 const router = createBrowserRouter(
@@ -41,6 +43,8 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
+      <Route path='forgot-password' element={<ForgotPassword/>}/>
+      <Route path='reset-password' element={<ResetPassword/>}/>
 
       <Route
         path="/student"
