@@ -34,7 +34,7 @@ import QuizPage from "./pages/dashboard/studentDashboard/QuizPage.jsx";
 import QuizCreatePage from "./pages/dashboard/instructorDashboardPage/QuizCreatePage.jsx";
 import QuizManagerPage from "./pages/dashboard/instructorDashboardPage/QuizManagerPage.jsx";
 import AllQuizesPage from "./pages/dashboard/studentDashboard/AllQuizesPage.jsx";
-import ForgotPassword from "./pages/auth/forgotPassword.jsx";
+import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
 import ResetPassword from "./pages/auth/ResetPassword.jsx";
 
 
