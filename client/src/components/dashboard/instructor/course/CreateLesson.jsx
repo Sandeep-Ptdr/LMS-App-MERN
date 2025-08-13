@@ -45,6 +45,10 @@ const CreateLesson = () => {
     );
 };
 
+if(data.success){
+  return <p>{data.message}</p>
+}
+
   return (
     <div className="container mx-auto px-4">
       <h1 className="font-semibold text-2xl text-gray-700 mb-4">
