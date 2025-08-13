@@ -269,7 +269,7 @@ const deleteCourse = async (req, res) => {
 const getAllCourseByStudent = async (req, res) => {
   console.log('courses')
   try {
-    const courses = await Course.find();
+    const courses = await Course.find({status:"Published"});
     
 
     if (!courses)
