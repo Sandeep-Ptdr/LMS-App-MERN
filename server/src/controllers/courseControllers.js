@@ -14,8 +14,8 @@ const createCourse = async (req, res) => {
         .json({ success: false, message: " No file Uploaded! " });
     }
 
-    const videoUrl = video ? await uploadOnCloudinary(video[0].path) : null;
-    const imageUrl = image ? await uploadOnCloudinary(image[0].path) : null;
+    const videoUrl = video ? await uploadOnCloudinary(video[0].buffer) : null;
+    const imageUrl = image ? await uploadOnCloudinary(image[0].buffer) : null;
     if (!videoUrl || !imageUrl) {
       res
         .status(500)
