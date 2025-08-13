@@ -16,9 +16,9 @@ const createLesson = async (req, res) => {
       return res.status(400).json({success: false, message: "No files uploaded"})
     }
 
-    const videoUrlFromCloudinary = video ? await uploadOnCloudinary(video[0].path) : null;
-    const pdfUrlFromCloudinary = pdf ? await uploadOnCloudinary(pdf[0].path) : null;
-    const imageUrlFromCloudinary = image ? await uploadOnCloudinary(image[0].path) : null;
+    const videoUrlFromCloudinary = video ? await uploadOnCloudinary(video[0].buffer) : null;
+    const pdfUrlFromCloudinary = pdf ? await uploadOnCloudinary(pdf[0].buffer) : null;
+    const imageUrlFromCloudinary = image ? await uploadOnCloudinary(image[0].buffer) : null;
 
     if(!videoUrlFromCloudinary && !pdfUrlFromCloudinary && !imageUrlFromCloudinary){
       return res.status(400).json({success: false, message: "Failed to upload files"});
