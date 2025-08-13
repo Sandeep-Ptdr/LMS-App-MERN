@@ -1,5 +1,7 @@
 import {v2 as cloudinary} from 'cloudinary';
-import fs from 'fs'
+ 
+
+
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,   
     api_key: process.env.CLOUDINARY_API_KEY, 
@@ -8,25 +10,18 @@ cloudinary.config({
   
 });
 
-const uploadOnCloudinary = async (localFilePath) => {
-
-    try {
-        const response = await cloudinary.uploader.upload(localFilePath,{
-            resource_type: 'auto',
-            folder: 'course-content'
-        })
-
-        fs.unlinkSync(localFilePath);//remove the file from local storage after uploaded on cloudinary
-
-        return response
-    } catch (error) {
-        fs.unlinkSync(localFilePath);//remove the file from local storage after uploaded on cloudinary
-
-        return error;
-    }
-    
-
-}
+const uploadOnCloudinary = async (fileBuffer, folder = "course-content") => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { resource_type: "auto", folder },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    stream.end(fileBuffer);
+  });
+};
 
 export {uploadOnCloudinary};
 
