@@ -95,7 +95,7 @@ const getCourse = async (req, res) => {
       (student) => student._id.toString() === req.user.userInfo._id
     );
 
-    console.log('isEnrolled', isEnrolled)
+    // console.log('isEnrolled', isEnrolled)
 
     if (!isEnrolled && req.user.userInfo.role !== "instructor") {
       return res.status(403).json({
@@ -231,7 +231,7 @@ const updateCourse = async (req, res) => {
         .json({ success: false, message: "Course not found" });
     }
 
-    console.log("updated course", course);
+    // console.log("updated course", course);
     res
       .status(200)
       .json({ success: true, message: "Course Update Successfully", course });
@@ -267,15 +267,18 @@ const deleteCourse = async (req, res) => {
 };
 
 const getAllCourseByStudent = async (req, res) => {
-  console.log('courses')
+  // console.log('courses')
   try {
-    const courses = await Course.find();
+    const courses = await Course.find({status: "Published"});
+    
     
 
     if (!courses)
       return res
         .status(404)
         .json({ success: false, message: "No courses found" });
+
+        console.log('courses', courses)
 
     res.status(200).json({ success: true, courses });
   } catch (error) {
