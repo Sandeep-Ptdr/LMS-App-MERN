@@ -27,7 +27,7 @@ const ProgressChart = () => {
       
   return (
     
-    <div className="border-[1px] border-gray-300 p-4 rounded-md bg-gray-50 shadow-lg max-w-md ">
+    <div className="border-[1px] md:h-[375px] border-gray-300 p-4 rounded-md bg-gray-50 shadow-lg min-w-full ">
       <h2 className="text-2xl font-semibold text-gray-700 text-center mb-6 ">
         Progress Overview
       </h2>
