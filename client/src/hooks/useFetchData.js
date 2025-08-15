@@ -7,7 +7,8 @@ const useFetchData = () => {
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState("");
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_URI;
+  console.log('backendUrl',backendUrl)
 
   const fetchData = async (url, method, formData = null) => {
     // console.log("url", url, "method", method, "formData", formData);

@@ -11,7 +11,7 @@ export const  useEditCourse = () => {
   const [errorr, setErrorr] = useState(null);
 
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const backendUrl = import.meta.env.VITE_BACKEND_URI;
 
   const editCourse = async (formData) => {
     try {
