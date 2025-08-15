@@ -63,11 +63,11 @@ const swrFetcher = async (url) => {
   return (
     <>
       <h1 className="font-semibold text-2xl text-gray-700 mb-4">Welcome {data?.user?.name.charAt(0).toUpperCase() + data?.user?.name.slice(1)}</h1>
-      <div className="flex justify-between">
-        <div className="mb-4 flex-1 ">
+      <div className="flex justify-between flex-col gap-2 md:flex-row mb-5">
+        <div className="mb-4  md:w-[50%] w-full ">
           <ProgressChart />
         </div>
-        <div className=" bg-gray-50 rounded-md flex-1 h-[365px] overflow-hidden shadow-md">
+        <div className=" bg-gray-50 rounded-md md:w-[50%] w-full  h-[375px] overflow-hidden shadow-md">
           <div className="flex justify-between items-center p-4 border-b border-gray-300">
             <h1 className="text-2xl font-semibold text-gray-600">Quizzes</h1>
             <button className="px-3 py-2 bg-[#2196F3] text-gray-50 font-semibold rounded-md hover:bg-[#1976D2]">

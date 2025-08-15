@@ -9,7 +9,7 @@ import { Link, NavLink } from "react-router-dom";
 const Instructor = ({isHamburgerOpen}) => {
   console.log('hammbb',isHamburgerOpen)
   return (
-    <aside className={`h-[calc(100vh-4rem)] w-64 bg-gray-800 text-gray-400 p-4  ${isHamburgerOpen ? 'hidden' : 'sm:block'}`}>
+    <aside className={`h-[calc(100vh-4rem)] fixed z-10 md:static w-64 bg-gray-800 text-gray-400 p-4  ${isHamburgerOpen ? 'hidden' : 'sm:block'}`}>
       <nav>
         <ul className="flex flex-col gap-5 font-semibold text-base ">
           <NavLink

@@ -13,7 +13,7 @@ const MyCourses = () => {
   if(error) return <p>{error?.data?.message || error?.message }</p>
  
   return (
-    <div className="container mx-auto px-4 ">
+    <div className="container md:mx-auto px-4 ">
       <h1 className="font-semibold text-2xl text-gray-700 mb-4">My Courses</h1>
 
       <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal w-full">

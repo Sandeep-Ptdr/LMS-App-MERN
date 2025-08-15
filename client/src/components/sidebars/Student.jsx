@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 const Student = ({ isHamburgerOpen }) => {
   return (
     <aside
-      className={`h-screen w-64 bg-gray-800 text-gray-400 p-4 ${
+      className={`fixed z-10  md:static  h-screen w-64 bg-gray-800 text-gray-400 p-4 ${
         isHamburgerOpen ? "hidden " : "block"
       }`}
     >

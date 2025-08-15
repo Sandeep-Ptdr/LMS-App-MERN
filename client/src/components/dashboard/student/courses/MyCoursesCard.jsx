@@ -27,7 +27,7 @@ const MyCoursesCard = ({course}) => {
    
    
   return (
-    <div className="min-w-[48%] bg-gray-50 shadow-md rounded  ">
+    <div className="md:min-w-[48%]  min-w-full bg-gray-50 shadow-md rounded  ">
       <div className="flex px-4 py-4">
         <div className="w-28 h-16 rounded-md  overflow-hidden mr-2">
           <img
