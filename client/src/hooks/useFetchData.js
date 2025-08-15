@@ -7,6 +7,8 @@ const useFetchData = () => {
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState("");
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const fetchData = async (url, method, formData = null) => {
     // console.log("url", url, "method", method, "formData", formData);
     try {
@@ -21,7 +23,7 @@ const useFetchData = () => {
 
         // response = await axios({
         //   method: "GET",
-        //   url: `http://localhost:3000/api/v1${url}`,
+        //   url: `${backendUrl}/api/v1${url}`,
         //   headers: {
         //     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         //   },
@@ -29,7 +31,7 @@ const useFetchData = () => {
       } else if (method == "POST") {
         response = await axios({
           method: "POST",
-          url: `https://lms-app-mern.onrender.com/api/v1${url}`,
+          url: `${backendUrl}/api/v1${url}`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -38,7 +40,7 @@ const useFetchData = () => {
       } else if (method === "PUT") {
         response = await axios({
           method: "PUT",
-          url: `https://lms-app-mern.onrender.com/api/v1${url}`,
+          url: `${backendUrl}/api/v1${url}`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
@@ -47,7 +49,7 @@ const useFetchData = () => {
       } else if (method === "DELETE") {
         response = await axios({
           method: "DELETE",
-          url: `https://lms-app-mern.onrender.com/api/v1${url}`,
+          url: `${backendUrl}/api/v1${url}`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },

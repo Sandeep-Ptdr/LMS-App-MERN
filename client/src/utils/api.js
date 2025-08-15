@@ -1,8 +1,12 @@
 import axios from 'axios'
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const API = axios.create({
-    baseURL: 'https://lms-app-mern.onrender.com/api/v1',
+
+      
+
+    baseURL: `${backendUrl}/api/v1`,
 });
 
 API.interceptors.request.use((req) => {

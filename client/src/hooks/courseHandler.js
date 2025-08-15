@@ -10,13 +10,16 @@ export const  useEditCourse = () => {
   const [loadingg, setLoadingg] = useState(false);
   const [errorr, setErrorr] = useState(null);
 
+
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const editCourse = async (formData) => {
     try {
       console.log('formdata',formData)
       setLoadingg(true)
       const response = await axios({
           method: "PUT",
-          url:`https://lms-app-mern.onrender.com/api/v1/instructor/course/${params.courseId}/edit`,
+          url:`${backendUrl}/api/v1/instructor/course/${params.courseId}/edit`,
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`
           },
