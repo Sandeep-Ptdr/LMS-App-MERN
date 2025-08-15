@@ -1,22 +1,19 @@
 import React, { useEffect } from "react";
 import { IoMdStar, IoMdStarHalf, IoIosStarOutline } from "react-icons/io";
 import useFetchData from "../../../../hooks/useFetchData";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CourseDetail = () => {
-
   const navigate = useNavigate();
 
-  const params = useParams()
-  const {data, loading, error, fetchData} = useFetchData();
+  const params = useParams();
+  const { data, loading, error, fetchData } = useFetchData();
 
   useEffect(() => {
-    fetchData(`/student/course/${params.courseId}`,"GET")
-  },[])
+    fetchData(`/student/course/${params.courseId}`, "GET");
+  }, []);
 
-    
-
-   
+  console.log("data", data.course?.content);
 
   return (
     <div className="container px-4 mx-auto">
@@ -24,15 +21,14 @@ const CourseDetail = () => {
       <div className="sm:flex w-full gap-4">
         <div className="w-full sm:w-8/12">
           <div className="bg-gray-50 shadow-md rounded-md mb-4 overflow-hidden">
-            <video className="w-full h-5/6" controls>
-              <source
-                src={data.course?.content}
-                type="video/mp4"
-              />
-            </video>
+            {data?.course?.content && (
+              <video className="w-full h-5/6" controls>
+                <source src={data?.course?.content} type="video/mp4" />
+              </video>
+            )}
             <div className="p-4">
               <h1 className="text-xl font-semibold text-gray-700">
-                 {data?.course?.title}
+                {data?.course?.title}
               </h1>
               <p className="text-sm font-medium text-gray-600">
                 {data?.course?.description}
@@ -45,15 +41,19 @@ const CourseDetail = () => {
               {loading && <p>Loading...</p>}
               {error && <p>{error?.data?.message || error?.message}</p>}
               <ul>
-
-                {
-                  data && data?.lessons?.length > 0 ? data.lessons.map((lesson) => <li 
-                  onClick={() => navigate(`/student/course/lesson/${lesson._id}`)}
-                  className="list-decimal list-inside p-2 border-b border-gray-300 text-gray-600 font-medium cursor-pointer" key={lesson._id}>
-                   {lesson.title}
-                </li> ) : !loading  && !error && <p> No Lessons found!</p>
-                }
-                 
+                {data && data?.lessons?.length > 0
+                  ? data.lessons.map((lesson) => (
+                      <li
+                        onClick={() =>
+                          navigate(`/student/course/lesson/${lesson._id}`)
+                        }
+                        className="list-decimal list-inside p-2 border-b border-gray-300 text-gray-600 font-medium cursor-pointer"
+                        key={lesson._id}
+                      >
+                        {lesson.title}
+                      </li>
+                    ))
+                  : !loading && !error && <p> No Lessons found!</p>}
               </ul>
             </div>
           </div>
@@ -78,7 +78,11 @@ const CourseDetail = () => {
               </div>
               <div className="ml-4 ">
                 <h1 className="font-semibold text-lg text-gray-600">
-                   {data?.course?.instructor.map((instructor) => instructor.name.charAt(0).toUpperCase() + instructor.name.slice(1))}
+                  {data?.course?.instructor.map(
+                    (instructor) =>
+                      instructor.name.charAt(0).toUpperCase() +
+                      instructor.name.slice(1)
+                  )}
                 </h1>
                 <span className="text-sm font-medium text-gray-500">
                   Instructor
