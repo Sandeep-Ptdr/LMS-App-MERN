@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import InstructorCourseCard from "../../instructor/course/InstructorCourseCard";
+import React, { useEffect } from "react";
 import Card from "./Card";
 import useFetchData from "../../../../hooks/useFetchData";
 import API from "../../../../utils/api";
@@ -8,9 +7,7 @@ import { Toaster, toast } from "react-hot-toast";
 
 const BrowseCourse = () => {
   const { data, loading, error, fetchData } = useFetchData();
-  const [axiosError, setAxiosError] = useState(null);
 
-  const notify = () => toast("Wow so easy!");
   useEffect(() => {
     fetchData("/courses", "GET");
   }, []);
@@ -72,12 +69,9 @@ const BrowseCourse = () => {
         console.log("data is not defined");
       }
     } catch (error) {
-      setAxiosError(error);
-      // notify();
-      toast.success(axiosError?.response?.data?.message || axiosError?.message)
-
+      toast.error(error?.response?.data?.message || error?.message);
     }
-    };
+  };
 
   return (
     <>
@@ -119,7 +113,7 @@ const BrowseCourse = () => {
           </div>
         </div>
 
-        <div className=" flex flex-wrap gap-3 py-4  justify-center sm:justify-normal">
+        <div className="grid grid-cols-1 justify-items-center gap-4 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {loading && (
             <div className="  flex items-center justify-center w-full h-full ">
               {" "}

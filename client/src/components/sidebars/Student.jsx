@@ -74,19 +74,31 @@ const Student = ({ isHamburgerOpen }) => {
             )}
           </NavLink>
 
-          <li className="cursor-pointer flex items-center gap-2">
-            <i>
-              <BsBarChartFill className="w-6 h-6" />
-            </i>{" "}
-            <span className="hover:text-gray-50">Quiz Results</span>
-          </li>
+          {/* <NavLink to="/student/quizes"
+          className={({isActive}) => (isActive ? 'active': " ")}
+          >
+            {({isActive}) => (
+              <li className="cursor-pointer flex items-center gap-2">
+                <i>
+                  <BsBarChartFill className={`w-6 h-6 ${isActive ? "text-[#2196F3]":"text-gray-300"}`} />
+                </i>{" "}
+                <span className="hover:text-gray-50">Quiz Results</span>
+              </li>
+            )}
+          </NavLink> */}
 
-          <li className="cursor-pointer flex items-center gap-2">
-            <i>
-              <MdManageAccounts className="w-6 h-6" />
-            </i>{" "}
-            <span className="hover:text-gray-50">Account</span>
-          </li>
+          <NavLink to="/student/account"
+          className={({isActive}) => (isActive ? 'active': " ")}
+          >
+            {({isActive}) => (
+              <li className="cursor-pointer flex items-center gap-2">
+                <i>
+                  <MdManageAccounts className={`w-6 h-6 ${isActive ? "text-[#2196F3]":"text-gray-300"}`} />
+                </i>{" "}
+                <span className="hover:text-gray-50">Account</span>
+              </li>
+            )}
+          </NavLink>
         </ul>
       </nav>
     </aside>

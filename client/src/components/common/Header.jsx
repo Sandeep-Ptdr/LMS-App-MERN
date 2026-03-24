@@ -21,7 +21,7 @@ const navigate = useNavigate()
          <div className="ml-2">
          <span className="text-white flex gap-1 cursor-pointer">
             <img src={white} alt="" className="" />
-            <h1 className="font-semibold text-3xl">Logo</h1>
+            <h1 className="font-semibold text-3xl">LMS</h1>
          </span>
          </div>
       </div>

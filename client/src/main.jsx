@@ -37,6 +37,8 @@ import AllQuizesPage from "./pages/dashboard/studentDashboard/AllQuizesPage.jsx"
 import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
 import ResetPassword from "./pages/auth/ResetPassword.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import StudentAccountPage from "./pages/dashboard/studentDashboard/AccountPage.jsx";
+import InstructorAccountPage from "./pages/dashboard/instructorDashboardPage/AccountPage.jsx";
 
 
 const router = createBrowserRouter(
@@ -63,6 +65,7 @@ const router = createBrowserRouter(
         <Route path="course/lesson/:lessonId" element={<LessonDetailsPage />} />
         <Route path="course/lesson/quiz/:quizId" element={<QuizPage />} />
         <Route path="quizes" element={<AllQuizesPage/>}/>
+        <Route path="account" element={<StudentAccountPage />} />
       </Route>
 
       <Route
@@ -89,6 +92,7 @@ const router = createBrowserRouter(
         />
         <Route path="course/lesson/:lessonId/quiz/create" element={<QuizCreatePage/>} />
         <Route path='quizes' element={<QuizManagerPage/>}/>
+        <Route path="account" element={<InstructorAccountPage />} />
       </Route>
     </Route>
   )

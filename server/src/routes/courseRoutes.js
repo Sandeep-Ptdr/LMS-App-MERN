@@ -71,7 +71,8 @@ router.delete(
   deleteCourse
 );
 
-router.post("/instructor/:courseId/rate", authenticateToken, submitRating); // for giving rating
+router.post("/student/course/:courseId/rate", authenticateToken, submitRating); // for giving rating
+router.post("/instructor/:courseId/rate", authenticateToken, submitRating); // backward compatibility
 
 router.get("/courses", authenticateToken, getAllCourseByStudent); //get all course by student
 

@@ -1,46 +1,41 @@
 import React from "react";
-import useSWR from "swr";
-import API from "../../../../utils/api";
 import { useNavigate } from "react-router-dom";
 
-const DashboardCourseCard = ({progress}) => {
-  
-const navigate = useNavigate()
-  // let progress = 50;
+const DashboardCourseCard = ({ progress }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className=" min-w-[48%] border border-gray-300 rounded-md p-1 flex items-center">
-      <div className="w-28 h-16 rounded-md  overflow-hidden mr-2">
+    <div className="flex h-full items-center rounded-xl border border-gray-200 bg-white p-3 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+      <div className="mr-3 h-16 w-28 overflow-hidden rounded-lg">
         <img
-          className="object-cover w-full h-full object-center"
-          src={progress?.courseThumbnail }
-          alt={progress?.course?.title}
+          className="h-full w-full object-cover object-center"
+          src={progress?.courseThumbnail}
+          alt={progress?.courseTitle}
         />
       </div>
 
-      <div className="flex justify-between items-center min-w-[calc(100%-112px)]">
-       
-            <div>
-            <h1 className="font-semibold text-lg text-gray-600 hover:text-[#2196F3] cursor-pointer">
-              {progress?.course?.title}
-            </h1>
-            <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-              <div
-                className="bg-[#2196F3] h-full rounded-full transition-all duration-300"
-                style={{ width: `${progress?.progress}%` }}
-              />
-            </div>
-
-            <p className="text-gray-500 text-xs font-medium mt-1">
-              {progress?.progress}% completed
-            </p>
+      <div className="flex min-w-0 flex-1 items-center justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <h1 className="cursor-pointer truncate text-lg font-semibold text-gray-600 hover:text-[#2196F3]">
+            {progress?.courseTitle || "Untitled Course"}
+          </h1>
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-200">
+            <div
+              className="h-full rounded-full bg-[#2196F3] transition-all duration-300"
+              style={{ width: `${progress?.progress || 0}%` }}
+            />
           </div>
-        
+
+          <p className="mt-1 text-xs font-medium text-gray-500">
+            {progress?.progress || 0}% completed
+          </p>
+        </div>
 
         <div>
-          {" "}
           <button
-          onClick={() => navigate(`/student/course/${progress?.course?._id}`)}
-          className=" border border-gray-300 rounded-md p-1 hover:bg-gray-300 text-xs font-medium ml-4 text-gray-700">
+            onClick={() => navigate(`/student/course/${progress?.courseId}`)}
+            className="rounded-md bg-[#2196F3] px-3 py-2 text-xs font-semibold text-white hover:bg-[#1976D2]"
+          >
             Continue
           </button>
         </div>

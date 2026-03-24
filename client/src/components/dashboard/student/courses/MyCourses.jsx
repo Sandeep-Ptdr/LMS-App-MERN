@@ -16,7 +16,7 @@ const MyCourses = () => {
     <div className="container md:mx-auto px-4 ">
       <h1 className="font-semibold text-2xl text-gray-700 mb-4">My Courses</h1>
 
-      <div className="flex flex-wrap gap-3 py-4  justify-center sm:justify-normal w-full">
+      <div className="grid w-full grid-cols-1 justify-items-center gap-4 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         
 
         {data && data?.course?.length > 0

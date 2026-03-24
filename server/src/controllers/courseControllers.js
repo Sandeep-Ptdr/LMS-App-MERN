@@ -1,6 +1,7 @@
 import { uploadOnCloudinary } from "../config/cloudinary.js";
 import Course from "../models/course.model.js";
 import Lesson from "../models/lesson.model.js";
+import Rating from "../models/rating.model.js";
 
 //create course by instructor
 const createCourse = async (req, res) => {
@@ -83,6 +84,9 @@ const getCourse = async (req, res) => {
       .populate("enrolledStudents", "name email");
 
     const lessons = await Lesson.find({ course: req.params.courseId });
+    const ratings = await Rating.find({ course: req.params.courseId })
+      .populate("student", "name")
+      .sort({ createdAt: -1 });
 
     if (!course)
       return res
@@ -102,11 +106,37 @@ const getCourse = async (req, res) => {
         success: false,
         message: "You are not enrolled in this course",
       });
-    } else if (req.user.userInfo.role === "instructor") {
-      return res.status(200).json({ success: true, course: course, lessons });
     }
 
-    res.status(200).json({ success: true, course: course, lessons });
+    const normalizedRatings = ratings.map((rating) => ({
+      ...rating.toObject(),
+      rating: Number(
+        Array.isArray(rating.rating) ? rating.rating[0] : rating.rating || 0
+      ),
+    }));
+
+    const userRating =
+      normalizedRatings.find(
+        (rating) => rating?.student?._id?.toString() === req.user.userInfo._id.toString()
+      ) || null;
+
+    if (req.user.userInfo.role === "instructor") {
+      return res.status(200).json({
+        success: true,
+        course: course,
+        lessons,
+        ratings: normalizedRatings,
+        userRating,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      course: course,
+      lessons,
+      ratings: normalizedRatings,
+      userRating,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,

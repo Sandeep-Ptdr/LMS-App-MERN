@@ -11,6 +11,7 @@ import paymentRoutes from "./routes/paymentRoutes.js";
 import earningRoutes from "./routes/earningRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
 import LiveClassSessionRoutes from "./routes/LiveSessionRoutes.js";
+import accountRoutes from "./routes/accountRoutes.js";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -38,6 +39,7 @@ app.use("/api/v1/student", paymentRoutes);
 app.use("/api/v1/instructor", earningRoutes);
 app.use("/api/v1", progressRoutes);
 app.use("/api/v1", LiveClassSessionRoutes);
+app.use("/api/v1", accountRoutes);
 
 app.get("/api/v1/getkey", (req, res) => {
   res.status(200).json({
