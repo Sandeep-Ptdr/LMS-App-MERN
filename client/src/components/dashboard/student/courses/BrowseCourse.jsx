@@ -3,9 +3,14 @@ import InstructorCourseCard from "../../instructor/course/InstructorCourseCard";
 import Card from "./Card";
 import useFetchData from "../../../../hooks/useFetchData";
 import API from "../../../../utils/api";
+// import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "react-hot-toast";
+
 const BrowseCourse = () => {
   const { data, loading, error, fetchData } = useFetchData();
   const [axiosError, setAxiosError] = useState(null);
+
+  const notify = () => toast("Wow so easy!");
   useEffect(() => {
     fetchData("/courses", "GET");
   }, []);
@@ -28,7 +33,6 @@ const BrowseCourse = () => {
       });
 
       // console.log("orderData", orderData);
-
 
       if (orderData && orderData.data.success) {
         const options = {
@@ -69,12 +73,22 @@ const BrowseCourse = () => {
       }
     } catch (error) {
       setAxiosError(error);
+      // notify();
+      toast.success(axiosError?.response?.data?.message || axiosError?.message)
+
     }
-  };
+    };
 
   return (
     <>
       <div className="container mx-auto px-4">
+        
+        {/* <button onClick={notify}>Notify!</button> */}
+        {/* <ToastContainer /> */}
+        <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
         <div className="flex items-center justify-between mb-4">
           <h1 className=" font-semibold text-2xl text-gray-700 mb-4 ">
             Browse Courses

@@ -62,7 +62,7 @@ const logInUser = async (req, res) => {
 
 const forgetPassword = async (req, res) => {
   try {
-    console.log('body', req.body)
+    // console.log('body', req.body)
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user) {

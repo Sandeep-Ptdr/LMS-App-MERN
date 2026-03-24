@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useFetchData from "../../../../hooks/useFetchData";
 import { useNavigate, useParams } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 
 const Quiz = () => {
   const navigate = useNavigate();
@@ -71,12 +71,14 @@ const Quiz = () => {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return console.log("error in Quiz", error);
-  console.log("single quiz data", data);
+  if (error) {
+    toast.error(error?.data?.message || "Something went wrong");
+  }
+  // console.log("single quiz data", data);
 
   return (
     <>
-      <Toaster />
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="container px-4 mx-auto">
         <h1 className="font-semibold text-2xl text-gray-700 mb-4">Quiz</h1>
         <div className=" border rounded-md shadow-md p-4 bg-gray-50">

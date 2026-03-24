@@ -2,6 +2,7 @@ import Course from "../models/course.model.js";
 import Lesson from "../models/lesson.model.js";
 import Quiz from "../models/quiz.models.js";
 import Submission from "../models/submission.model.js";
+import Transaction from "../models/transactionSchema.js";
 
 const createQuiz = async (req, res) => {
   try {
@@ -211,8 +212,18 @@ const submitQuiz = async (req, res) => {
 
 const getQuizResult = async (req, res) => {
   try {
-    
-    const quizResults = await Submission.find().populate('quiz' , 'title');
+
+    const userId = req.user.userInfo._id;
+const enrolledCourses = await Transaction.find({ student: userId , status:"success" }).select("course -_id");
+
+const courseIds = enrolledCourses.map(item => item.course);
+
+
+
+
+  
+    const quizResults = await Submission.find({course: { $in: courseIds }}).populate('quiz' , 'title');
+    // console.log(quizResults, 'quizResults')
 
     if (!quizResults) {
       return res

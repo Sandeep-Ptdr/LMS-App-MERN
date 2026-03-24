@@ -5,6 +5,7 @@ const jwtSecretKey = process.env.JWT_SECRET_KEY;
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
+  
 
   if (!token)
     return res
